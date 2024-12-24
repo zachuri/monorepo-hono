@@ -2,7 +2,7 @@
 
 import { Database } from "../db";
 // import { UserTable } from "../db/schema.js";
-import type { Env } from "../type/env";
+import type { Env } from "../types/env";
 // import { DatabaseUserAttributes, initializeLucia } from "./lucia.js";
 
 type Variables = {
