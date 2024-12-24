@@ -1,16 +1,22 @@
 {
-  "name": "hono-learn",
-  "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify"
-  },
-  "dependencies": {
-    "@neondatabase/serverless": "^0.10.4",
-    "drizzle-orm": "^0.38.2",
-    "hono": "^4.6.14"
-  },
-  "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241218.0",
-    "wrangler": "^3.96.0"
-  }
+	"name": "hono-learn",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy --minify",
+		"db:generate": "npx drizzle-kit generate",
+		"db:migrate": "npx drizzle-kit migrate",
+		"db:push": "npx drizzle-kit push",
+		"db:seed": "bun run ./src/db/seed.ts"
+	},
+	"dependencies": {
+		"@neondatabase/serverless": "^0.10.4",
+		"drizzle-orm": "^0.38.2",
+		"hono": "^4.6.14",
+		"postgres": "^3.4.5"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20241218.0",
+		"drizzle-kit": "^0.30.1",
+		"wrangler": "^3.96.0"
+	}
 }
