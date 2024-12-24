@@ -1,7 +1,9 @@
 import { Hono } from "hono";
-import { db } from "../db";
+import { AppContext } from "../lib/context";
 
-const app = new Hono().get("/", async c => {
+export const commentsRouter = new Hono<AppContext>().get("/", async c => {
+	const db = c.get("db");
+
 	try {
 		const data = await db.query.posts.findMany({
 			with: {
@@ -17,4 +19,4 @@ const app = new Hono().get("/", async c => {
 	}
 });
 
-export default app;
+export default commentsRouter
