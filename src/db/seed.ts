@@ -1,4 +1,4 @@
-import { comments, posts, users } from "./schema";
+import { commentsTable, postsTable, userTable } from "./schema";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 import * as schema from "./schema";
@@ -13,11 +13,11 @@ const main = async () => {
 	try {
 		console.log("Seeding database");
 		// Delete all data
-		await db.delete(comments);
-		await db.delete(posts);
-		await db.delete(users);
+		await db.delete(commentsTable);
+		await db.delete(postsTable);
+		await db.delete(userTable);
 
-		await db.insert(users).values([
+		await db.insert(userTable).values([
 			{
 				id: 1,
 				name: "Alice Johnson",
@@ -30,7 +30,7 @@ const main = async () => {
 			},
 		]);
 
-		await db.insert(posts).values([
+		await db.insert(postsTable).values([
 			{
 				id: 1,
 				userId: 1,
@@ -51,10 +51,10 @@ const main = async () => {
 			},
 		]);
 
-		await db.insert(comments).values([
+		await db.insert(commentsTable).values([
 			{
 				id: 1,
-				text: "Welcome, Alice! Looking forward to your posts.",
+				text: "Welcome, Alice! Looking forward to your postsTable.",
 				userId: 2,
 				postId: 1,
 			},
