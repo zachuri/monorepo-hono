@@ -41,6 +41,8 @@ export const AuthMiddleware = async (
 	if (!session) {
 		return new Response("Unauthorized", { status: 401 });
 	}
+	// LATER: check out lucia auth and see what session?fresh is
+	// - can add another part of fresh in the schema
 	// if (session?.fresh) {
 	// 	const sessionCookie = await createSession(user.id, session.id, c);
 	// 	const serializedCookie = `sessionId=${
