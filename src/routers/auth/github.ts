@@ -36,10 +36,14 @@ export const createGithubSession = async ({
 }) => {
 	const github = githubClient(c);
 	const tokens = await github.validateAuthorizationCode(idToken);
+
+	const accessToken = tokens.data.access_token;
+	console.log("tokens access token", accessToken);
+
 	const githubUserResponse = await fetch("https://api.github.com/user", {
 		headers: {
 			"User-Agent": "hono",
-			Authorization: `Bearer ${tokens.accessToken}`,
+			Authorization: `Bearer ${accessToken}`,
 		},
 	});
 
@@ -53,20 +57,22 @@ export const createGithubSession = async ({
 	const userEmailResponse = await fetch("https://api.github.com/user/emails", {
 		headers: {
 			"User-Agent": "hono",
-			Authorization: `Bearer ${tokens.accessToken}`,
+			Authorization: `Bearer ${accessToken}`,
 		},
 	});
 
-	const userEmailResult: {
-		email: string;
-		primary: boolean;
-		verified: boolean;
-	}[] = await userEmailResponse.json();
+	const userEmailResult = await userEmailResponse.json();
+	console.log("userEmailResult", userEmailResult); // Debugging line
+
+	if (!Array.isArray(userEmailResult)) {
+		throw new Error("Expected an array of emails from GitHub API");
+	}
 
 	const primaryEmail = userEmailResult.find(email => email.primary);
 	if (!primaryEmail) {
 		return null;
 	}
+
 	const existingAccount = await c.get("db").query.oauthAccountTable.findFirst({
 		where: (account, { eq }) =>
 			eq(account.providerUserId, githubUserResult.id.toString()),

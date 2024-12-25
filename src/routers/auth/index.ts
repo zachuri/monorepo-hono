@@ -115,15 +115,10 @@ export const authRoute = new Hono<AppContext>()
 				const sessionTokenCookie = getCookie(c, "sessionToken");
 				let redirect = getCookie(c, "redirect");
 
-				// Log the values to debug
-				console.log("State Cookie:", stateCookie);
-				console.log("Code Verifier Cookie:", codeVerifierCookie);
-				console.log("Session Token Cookie:", sessionTokenCookie);
-				console.log("Redirect:", redirect);
-
 				const url = new URL(c.req.url);
 				let state = url.searchParams.get("state");
 				let code = url.searchParams.get("code");
+
 				const codeVerifierRequired = ["google"].includes(provider);
 				if (c.req.method === "POST") {
 					const formData = await c.req.formData();
@@ -143,6 +138,8 @@ export const authRoute = new Hono<AppContext>()
 					return c.json({ error: "Invalid request" }, 400);
 				}
 				if (provider === "github") {
+					console.log("CODE", code);
+
 					const session = (await createGithubSession({
 						c,
 						idToken: code,
@@ -154,6 +151,7 @@ export const authRoute = new Hono<AppContext>()
 					}
 
 					const redirectUrl = new URL(redirect);
+
 					redirectUrl.searchParams.append("token", session.id);
 					return c.redirect(redirectUrl.toString());
 				}
