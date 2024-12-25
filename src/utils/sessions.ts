@@ -5,9 +5,9 @@ import {
 } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
 
-import { User, Session, sessionTable, userTable } from "@src/db/schema";
+import { User, Session, sessionTable, userTable } from "@/db/schema";
 import { Context } from "hono";
-import { AppContext } from "@src/lib/context";
+import { AppContext } from "@/lib/context";
 
 export function generateSessionToken(): string {
 	const bytes = new Uint8Array(20);
@@ -17,8 +17,8 @@ export function generateSessionToken(): string {
 }
 
 export async function createSession(
+	userId: string,
 	token: string,
-	userId: number,
 	c: Context<AppContext>
 ): Promise<Session> {
 	const db = c.get("db");
@@ -63,7 +63,10 @@ export async function validateSessionToken(
 	return { session, user };
 }
 
-export async function invalidateSession(sessionId: string, c: Context<AppContext>): Promise<void> {
+export async function invalidateSession(
+	sessionId: string,
+	c: Context<AppContext>
+): Promise<void> {
 	const db = c.get("db");
 
 	await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
