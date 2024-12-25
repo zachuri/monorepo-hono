@@ -152,8 +152,6 @@ export const authRouter = new Hono<AppContext>()
 						return c.json({}, 400);
 					}
 
-					console.log("SESSION AFTER", session);
-
 					const redirectUrl = new URL(redirect);
 
 					redirectUrl.searchParams.append("token", session.id);

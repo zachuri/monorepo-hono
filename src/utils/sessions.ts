@@ -37,12 +37,13 @@ export async function validateSessionToken(
 	c: Context<AppContext>
 ): Promise<SessionValidationResult> {
 	const db = c.get("db");
-	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+	// const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+	// console.log(sessionId);
 	const result = await db
 		.select({ user: userTable, session: sessionTable })
 		.from(sessionTable)
 		.innerJoin(userTable, eq(sessionTable.userId, userTable.id))
-		.where(eq(sessionTable.id, sessionId));
+		.where(eq(sessionTable.id, token));
 	if (result.length < 1) {
 		return { session: null, user: null };
 	}

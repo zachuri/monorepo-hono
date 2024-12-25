@@ -34,9 +34,6 @@ export const createGithubSession = async ({
 	idToken: string;
 	sessionToken?: string;
 }) => {
-	console.log("ID TOKEN", idToken);
-	console.log("Session TOKEN", sessionToken);
-
 	const github = githubClient(c);
 	const tokens = await github.validateAuthorizationCode(idToken);
 
