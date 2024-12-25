@@ -1,4 +1,4 @@
-import { AppContext } from "@/lib/context";
+import { AppContext } from "@/utils/context";
 import { Hono } from "hono";
 
 export const userRouter = new Hono<AppContext>()

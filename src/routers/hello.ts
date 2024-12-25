@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { AppContext } from "../lib/context";
+import { AppContext } from "../utils/context";
 
 export const helloRouter = new Hono<AppContext>()
 	.get("/", c => c.json("hello from hono"))

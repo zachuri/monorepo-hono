@@ -1,4 +1,4 @@
-import { AppContext } from "@/lib/context";
+import { AppContext } from "@/utils/context";
 import { readBearerToken } from "@/utils/auth";
 import { createSession, validateSessionToken } from "@/utils/sessions";
 import type { Context } from "hono";

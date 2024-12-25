@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { initializeDB } from "./db";
-import { AppContext } from "./lib/context";
+import { AppContext } from "./utils/context";
 import { authRouter, helloRouter, userRouter } from "./routers";
 import { AuthMiddleware } from "./middleware/auth.middleware";
 import { sentry } from "@hono/sentry";

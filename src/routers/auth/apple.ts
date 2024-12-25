@@ -4,7 +4,7 @@ import type { Context } from "hono";
 import { env } from "hono/adapter";
 import { generateId } from "lucia";
 
-import { AppContext } from "@/lib/context";
+import { AppContext } from "@/utils/context";
 import { oauthAccountTable, User, userTable } from "@/db/schema";
 import { createSession, validateSessionToken } from "@/utils/sessions";
 

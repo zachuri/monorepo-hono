@@ -7,7 +7,7 @@ import { sha256 } from "@oslojs/crypto/sha2";
 
 import { User, Session, sessionTable, userTable } from "@/db/schema";
 import { Context } from "hono";
-import { AppContext } from "@/lib/context";
+import { AppContext } from "@/utils/context";
 
 export function generateSessionToken(): string {
 	const bytes = new Uint8Array(20);

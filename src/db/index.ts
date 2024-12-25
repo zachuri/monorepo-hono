@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { AppContext } from "../lib/context";
+import { AppContext } from "../utils/context";
 import { neon } from "@neondatabase/serverless";
 import { drizzle, NeonHttpDatabase } from "drizzle-orm/neon-http";
 import * as schema from "./schema";

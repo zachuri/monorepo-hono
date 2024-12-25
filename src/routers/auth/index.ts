@@ -9,7 +9,7 @@ import { z } from "zod";
 
 import { createGithubSession, getGithubAuthorizationUrl } from "./github";
 import { createGoogleSession, getGoogleAuthorizationUrl } from "./google";
-import { AppContext } from "@/lib/context";
+import { AppContext } from "@/utils/context";
 import { invalidateSession, validateSessionToken } from "@/utils/sessions";
 import { readBearerToken } from "@/utils/auth";
 

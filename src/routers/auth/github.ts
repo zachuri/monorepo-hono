@@ -5,7 +5,7 @@ import { generateId } from "lucia";
 
 import { oauthAccountTable } from "@/db/table/oauth.account";
 import { User, userTable } from "@/db/schema";
-import { AppContext } from "@/lib/context";
+import { AppContext } from "@/utils/context";
 import { createSession, validateSessionToken } from "@/utils/sessions";
 
 const githubClient = (c: Context<AppContext>) =>
