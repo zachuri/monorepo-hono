@@ -3,16 +3,15 @@ import { generateCodeVerifier, generateState } from "arctic";
 import { Hono } from "hono";
 import { env } from "hono/adapter";
 import { getCookie, setCookie } from "hono/cookie";
-// import { verifyRequestOrigin, type Session } from "lucia";
+import { verifyRequestOrigin } from "lucia";
+import type { Session } from "lucia";
 import { z } from "zod";
 
-// import { createAppleSession, getAppleAuthorizationUrl } from "./apple";
 import { createGithubSession, getGithubAuthorizationUrl } from "./github";
+import { createGoogleSession, getGoogleAuthorizationUrl } from "./google";
 import { AppContext } from "@/lib/context";
 import { invalidateSession, validateSessionToken } from "@/utils/sessions";
 import { readBearerToken } from "@/utils/auth";
-import { Session } from "@/db/table/session";
-// import { createGoogleSession, getGoogleAuthorizationUrl } from "./google";
 
 export const authRouter = new Hono<AppContext>()
 	.get(
@@ -59,33 +58,30 @@ export const authRouter = new Hono<AppContext>()
 			const state = generateState();
 			if (provider === "github") {
 				const url = await getGithubAuthorizationUrl({ c, state });
-
 				setCookie(c, "github_oauth_state", state, {
 					httpOnly: true,
 					maxAge: 60 * 10,
 					path: "/",
 					secure: env(c).WORKER_ENV === "production",
 				});
-
+				return c.redirect(url.toString());
+			} else if (provider === "google") {
+				const codeVerifier = generateCodeVerifier();
+				const url = await getGoogleAuthorizationUrl({ c, state, codeVerifier });
+				setCookie(c, "google_oauth_state", state, {
+					httpOnly: true,
+					maxAge: 60 * 10,
+					path: "/",
+					secure: env(c).WORKER_ENV === "production",
+				});
+				setCookie(c, "google_oauth_code_verifier", codeVerifier, {
+					httpOnly: true,
+					maxAge: 60 * 10,
+					path: "/",
+					secure: env(c).WORKER_ENV === "production",
+				});
 				return c.redirect(url.toString());
 			}
-			// else if (provider === "google") {
-			// 	const codeVerifier = generateCodeVerifier();
-			// 	const url = await getGoogleAuthorizationUrl({ c, state, codeVerifier });
-			// 	setCookie(c, "google_oauth_state", state, {
-			// 		httpOnly: true,
-			// 		maxAge: 60 * 10,
-			// 		path: "/",
-			// 		secure: env(c).WORKER_ENV === "production",
-			// 	});
-			// 	setCookie(c, "google_oauth_code_verifier", codeVerifier, {
-			// 		httpOnly: true,
-			// 		maxAge: 60 * 10,
-			// 		path: "/",
-			// 		secure: env(c).WORKER_ENV === "production",
-			// 	});
-			// 	return c.redirect(url.toString());
-			// }
 			// else if (provider === "apple") {
 			// 	const url = await getAppleAuthorizationUrl({ c, state });
 			// 	setCookie(c, "apple_oauth_state", state, {
@@ -120,13 +116,12 @@ export const authRouter = new Hono<AppContext>()
 				const url = new URL(c.req.url);
 				let state = url.searchParams.get("state");
 				let code = url.searchParams.get("code");
-
 				const codeVerifierRequired = ["google"].includes(provider);
 				if (c.req.method === "POST") {
 					const formData = await c.req.formData();
-					state = formData.get("state") as string | null;
+					state = formData.get("state");
 					stateCookie = state ?? stateCookie;
-					code = formData.get("code") as string | null;
+					code = formData.get("code");
 					redirect = env(c).WEB_DOMAIN;
 				}
 				if (
@@ -140,41 +135,130 @@ export const authRouter = new Hono<AppContext>()
 					return c.json({ error: "Invalid request" }, 400);
 				}
 				if (provider === "github") {
-					console.log("CODE", code);
-
-					const session = (await createGithubSession({
+					const session = await createGithubSession({
 						c,
 						idToken: code,
 						sessionToken: sessionTokenCookie,
-					})) as Session;
-
+					});
 					if (!session) {
 						return c.json({}, 400);
 					}
-
 					const redirectUrl = new URL(redirect);
-
 					redirectUrl.searchParams.append("token", session.id);
-
-					console.log("REDIRECT URL", redirectUrl);
-
+					return c.redirect(redirectUrl.toString());
+				} else if (provider === "google") {
+					const session = await createGoogleSession({
+						c,
+						idToken: code,
+						codeVerifier: codeVerifierCookie!,
+						sessionToken: sessionTokenCookie,
+					});
+					if (!session) {
+						return c.json({}, 400);
+					}
+					const redirectUrl = new URL(redirect);
+					redirectUrl.searchParams.append("token", session.id);
 					return c.redirect(redirectUrl.toString());
 				}
-				// Ensure other providers also return a response
-				// else if (provider === "google") {
-				// 	// Handle Google provider
-				// }
 				// else if (provider === "apple") {
-				// 	// Handle Apple provider
+				// 	const originHeader = c.req.header("Origin");
+				// 	const hostHeader = c.req.header("Host");
+				// 	if (
+				// 		!originHeader ||
+				// 		!hostHeader ||
+				// 		!verifyRequestOrigin(originHeader, [
+				// 			hostHeader,
+				// 			"appleid.apple.com",
+				// 		])
+				// 	) {
+				// 		return c.json({}, 403);
+				// 	}
+				// 	const formData = await c.req.formData();
+				// 	const userJSON = formData.get("user"); // only available first time
+				// 	let user: { username: string } | undefined;
+				// 	if (userJSON) {
+				// 		const reqUser = JSON.parse(userJSON) as {
+				// 			name: { firstName: string; lastName: string };
+				// 			email: string;
+				// 		};
+				// 		user = {
+				// 			username: `${reqUser.name.firstName} ${reqUser.name.lastName}`,
+				// 		};
+				// 	}
+				// 	const session = await createAppleSession({
+				// 		c,
+				// 		code,
+				// 		user,
+				// 		sessionToken: sessionTokenCookie,
+				// 	});
+				// 	if (!session) {
+				// 		return c.json({}, 400);
+				// 	}
+				// 	// always web
+				// 	const redirectUrl = new URL(redirect);
+				// 	redirectUrl.searchParams.append("token", session.id);
+				// 	return c.redirect(redirectUrl.toString());
 				// }
-				return c.json({}, 400); // Default response if no provider matches
+				return c.json({}, 400);
 			} catch (error) {
 				console.error(error);
 				if (error instanceof Error) {
 					console.error(error.stack);
 				}
-				return c.json({ error: "Internal Server Error" }, 500);
 			}
+		}
+	)
+	.post(
+		"/login/:provider",
+		zValidator(
+			"json",
+			z.object({
+				idToken: z.string(),
+				user: z
+					.object({
+						username: z.string(),
+					})
+					.optional(),
+				sessionToken: z.string().optional(),
+			})
+		),
+		zValidator(
+			"param",
+			z.object({
+				provider: z.enum(["github", "google", "apple"]),
+			})
+		),
+		async c => {
+			const provider = c.req.param("provider");
+			const idToken = c.req.valid("json").idToken;
+			const sessionToken = c.req.valid("json").sessionToken;
+			let session: Session | null = null;
+			if (provider === "github") {
+				session = (await createGithubSession({
+					c,
+					idToken,
+					sessionToken,
+				})) as Session;
+			} else if (provider === "google") {
+				session = (await createGoogleSession({
+					c,
+					idToken,
+					codeVerifier: "",
+					sessionToken,
+				})) as Session;
+			}
+			// else if (provider === "apple") {
+			// 	session = await createAppleSession({
+			// 		c,
+			// 		idToken,
+			// 		user: c.req.valid("json").user,
+			// 		sessionToken,
+			// 	});
+			// }
+			if (!session) {
+				return c.json({}, 400);
+			}
+			return c.json({ token: session.id });
 		}
 	)
 	.post("/logout", async c => {
