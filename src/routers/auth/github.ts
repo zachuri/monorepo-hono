@@ -36,9 +36,7 @@ export const createGithubSession = async ({
 }) => {
 	const github = githubClient(c);
 	const tokens = await github.validateAuthorizationCode(idToken);
-
-	const accessToken = tokens.data.access_token;
-	console.log("tokens access token", accessToken);
+	const accessToken = tokens.accessToken();
 
 	const githubUserResponse = await fetch("https://api.github.com/user", {
 		headers: {
@@ -135,7 +133,7 @@ export const createGithubSession = async ({
 
 		const session = await createSession(userId, idToken, c);
 
-    console.log("CREATED SESSION", session);
+		console.log("CREATED SESSION", session);
 
 		return session;
 	}
