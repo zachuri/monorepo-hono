@@ -3,7 +3,7 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { initializeDB } from "./db";
 import { AppContext } from "./lib/context";
-import { comments, hello } from "./routers";
+import { authRoute, helloRouter } from "./routers";
 
 const app = new Hono<AppContext>();
 
@@ -22,10 +22,7 @@ app
 	});
 // .use(AuthMiddleware);
 
-const routes = app
-	// .basePath("/api")
-	.route("/hello", hello)
-	.route("/comments", comments);
+const routes = app.route("/auth", authRoute).route("/hello", helloRouter);
 
 export type AppType = typeof routes;
 export default app;

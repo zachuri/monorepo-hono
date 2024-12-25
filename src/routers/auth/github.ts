@@ -4,10 +4,9 @@ import { env } from "hono/adapter";
 import { generateId } from "lucia";
 
 import { oauthAccountTable } from "@/db/table/oauth.account";
-import { User, userTable } from "@/db/table/user";
+import { User, userTable } from "@/db/schema";
 import { AppContext } from "@/lib/context";
 import { createSession, validateSessionToken } from "@/utils/sessions";
-import { Session } from "@/db/schema";
 
 const githubClient = (c: Context<AppContext>) =>
 	new GitHub(env(c).GITHUB_CLIENT_ID, env(c).GITHUB_CLIENT_SECRET, null);
@@ -34,7 +33,7 @@ export const createGithubSession = async ({
 	c: Context<AppContext>;
 	idToken: string;
 	sessionToken?: string;
-}): Promise<Session | null> => {
+}) => {
 	const github = githubClient(c);
 	const tokens = await github.validateAuthorizationCode(idToken);
 	const githubUserResponse = await fetch("https://api.github.com/user", {
@@ -101,7 +100,8 @@ export const createGithubSession = async ({
 	}
 
 	if (existingAccount) {
-		const session = await createSession(existingAccount.userId, idToken, c);
+		const session = await c;
+		createSession(existingAccount.userId, idToken, c);
 		return session;
 	} else {
 		const userId = generateId(15);
