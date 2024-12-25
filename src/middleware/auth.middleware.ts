@@ -3,6 +3,7 @@ import { readBearerToken } from "@/utils/auth";
 import { createSession, validateSessionToken } from "@/utils/sessions";
 import type { Context } from "hono";
 import { env } from "hono/adapter";
+import type { User } from "lucia";
 import { verifyRequestOrigin } from "lucia";
 
 export const AuthMiddleware = async (
@@ -12,7 +13,6 @@ export const AuthMiddleware = async (
 	if (c.req.path.startsWith("/auth")) {
 		return next();
 	}
-
 	const originHeader = c.req.header("Origin") ?? c.req.header("origin");
 	const hostHeader = c.req.header("Host") ?? c.req.header("X-Forwarded-Host");
 	if (
@@ -28,28 +28,22 @@ export const AuthMiddleware = async (
 	}
 
 	const authorizationHeader = c.req.header("Authorization");
-
-	console.log("MIDDLEWARE" + authorizationHeader);
-
-	const bearerSessionId = readBearerToken(authorizationHeader!);
-
-	console.log("MIDDLEWARE" + bearerSessionId);
+	const bearerSessionId = readBearerToken(authorizationHeader ?? "");
 	const sessionId = bearerSessionId;
 	if (!sessionId) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 	const { session, user } = await validateSessionToken(sessionId, c);
-
 	if (!session) {
 		return new Response("Unauthorized", { status: 401 });
 	}
-
 	// if (session?.fresh) {
 	// 	const sessionCookie = await createSession(user.id, session.id, c);
-	// 	const serializedCookie = `sessionId=${sessionCookie.id}; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=${sessionCookie.expiresAt.toUTCString()}`;
+	// 	const serializedCookie = `sessionId=${
+	// 		sessionCookie.id
+	// 	}; Path=/; HttpOnly; Secure; SameSite=Strict; Expires=${sessionCookie.expiresAt.toUTCString()}`;
 	// 	c.header("Set-Cookie", serializedCookie);
 	// }
-
 	c.set("user", user);
 	c.set("session", session);
 	await next();

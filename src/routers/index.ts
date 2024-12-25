@@ -1,2 +1,3 @@
 export * from "@/routers/auth";
-export * from "./hello";
+export * from "@/routers/hello";
+export * from "@/routers/user";

@@ -34,6 +34,9 @@ export const createGithubSession = async ({
 	idToken: string;
 	sessionToken?: string;
 }) => {
+	console.log("ID TOKEN", idToken);
+	console.log("Session TOKEN", sessionToken);
+
 	const github = githubClient(c);
 	const tokens = await github.validateAuthorizationCode(idToken);
 
@@ -106,8 +109,7 @@ export const createGithubSession = async ({
 	}
 
 	if (existingAccount) {
-		const session = await c;
-		createSession(existingAccount.userId, idToken, c);
+		const session = await createSession(existingAccount.userId, idToken, c);
 		return session;
 	} else {
 		const userId = generateId(15);
@@ -133,7 +135,11 @@ export const createGithubSession = async ({
 			provider: "github",
 			userId,
 		});
+
 		const session = await createSession(userId, idToken, c);
+
+    console.log("CREATED SESSION", session);
+
 		return session;
 	}
 };

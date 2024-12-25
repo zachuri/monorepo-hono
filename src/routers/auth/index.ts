@@ -14,7 +14,7 @@ import { readBearerToken } from "@/utils/auth";
 import { Session } from "@/db/table/session";
 // import { createGoogleSession, getGoogleAuthorizationUrl } from "./google";
 
-export const authRoute = new Hono<AppContext>()
+export const authRouter = new Hono<AppContext>()
 	.get(
 		"/:provider",
 		zValidator(
@@ -59,12 +59,14 @@ export const authRoute = new Hono<AppContext>()
 			const state = generateState();
 			if (provider === "github") {
 				const url = await getGithubAuthorizationUrl({ c, state });
+
 				setCookie(c, "github_oauth_state", state, {
 					httpOnly: true,
 					maxAge: 60 * 10,
 					path: "/",
 					secure: env(c).WORKER_ENV === "production",
 				});
+
 				return c.redirect(url.toString());
 			}
 			// else if (provider === "google") {
@@ -150,9 +152,14 @@ export const authRoute = new Hono<AppContext>()
 						return c.json({}, 400);
 					}
 
+					console.log("SESSION AFTER", session);
+
 					const redirectUrl = new URL(redirect);
 
 					redirectUrl.searchParams.append("token", session.id);
+
+					console.log("REDIRECT URL", redirectUrl);
+
 					return c.redirect(redirectUrl.toString());
 				}
 				// Ensure other providers also return a response
@@ -168,7 +175,7 @@ export const authRoute = new Hono<AppContext>()
 				if (error instanceof Error) {
 					console.error(error.stack);
 				}
-				return c.json({ error: "Internal Server Error" }, 500); // Ensure a response is returned on error
+				return c.json({ error: "Internal Server Error" }, 500);
 			}
 		}
 	)
