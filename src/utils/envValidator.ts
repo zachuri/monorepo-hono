@@ -1,4 +1,9 @@
+import { config } from "dotenv";
 import { z, TypeOf } from "zod";
+
+config({
+	path: ".dev.vars",
+});
 
 const zodEnv = z.object({
 	DATABASE_URL: z.string(),

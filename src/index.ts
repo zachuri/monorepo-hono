@@ -14,17 +14,17 @@ import { env } from "hono/adapter";
 const app = new Hono<AppContext>();
 
 app
-	.onError(errorHandler)
 	.use(logger())
-	.notFound(() => {
-		throw new ApiError(httpStatus.NOT_FOUND, "Not found");
-	})
-	// .use("*", sentry())
-	// .use("*", cors())
+	.use("*", sentry())
+	.use("*", cors())
 	.use((c, next) => {
 		const handler = cors({ origin: env(c).WEB_DOMAIN });
 		return handler(c, next);
 	})
+	.notFound(() => {
+		throw new ApiError(httpStatus.NOT_FOUND, "Not found");
+	})
+	.onError(errorHandler)
 	.use((c, next) => {
 		initializeDB(c);
 		return next();
