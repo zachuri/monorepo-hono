@@ -34,7 +34,7 @@ export const getAppleAuthorizationUrl = async ({
 
 export const createAppleSession = async ({
   c,
-  idToken,
+  idToken: initialIdToken, // temporary name change
   code,
   user,
   sessionToken,
@@ -47,6 +47,16 @@ export const createAppleSession = async ({
     username: string;
   };
 }) => {
+  let idToken = initialIdToken;
+
+  if (!idToken) {
+    const apple = appleClient(c);
+    if (!code) {
+      return null;
+    }
+    const tokens = await apple.validateAuthorizationCode(code);
+    idToken = tokens.idToken();
+  }
   if (!idToken) {
     const apple = appleClient(c);
     if (!code) {

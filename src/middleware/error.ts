@@ -64,6 +64,7 @@ export const errorHandler: ErrorHandler<AppContext> = async (err, c) => {
     ...(env === 'development' && { stack: err.stack }),
   };
 
-  delete c.error; // Don't pass to sentry middleware as it is either logged or already handled
+  // eslint-disable-next-line no-param-reassign
+  delete c.error;
   return c.json(response, error.statusCode as StatusCode);
 };

@@ -73,11 +73,11 @@ export const createGoogleSession = async ({
       existingUser = sessionUser.user;
     }
   } else {
-    const response = await c.get('db').query.userTable.findFirst({
+    const userResponse = await c.get('db').query.userTable.findFirst({
       where: (u, { eq }) => eq(u.email, user.email),
     });
-    if (response) {
-      existingUser = response;
+    if (userResponse) {
+      existingUser = userResponse;
     }
   }
   if (existingUser?.emailVerified && user.email_verified && !existingAccount) {
