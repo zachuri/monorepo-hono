@@ -1,8 +1,6 @@
-```
-npm install
-npm run dev
-```
+## Project Setup
 
-```
-npm run deploy
-```
+- `bun dev`
+- make sure to fill out the whole .dev.vars
+- setup client id and secret for auth
+- currenlty tested google and github client
