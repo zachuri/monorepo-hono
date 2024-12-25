@@ -133,8 +133,6 @@ export const createGithubSession = async ({
 
 		const session = await createSession(userId, idToken, c);
 
-		console.log("CREATED SESSION", session);
-
 		return session;
 	}
 };

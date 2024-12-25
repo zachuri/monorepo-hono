@@ -39,7 +39,6 @@ export async function validateSessionToken(
 	const db = c.get("db");
 	// NOTE: add back later if want to use an encoded token
 	// const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-	// console.log(sessionId);
 	const result = await db
 		.select({ user: userTable, session: sessionTable })
 		.from(sessionTable)

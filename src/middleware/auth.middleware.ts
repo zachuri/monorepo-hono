@@ -35,8 +35,6 @@ export const AuthMiddleware = async (
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	console.log("SESSION_ID", sessionId);
-
 	const { session, user } = await validateSessionToken(sessionId, c);
 	if (!session) {
 		return new Response("Unauthorized", { status: 401 });
