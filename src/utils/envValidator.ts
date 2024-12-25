@@ -1,29 +1,30 @@
-import { config } from "dotenv";
-import { z, TypeOf } from "zod";
+import { config } from 'dotenv';
+import type { TypeOf } from 'zod';
+import { z } from 'zod';
 
 config({
-	path: ".dev.vars",
+  path: '.dev.vars',
 });
 
 const zodEnv = z.object({
-	DATABASE_URL: z.string(),
+  DATABASE_URL: z.string(),
 });
 
 declare global {
-	namespace NodeJS {
-		interface ProcessEnv extends TypeOf<typeof zodEnv> {}
-	}
+  namespace NodeJS {
+    interface ProcessEnv extends TypeOf<typeof zodEnv> {}
+  }
 }
 try {
-	zodEnv.parse(process.env);
+  zodEnv.parse(process.env);
 } catch (err) {
-	if (err instanceof z.ZodError) {
-		const { fieldErrors } = err.flatten();
-		const errorMessage = Object.entries(fieldErrors)
-			.map(([field, errors]) =>
-				errors ? `${field}: ${errors.join(", ")}` : field
-			)
-			.join("\n  ");
-		throw new Error(`Missing environment variables:\n  ${errorMessage}`);
-	}
+  if (err instanceof z.ZodError) {
+    const { fieldErrors } = err.flatten();
+    const errorMessage = Object.entries(fieldErrors)
+      .map(([field, errors]) =>
+        errors ? `${field}: ${errors.join(', ')}` : field,
+      )
+      .join('\n  ');
+    throw new Error(`Missing environment variables:\n  ${errorMessage}`);
+  }
 }
