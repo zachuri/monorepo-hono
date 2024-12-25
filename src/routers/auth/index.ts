@@ -3,8 +3,6 @@ import { generateCodeVerifier, generateState } from "arctic";
 import { Hono } from "hono";
 import { env } from "hono/adapter";
 import { getCookie, setCookie } from "hono/cookie";
-import { verifyRequestOrigin } from "lucia";
-import type { Session } from "lucia";
 import { z } from "zod";
 
 import { createGithubSession, getGithubAuthorizationUrl } from "./github";
@@ -12,6 +10,7 @@ import { createGoogleSession, getGoogleAuthorizationUrl } from "./google";
 import { AppContext } from "@/utils/context";
 import { invalidateSession, validateSessionToken } from "@/utils/sessions";
 import { readBearerToken } from "@/utils/auth";
+import { Session } from "@/db/schema";
 
 export const authRouter = new Hono<AppContext>()
 	.get(

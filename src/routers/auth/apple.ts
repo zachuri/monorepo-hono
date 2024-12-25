@@ -2,11 +2,11 @@ import jwt from "@tsndr/cloudflare-worker-jwt";
 import { Apple } from "arctic";
 import type { Context } from "hono";
 import { env } from "hono/adapter";
-import { generateId } from "lucia";
 
 import { AppContext } from "@/utils/context";
 import { oauthAccountTable, User, userTable } from "@/db/schema";
 import { createSession, validateSessionToken } from "@/utils/sessions";
+import { generateIdFromEntropySize } from "lucia"; // Note: okay to use lucia api
 
 const appleClient = (c: Context<AppContext>) => {
 	return new Apple(
@@ -123,13 +123,13 @@ export const createAppleSession = async ({
 		const session = await createSession(existingAccount.userId, idToken, c);
 		return session;
 	} else {
-		const userId = generateId(15);
-		let username = user?.username ?? generateId(10);
+		const userId = generateIdFromEntropySize(15);
+		let username = user?.username ?? generateIdFromEntropySize(10);
 		const existingUsername = await c.get("db").query.userTable.findFirst({
 			where: (u, { eq }) => eq(u.username, username),
 		});
 		if (existingUsername) {
-			username = `${username}-${generateId(5)}`;
+			username = `${username}-${generateIdFromEntropySize(5)}`;
 		}
 		await c
 			.get("db")

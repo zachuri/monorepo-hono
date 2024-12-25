@@ -1,11 +1,11 @@
 import { Google } from "arctic";
 import type { Context } from "hono";
 import { env } from "hono/adapter";
-import { generateId } from "lucia";
 
 import { AppContext } from "@/utils/context";
 import { oauthAccountTable, User, userTable } from "@/db/schema";
 import { createSession, validateSessionToken } from "@/utils/sessions";
+import { generateIdFromEntropySize } from "lucia"; // Note: okay to use lucia api
 
 const googleClient = (c: Context<AppContext>) =>
 	new Google(
@@ -93,13 +93,13 @@ export const createGoogleSession = async ({
 		const session = await createSession(existingAccount.userId, idToken, c);
 		return session;
 	} else {
-		const userId = generateId(15);
+		const userId = generateIdFromEntropySize(15);
 		let username = user.name;
 		const existingUsername = await c.get("db").query.userTable.findFirst({
 			where: (u, { eq }) => eq(u.username, username),
 		});
 		if (existingUsername) {
-			username = `${username}-${generateId(5)}`;
+			username = `${username}-${generateIdFromEntropySize(5)}`;
 		}
 		await c
 			.get("db")

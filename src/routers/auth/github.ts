@@ -1,12 +1,12 @@
 import { GitHub } from "arctic";
 import type { Context } from "hono";
 import { env } from "hono/adapter";
-import { generateId } from "lucia";
 
 import { oauthAccountTable } from "@/db/table/oauth.account";
 import { User, userTable } from "@/db/schema";
 import { AppContext } from "@/utils/context";
 import { createSession, validateSessionToken } from "@/utils/sessions";
+import { generateIdFromEntropySize } from "lucia"; // Note: okay to use lucia api
 
 const githubClient = (c: Context<AppContext>) =>
 	new GitHub(env(c).GITHUB_CLIENT_ID, env(c).GITHUB_CLIENT_SECRET, null);
@@ -107,13 +107,13 @@ export const createGithubSession = async ({
 		const session = await createSession(existingAccount.userId, idToken, c);
 		return session;
 	} else {
-		const userId = generateId(15);
+		const userId = generateIdFromEntropySize(15);
 		let username = githubUserResult.login;
 		const existingUsername = await c.get("db").query.userTable.findFirst({
 			where: (u, { eq }) => eq(u.username, username),
 		});
 		if (existingUsername) {
-			username = `${username}-${generateId(5)}`;
+			username = `${username}-${generateIdFromEntropySize(5)}`;
 		}
 		await c
 			.get("db")

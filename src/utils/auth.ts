@@ -1,4 +1,3 @@
-// Define a custom function to read the bearer token
 export function readBearerToken(
 	authorizationHeader: string | undefined
 ): string | null {

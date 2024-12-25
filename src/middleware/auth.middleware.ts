@@ -1,9 +1,8 @@
 import { AppContext } from "@/utils/context";
 import { readBearerToken } from "@/utils/auth";
-import { createSession, validateSessionToken } from "@/utils/sessions";
+import { validateSessionToken } from "@/utils/sessions";
 import type { Context } from "hono";
 import { env } from "hono/adapter";
-import type { User } from "lucia";
 import { verifyRequestOrigin } from "lucia";
 
 export const AuthMiddleware = async (
@@ -15,6 +14,7 @@ export const AuthMiddleware = async (
 	}
 	const originHeader = c.req.header("Origin") ?? c.req.header("origin");
 	const hostHeader = c.req.header("Host") ?? c.req.header("X-Forwarded-Host");
+
 	if (
 		(!originHeader ||
 			!hostHeader ||
