@@ -1,2 +1,3 @@
-export { default as hello } from "./hello";
-export { default as comments } from "./comments";
+export * from "@/routers/auth";
+export * from "@/routers/hello";
+export * from "@/routers/user";

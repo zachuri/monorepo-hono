@@ -1,5 +1,4 @@
 import type { Context } from "hono";
-
 import { AppContext } from "../lib/context";
 import { neon } from "@neondatabase/serverless";
 import { drizzle, NeonHttpDatabase } from "drizzle-orm/neon-http";
@@ -14,8 +13,6 @@ export const initializeDB = (c: Context<AppContext>) => {
 	}
 
 	c.set("db", db);
-	console.log(db);
-
 	return db;
 };
 
