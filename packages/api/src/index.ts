@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import { Hono } from 'hono';
 
-import { ApiError } from './utils/ApiError';
+import { ApiError } from '@repo/api/utils/ApiError';
 
 import { initializeDB } from './db/index.js';
 import { AuthMiddleware } from './middleware/auth.middleware.js';

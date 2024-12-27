@@ -1,5 +1,11 @@
 {
   "extends": "@repo/typescript-config/api.json",
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@repo/api/*": ["./src/*"]
+    }
+  }
 }
