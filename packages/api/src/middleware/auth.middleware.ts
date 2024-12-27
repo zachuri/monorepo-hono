@@ -2,9 +2,9 @@ import type { Context } from 'hono';
 import { env } from 'hono/adapter';
 import { verifyRequestOrigin } from 'lucia';
 
-import { readBearerToken } from '@/utils/auth';
-import type { AppContext } from '@/utils/context';
-import { validateSessionToken } from '@/utils/sessions';
+import { readBearerToken } from '../utils/auth';
+import type { AppContext } from '../utils/context';
+import { validateSessionToken } from '../utils/sessions';
 
 export const AuthMiddleware = async (
   c: Context<AppContext>,

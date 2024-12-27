@@ -1,4 +1,4 @@
-import type { Session, User } from '@/db/schema';
+import type { Session, User } from '../db/schema';
 
 import type { Database } from '../db';
 import type { Env } from '../types/env';

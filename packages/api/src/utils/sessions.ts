@@ -6,9 +6,9 @@ import {
 import { eq } from 'drizzle-orm';
 import type { Context } from 'hono';
 
-import type { Session, User } from '@/db/schema';
-import { sessionTable, userTable } from '@/db/schema';
-import type { AppContext } from '@/utils/context';
+import type { Session, User } from '../db/schema';
+import { sessionTable, userTable } from '../db/schema';
+import type { AppContext } from '../utils/context';
 
 export function generateSessionToken(): string {
   const bytes = new Uint8Array(20);
@@ -38,17 +38,22 @@ export async function validateSessionToken(
   c: Context<AppContext>,
 ): Promise<SessionValidationResult> {
   const db = c.get('db');
-  // NOTE: add back later if want to use an encoded token
-  // const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const result = await db
     .select({ user: userTable, session: sessionTable })
     .from(sessionTable)
     .innerJoin(userTable, eq(sessionTable.userId, userTable.id))
     .where(eq(sessionTable.id, token));
-  if (result.length < 1) {
+
+  if (!result || result.length < 1) {
     return { session: null, user: null };
   }
-  const { user, session } = result[0];
+
+  const firstResult = result[0];
+  if (!firstResult) {
+    return { session: null, user: null };
+  }
+
+  const { user, session } = firstResult; // Now safe to destructure
   if (Date.now() >= session.expiresAt.getTime()) {
     await db.delete(sessionTable).where(eq(sessionTable.id, session.id));
     return { session: null, user: null };

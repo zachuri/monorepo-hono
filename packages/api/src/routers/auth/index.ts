@@ -5,13 +5,13 @@ import { env } from 'hono/adapter';
 import { getCookie, setCookie } from 'hono/cookie';
 import { z } from 'zod';
 
-import type { Session } from '@/db/schema';
-import { readBearerToken } from '@/utils/auth';
-import type { AppContext } from '@/utils/context';
-import { invalidateSession, validateSessionToken } from '@/utils/sessions';
+import type { Session } from '../../db/schema';
+import { invalidateSession, validateSessionToken } from '../../utils/sessions';
 
 import { createGithubSession, getGithubAuthorizationUrl } from './github';
 import { createGoogleSession, getGoogleAuthorizationUrl } from './google';
+import { AppContext } from '../../utils/context';
+import { readBearerToken } from '../../utils/auth';
 
 export const authRouter = new Hono<AppContext>()
   .get(
@@ -120,9 +120,11 @@ export const authRouter = new Hono<AppContext>()
         const codeVerifierRequired = ['google'].includes(provider);
         if (c.req.method === 'POST') {
           const formData = await c.req.formData();
-          state = formData.get('state');
+          const stateEntry = formData.get('state');
+          state = typeof stateEntry === 'string' ? stateEntry : null;
           stateCookie = state ?? stateCookie;
-          code = formData.get('code');
+          const codeEntry = formData.get('code');
+          code = typeof codeEntry === 'string' ? codeEntry : null;
           redirect = env(c).WEB_DOMAIN;
         }
         if (
