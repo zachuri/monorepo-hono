@@ -2,12 +2,12 @@
 	"name": "test-mono",
 	"private": true,
 	"scripts": {
-    "dev": "turbo dev",
-		"lint": "turbo lint",
-		"format": "turbo format",
-		"build": "turbo build",
-		"check-deps": "check-dependency-version-consistency .",
-		"api": "bun run --cwd ./apps/api dev"
+		"api": "bun run --cwd ./packages/api dev",
+		"turbo:dev": "turbo dev",
+		"turbo:lint": "turbo lint",
+		"turbo:format": "turbo format",
+		"turbo:build": "turbo build",
+		"check-deps": "check-dependency-version-consistency ."
 	},
 	"devDependencies": {
 		"prettier": "^3.2.5",
