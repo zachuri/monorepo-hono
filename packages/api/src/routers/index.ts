@@ -1,3 +1,3 @@
-export * from '@/routers/auth';
-export * from '@/routers/hello';
-export * from '@/routers/user';
+export * from './auth';
+export * from './hello';
+export * from './user';

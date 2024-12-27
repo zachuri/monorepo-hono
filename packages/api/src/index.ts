@@ -1,12 +1,12 @@
 import httpStatus from 'http-status';
 import { Hono } from 'hono';
 
-import { ApiError } from '@/utils/ApiError';
+import { ApiError } from './utils/ApiError';
 
 import { initializeDB } from './db/index.js';
 import { AuthMiddleware } from './middleware/auth.middleware.js';
 import { errorHandler } from './middleware/error.js';
-import { authRouter, helloRouter, userRouter } from './routers/index.js';
+import { authRouter, helloRouter, userRouter } from './routers/index';
 import type { AppContext } from './utils/context.js';
 import { sentry } from '@hono/sentry';
 import { logger } from 'hono/logger';

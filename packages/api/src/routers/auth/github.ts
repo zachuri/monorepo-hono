@@ -3,11 +3,11 @@ import type { Context } from 'hono';
 import { env } from 'hono/adapter';
 import { generateIdFromEntropySize } from 'lucia'; // Note: okay to use lucia api
 
-import type { User } from '@/db/schema';
-import { userTable } from '@/db/schema';
-import { oauthAccountTable } from '@/db/table/oauth.account';
-import type { AppContext } from '@/utils/context';
-import { createSession, validateSessionToken } from '@/utils/sessions';
+import type { User } from '../../db/schema';
+import { userTable } from '../../db/schema';
+import { oauthAccountTable } from '../../db/table/oauth.account';
+import { createSession, validateSessionToken } from '../../utils/sessions';
+import { AppContext } from '../../utils/context';
 
 const githubClient = (c: Context<AppContext>) =>
   new GitHub(env(c).GITHUB_CLIENT_ID, env(c).GITHUB_CLIENT_SECRET, null);

@@ -4,10 +4,10 @@ import type { Context } from 'hono';
 import { env } from 'hono/adapter';
 import { generateIdFromEntropySize } from 'lucia'; // Note: okay to use lucia api
 
-import type { User } from '@/db/schema';
-import { oauthAccountTable, userTable } from '@/db/schema';
-import type { AppContext } from '@/utils/context';
-import { createSession, validateSessionToken } from '@/utils/sessions';
+import type { User } from '../../db/schema';
+import { oauthAccountTable, userTable } from '../../db/schema';
+import { createSession, validateSessionToken } from '../../utils/sessions';
+import { AppContext } from '../../utils/context';
 
 const appleClient = (c: Context<AppContext>) => {
   return new Apple(
