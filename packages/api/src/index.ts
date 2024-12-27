@@ -1,17 +1,17 @@
-import { sentry } from '@hono/sentry';
-import { Hono } from 'hono';
-import { env } from 'hono/adapter';
-import { cors } from 'hono/cors';
-import { logger } from 'hono/logger';
 import httpStatus from 'http-status';
+import { Hono } from 'hono';
 
 import { ApiError } from '@/utils/ApiError';
 
-import { initializeDB } from './db';
-import { AuthMiddleware } from './middleware/auth.middleware';
-import { errorHandler } from './middleware/error';
-import { authRouter, helloRouter, userRouter } from './routers';
-import type { AppContext } from './utils/context';
+import { initializeDB } from './db/index.js';
+import { AuthMiddleware } from './middleware/auth.middleware.js';
+import { errorHandler } from './middleware/error.js';
+import { authRouter, helloRouter, userRouter } from './routers/index.js';
+import type { AppContext } from './utils/context.js';
+import { sentry } from '@hono/sentry';
+import { logger } from 'hono/logger';
+import { cors } from 'hono/cors';
+import { env } from 'hono/adapter';
 
 const app = new Hono<AppContext>();
 
