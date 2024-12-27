@@ -5,13 +5,16 @@ import { env } from 'hono/adapter';
 import { getCookie, setCookie } from 'hono/cookie';
 import { z } from 'zod';
 
-import type { Session } from '../../db/schema';
-import { invalidateSession, validateSessionToken } from '../../utils/sessions';
+import type { Session } from '@repo/api/db/schema';
+import {
+  invalidateSession,
+  validateSessionToken,
+} from '@repo/api/utils/sessions';
 
-import { createGithubSession, getGithubAuthorizationUrl } from './github';
-import { createGoogleSession, getGoogleAuthorizationUrl } from './google';
-import { AppContext } from '../../utils/context';
-import { readBearerToken } from '../../utils/auth';
+import { createGithubSession, getGithubAuthorizationUrl } from '@repo/api/routers/auth/github';
+import { createGoogleSession, getGoogleAuthorizationUrl } from '@repo/api/routers/auth/google';
+import { AppContext } from '@repo/api/utils/context';
+import { readBearerToken } from '@repo/api/utils/auth';
 
 export const authRouter = new Hono<AppContext>()
   .get(

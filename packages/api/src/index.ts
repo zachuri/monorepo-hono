@@ -3,11 +3,11 @@ import { Hono } from 'hono';
 
 import { ApiError } from '@repo/api/utils/ApiError';
 
-import { initializeDB } from './db/index.js';
-import { AuthMiddleware } from './middleware/auth.middleware.js';
-import { errorHandler } from './middleware/error.js';
-import { authRouter, helloRouter, userRouter } from './routers/index';
-import type { AppContext } from './utils/context.js';
+import { initializeDB } from '@repo/api/db';
+import { AuthMiddleware } from '@repo/api/middleware/auth.middleware';
+import { errorHandler } from '@repo/api/middleware/error';
+import { authRouter, helloRouter, userRouter } from '@repo/api/routers';
+import type { AppContext } from '@repo/api/utils/context.js';
 import { sentry } from '@hono/sentry';
 import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';

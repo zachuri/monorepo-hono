@@ -1,7 +1,7 @@
-import type { Session, User } from '../db/schema';
+import type { Session, User } from '@repo/api/db/schema';
 
-import type { Database } from '../db';
-import type { Env } from '../types/env';
+import type { Database } from '@repo/api/db';
+import type { Env } from '@repo/api/types/env';
 
 type Variables = {
   db: Database;

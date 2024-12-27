@@ -3,10 +3,10 @@ import type { Context } from 'hono';
 import { env } from 'hono/adapter';
 import { generateIdFromEntropySize } from 'lucia'; // Note: okay to use lucia api
 
-import type { User } from '../../db/schema';
-import { oauthAccountTable, userTable } from '../../db/schema';
-import { createSession, validateSessionToken } from '../../utils/sessions';
-import { AppContext } from '../../utils/context';
+import type { User } from '@repo/api/db/schema';
+import { oauthAccountTable, userTable } from '@repo/api/db/schema';
+import { createSession, validateSessionToken } from '@repo/api/utils/sessions';
+import { AppContext } from '@repo/api/utils/context';
 
 const googleClient = (c: Context<AppContext>) =>
   new Google(

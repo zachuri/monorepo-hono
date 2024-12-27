@@ -6,9 +6,9 @@ import {
 import { eq } from 'drizzle-orm';
 import type { Context } from 'hono';
 
-import type { Session, User } from '../db/schema';
-import { sessionTable, userTable } from '../db/schema';
-import type { AppContext } from '../utils/context';
+import type { Session, User } from '@repo/api//db/schema';
+import { sessionTable, userTable } from '@repo/api/db/schema';
+import type { AppContext } from '@repo/api/utils/context';
 
 export function generateSessionToken(): string {
   const bytes = new Uint8Array(20);

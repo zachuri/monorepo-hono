@@ -2,7 +2,7 @@ import { config } from 'dotenv';
 import type { TypeOf } from 'zod';
 import { z } from 'zod';
 
-import { EnvSchema } from '@/types/env';
+import { EnvSchema } from '@repo/api/types/env';
 
 config({
   path: '.dev.vars',

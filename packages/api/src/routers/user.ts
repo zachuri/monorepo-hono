@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 
-import type { AppContext } from '../utils/context';
+import type { AppContext } from '@repo/api/utils/context';
 
 export const userRouter = new Hono<AppContext>()
   .get('/', (c) => {
