@@ -5,8 +5,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { InferRequestType, InferResponseType } from "hono/client";
 
 import { Api } from "../api.client";
-import useAuthStore from "../store/authStore";
 import { useRouter } from "next/navigation";
+import useStore from "../store";
+import useUserStore from "../store/userStore";
 
 type User = NonNullable<InferResponseType<(typeof Api.client)["user"]["$get"]>>;
 
@@ -44,9 +45,9 @@ type AuthProviderProps = {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [loading, setLoading] = useState(true);
-	const [user, setUser] = useState<User | null>(null);
 	const router = useRouter();
-	const { getItem, setItem, deleteItem } = useAuthStore();
+	const { getItem, setItem, deleteItem } = useStore();
+	const { user, setUser, getUser } = useUserStore();
 
 	const signInWithOAuth = async ({
 		provider,
@@ -147,21 +148,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		return user;
 	};
 
-	const getUser = async (): Promise<User | null> => {
-		try {
-			const response = await Api.client.user.$get();
-			if (!response.ok) {
-				console.error("Failed to fetch user:", response.statusText);
-				return null;
-			}
-			const user = await response.json();
-			return user;
-		} catch (error) {
-			console.error("Error fetching user:", error);
-			return null;
-		}
-	};
-
 	const signOut = async () => {
 		const response = await Api.client.auth.logout.$post();
 		if (!response.ok) {
@@ -180,13 +166,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		console.log("HIT");
 	};
 
-	/*************  ✨ Codeium Command ⭐  *************/
-	/**
-	 * Handle the OAuth callback route by checking for a session token in the URL
-	 * search parameters, authenticating the user if it exists, and redirecting to
-	 * the home page.
-	 */
-	/******  dbaaefcc-3712-47c2-9254-adbc63f785aa  *******/ useEffect(() => {
+	useEffect(() => {
 		const handleAuthCallback = async () => {
 			setLoading(true);
 			const urlParams = new URLSearchParams(window.location.search);
