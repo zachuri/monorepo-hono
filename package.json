@@ -2,6 +2,7 @@
 	"name": "test-mono",
 	"private": true,
 	"scripts": {
+		"web": "bun run --cwd ./apps/next dev",
 		"api": "bun run --cwd ./packages/api dev",
 		"turbo:dev": "turbo dev",
 		"turbo:lint": "turbo lint",

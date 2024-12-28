@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { AppType } from '@repo/api/index'
 
 export default function Home() {
 	return (
