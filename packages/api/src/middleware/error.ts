@@ -1,6 +1,6 @@
 import { getSentry } from '@hono/sentry';
 import type { ErrorHandler } from 'hono';
-import type { StatusCode } from 'hono/utils/http-status';
+import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import httpStatus from 'http-status';
 import type { Toucan } from 'toucan-js';
 import { ZodError } from 'zod';
@@ -63,7 +63,7 @@ export const errorHandler: ErrorHandler<AppContext> = async (err, c) => {
     ...(env === 'development' && { stack: err.stack }),
   };
 
-  // eslint-disable-next-line no-param-reassign
   delete c.error;
-  return c.json(response, error.statusCode as StatusCode);
+
+  return c.json(response, error.statusCode as unknown as ContentfulStatusCode);
 };
