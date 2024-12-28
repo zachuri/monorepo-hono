@@ -1,10 +1,12 @@
+"use client";
+
 import type { ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import type { InferRequestType, InferResponseType } from "hono/client";
 
 import { Api } from "../api.client";
 import useAuthStore from "../store/authStore";
+import { useRouter } from "next/navigation";
 
 type User = NonNullable<InferResponseType<(typeof Api.client)["user"]["$get"]>>;
 
@@ -48,7 +50,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const signInWithOAuth = async ({
 		provider,
-		redirect = `${window.location.origin}/auth/callback`,
+		redirect = `${window.location.origin}`,
 	}: {
 		provider: Provider;
 		redirect?: string;
@@ -60,9 +62,60 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		if (sessionToken) {
 			oauthUrl.searchParams.append("sessionToken", sessionToken);
 		}
+
 		console.log(oauthUrl.toString());
-		window.location.href = oauthUrl.toString();
-		return null; // Return null as the function expects a Promise<User | null>
+
+		return new Promise<User | null>(resolve => {
+			// Open a new window for the OAuth flow
+			const oauthWindow = window.open(
+				oauthUrl.toString(),
+				"_blank",
+				"width=500,height=700"
+			);
+
+			if (!oauthWindow) {
+				console.error("Failed to open OAuth window");
+				resolve(null);
+				return;
+			}
+
+			const interval = setInterval(async () => {
+				try {
+					if (oauthWindow.closed) {
+						clearInterval(interval);
+						console.error(
+							"OAuth window was closed before completing the flow."
+						);
+						resolve(null);
+						return;
+					}
+
+					// Check if the redirect URL contains the token
+					const redirectedUrl = oauthWindow.location.href;
+
+					if (redirectedUrl.startsWith(redirect)) {
+						clearInterval(interval);
+						oauthWindow.close();
+
+						const url = new URL(redirectedUrl);
+						const sessionToken = url.searchParams.get("token") ?? null;
+
+						if (!sessionToken) {
+							resolve(null);
+							return;
+						}
+
+						Api.addSessionToken(sessionToken);
+						const user = await getUser();
+						setUser(user);
+						await setItem("session_token", sessionToken);
+						resolve(user);
+					}
+				} catch (error) {
+					// Cross-origin errors can happen until the window redirects to the same-origin URL
+				}
+			}, 500);
+		});
 	};
 
 	const signInWithIdToken = async ({
@@ -95,12 +148,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	};
 
 	const getUser = async (): Promise<User | null> => {
-		const response = await Api.client.user.$get();
-		if (!response.ok) {
+		try {
+			const response = await Api.client.user.$get();
+			if (!response.ok) {
+				console.error("Failed to fetch user:", response.statusText);
+				return null;
+			}
+			const user = await response.json();
+			return user;
+		} catch (error) {
+			console.error("Error fetching user:", error);
 			return null;
 		}
-		const user = await response.json();
-		return user;
 	};
 
 	const signOut = async () => {
@@ -118,10 +177,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			return [];
 		}
 		return (await response.json()).accounts;
+		console.log("HIT");
 	};
 
-	useEffect(() => {
+	/*************  ✨ Codeium Command ⭐  *************/
+	/**
+	 * Handle the OAuth callback route by checking for a session token in the URL
+	 * search parameters, authenticating the user if it exists, and redirecting to
+	 * the home page.
+	 */
+	/******  dbaaefcc-3712-47c2-9254-adbc63f785aa  *******/ useEffect(() => {
 		const handleAuthCallback = async () => {
+			setLoading(true);
 			const urlParams = new URLSearchParams(window.location.search);
 			const sessionToken = urlParams.get("token");
 			if (sessionToken) {
@@ -131,6 +198,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 				await setItem("session_token", sessionToken);
 				router.replace("/");
 			}
+			setLoading(false);
 		};
 
 		handleAuthCallback();

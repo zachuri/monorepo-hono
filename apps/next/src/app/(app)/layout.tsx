@@ -1,8 +1,18 @@
-import Link from "next/link";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/AuthProvider";
 
-export default function AppLayout() {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
 	const { loading, user } = useAuth();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (!loading && !user) {
+			router.push("/auth/sign-in");
+		}
+	}, [loading, user, router]);
 
 	if (loading) {
 		return (
@@ -11,9 +21,6 @@ export default function AppLayout() {
 			</>
 		);
 	}
-	if (!user) {
-		return <Link href='/auth/sign-in' />;
-	}
 
-	return <></>;
+	return <>{children}</>;
 }

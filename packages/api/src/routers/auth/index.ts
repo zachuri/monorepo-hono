@@ -11,8 +11,14 @@ import {
   validateSessionToken,
 } from '@repo/api/utils/sessions';
 
-import { createGithubSession, getGithubAuthorizationUrl } from '@repo/api/routers/auth/github';
-import { createGoogleSession, getGoogleAuthorizationUrl } from '@repo/api/routers/auth/google';
+import {
+  createGithubSession,
+  getGithubAuthorizationUrl,
+} from '@repo/api/routers/auth/github';
+import {
+  createGoogleSession,
+  getGoogleAuthorizationUrl,
+} from '@repo/api/routers/auth/google';
 import { AppContext } from '@repo/api/utils/context';
 import { readBearerToken } from '@repo/api/utils/auth';
 
@@ -29,12 +35,13 @@ export const authRouter = new Hono<AppContext>()
         .object({
           redirect: z.enum([
             'com.expoluciaauth.app://',
+            'http://localhost:3000',
             'http://localhost:8081',
             'https://expo-lucia-auth-example-web.pages.dev',
           ]),
           sessionToken: z.string().optional(),
         })
-        .default({ redirect: 'http://localhost:8081' }),
+        .default({ redirect: 'http://localhost:3000' }),
     ),
     async (c) => {
       const { provider } = c.req.valid('param');
