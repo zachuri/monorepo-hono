@@ -6,18 +6,7 @@ import type { InferResponseType } from "hono";
 import type { Api } from "../../lib/api.client";
 
 export default function App() {
-	const { user, signOut, getOAuthAccounts, signInWithOAuth } = useAuth();
-	const [accounts, setAccounts] = useState<
-		InferResponseType<
-			(typeof Api.client)["user"]["oauth-accounts"]["$get"]
-		>["accounts"]
-	>([]);
-
-	useEffect(() => {
-		void getOAuthAccounts().then(response => setAccounts(response));
-	}, [getOAuthAccounts]);
-
-	console.log(accounts);
+	const { user, signOut, oAuthAccounts, signInWithOAuth } = useAuth();
 
 	return (
 		<div className='flex items-center flex-1 m-3'>
@@ -54,7 +43,7 @@ export default function App() {
 						key={provider}
 						className='flex items-center justify-between bg-gray-100 rounded-lg p-3'>
 						<p>{provider}</p>
-						{accounts.some(
+						{oAuthAccounts?.some(
 							account => account.provider === provider.toLowerCase()
 						) ? (
 							<p className='text-green-500'>Connected</p>

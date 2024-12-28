@@ -7,9 +7,7 @@ import type { InferRequestType, InferResponseType } from "hono/client";
 import { Api } from "../api.client";
 import { useRouter } from "next/navigation";
 import useStore from "../store";
-import useUserStore from "../store/userStore";
-
-type User = NonNullable<InferResponseType<(typeof Api.client)["user"]["$get"]>>;
+import useUserStore, { OAuthAccounts, User } from "../store/userStore";
 
 type Provider = NonNullable<
 	InferRequestType<(typeof Api.client)["auth"]["login"][":provider"]["$post"]>
@@ -17,6 +15,7 @@ type Provider = NonNullable<
 
 type AuthContextType = {
 	user: User | null;
+	oAuthAccounts: OAuthAccounts | null;
 	signOut: () => Promise<void>;
 	signInWithIdToken: (args: {
 		idToken: string;
@@ -25,11 +24,6 @@ type AuthContextType = {
 			username: string;
 		};
 	}) => Promise<User | null>;
-	getOAuthAccounts: () => Promise<
-		InferResponseType<
-			(typeof Api.client)["user"]["oauth-accounts"]["$get"]
-		>["accounts"]
-	>;
 	signInWithOAuth: (args: {
 		provider: Provider;
 		redirect?: string;
@@ -47,7 +41,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [loading, setLoading] = useState(true);
 	const router = useRouter();
 	const { getItem, setItem, deleteItem } = useStore();
-	const { user, setUser, getUser } = useUserStore();
+	const {
+		user,
+		setUser,
+		getUser,
+		oAuthAccounts,
+		setOAuthAccounts,
+		getOAuthAccounts,
+	} = useUserStore();
 
 	const signInWithOAuth = async ({
 		provider,
@@ -108,7 +109,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 						Api.addSessionToken(sessionToken);
 						const user = await getUser();
+						const oAuthAccounts = await getOAuthAccounts();
 						setUser(user);
+						setOAuthAccounts(oAuthAccounts);
 						await setItem("session_token", sessionToken);
 						resolve(user);
 					}
@@ -143,7 +146,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		}
 		Api.addSessionToken(sessionToken);
 		const user = await getUser();
+		const oAuthAccounts = await getOAuthAccounts();
 		setUser(user);
+		setOAuthAccounts(oAuthAccounts);
 		await setItem("session_token", sessionToken);
 		return user;
 	};
@@ -154,16 +159,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			return;
 		}
 		setUser(null);
+		setOAuthAccounts(null);
 		await deleteItem("session_token");
-	};
-
-	const getOAuthAccounts = async () => {
-		const response = await Api.client.user["oauth-accounts"].$get();
-		if (!response.ok) {
-			return [];
-		}
-		return (await response.json()).accounts;
-		console.log("HIT");
 	};
 
 	useEffect(() => {
@@ -188,10 +185,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		<AuthContext.Provider
 			value={{
 				user,
+        oAuthAccounts,
 				signOut,
 				loading,
 				signInWithIdToken,
-				getOAuthAccounts,
 				signInWithOAuth,
 			}}>
 			{children}
