@@ -4,10 +4,10 @@ import type { ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { InferRequestType, InferResponseType } from "hono/client";
 
-import { Api } from "../api.client";
-import { useRouter } from "next/navigation";
-import useStore from "../store";
+import useStore from "../store/index";
 import useUserStore, { OAuthAccounts, User } from "../store/userStore";
+import { useRouter } from "next/navigation";
+import { Api } from "../api.client";
 
 type Provider = NonNullable<
 	InferRequestType<(typeof Api.client)["auth"]["login"][":provider"]["$post"]>

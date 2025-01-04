@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useAuth } from "../../lib/auth/AuthProvider";
-import type { InferResponseType } from "hono";
-import type { Api } from "../../lib/api.client";
 
 export default function App() {
 	const { user, signOut, oAuthAccounts, signInWithOAuth } = useAuth();
