@@ -67,59 +67,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 		console.log(oauthUrl.toString());
 
-		return new Promise<User | null>(resolve => {
-			// Open a new window for the OAuth flow
-			const oauthWindow = window.open(
-				oauthUrl.toString(),
-				"_blank",
-				"width=500,height=700"
-			);
+		// Redirect to the OAuth URL directly
+		window.location.href = oauthUrl.toString();
 
-			if (!oauthWindow) {
-				console.error("Failed to open OAuth window");
-				resolve(null);
-				return;
-			}
-
-			const interval = setInterval(async () => {
-				try {
-					if (oauthWindow.closed) {
-						clearInterval(interval);
-						console.error(
-							"OAuth window was closed before completing the flow."
-						);
-						resolve(null);
-						return;
-					}
-
-					// Check if the redirect URL contains the token
-					const redirectedUrl = oauthWindow.location.href;
-
-					if (redirectedUrl.startsWith(redirect)) {
-						clearInterval(interval);
-						oauthWindow.close();
-
-						const url = new URL(redirectedUrl);
-						const sessionToken = url.searchParams.get("token") ?? null;
-
-						if (!sessionToken) {
-							resolve(null);
-							return;
-						}
-
-						Api.addSessionToken(sessionToken);
-						const user = await getUser();
-						const oAuthAccounts = await getOAuthAccounts();
-						setUser(user);
-						setOAuthAccounts(oAuthAccounts);
-						await setItem("session_token", sessionToken);
-						resolve(user);
-					}
-				} catch (error) {
-					// Cross-origin errors can happen until the window redirects to the same-origin URL
-				}
-			}, 500);
-		});
+		// Since we are redirecting, we cannot return a user directly here.
+		// The user will be handled after the redirect.
+		return null;
 	};
 
 	const signInWithIdToken = async ({
