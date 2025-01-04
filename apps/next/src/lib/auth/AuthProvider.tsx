@@ -67,12 +67,31 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 		console.log(oauthUrl.toString());
 
-		// Redirect to the OAuth URL directly
+		// Redirect the current window to the OAuth URL
 		window.location.href = oauthUrl.toString();
 
-		// Since we are redirecting, we cannot return a user directly here.
-		// The user will be handled after the redirect.
-		return null;
+		// Handle the callback in the same window
+		return new Promise<User | null>(resolve => {
+			const handleAuthCallback = async () => {
+				const urlParams = new URLSearchParams(window.location.search);
+				const sessionToken = urlParams.get("token");
+				if (!sessionToken) {
+					resolve(null);
+					return;
+				}
+
+				Api.addSessionToken(sessionToken);
+				const user = await getUser();
+				const oAuthAccounts = await getOAuthAccounts();
+				setUser(user);
+				setOAuthAccounts(oAuthAccounts);
+				await setItem("session_token", sessionToken);
+				resolve(user);
+			};
+
+			// Call the callback handler
+			handleAuthCallback();
+		});
 	};
 
 	const signInWithIdToken = async ({
