@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@repo/ui/components/ui/button";
 import { useAuth } from "../../lib/auth/AuthProvider";
 
 export default function App() {
@@ -7,6 +8,7 @@ export default function App() {
 
 	return (
 		<div className='flex items-center flex-1 m-3'>
+			<Button>List</Button>
 			<div className='flex flex-col gap-3 flex-1 w-full max-w-lg bg-white p-4 rounded-lg'>
 				{user && (
 					<div>

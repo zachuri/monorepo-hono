@@ -1,6 +1,8 @@
-import type { Metadata } from "../../$node_modules/next/index.js";
 import "@repo/ui/globals.css";
+import { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import { AuthProvider } from "~/lib/auth/AuthProvider";
+// import { AuthProvider } from "~/lib/auth/AuthProvider";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
