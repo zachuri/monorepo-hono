@@ -1,0 +1,12 @@
+{
+	"name": "@repo/app",
+	"version": "0.0.0",
+	"private": true,
+	"license": "MIT",
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"zustand": "^5.0.3"
+	}
+}

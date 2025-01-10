@@ -2,12 +2,13 @@
 
 import type { ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import type { InferRequestType, InferResponseType } from "hono/client";
+import type { InferRequestType } from "hono/client";
 
 import useStore from "../store/index";
 import useUserStore, { OAuthAccounts, User } from "../store/userStore";
 import { useRouter } from "next/navigation";
 import { Api } from "../api.client";
+import { useAuth as _useAuth } from "@repo/app/provider/auth";
 
 type Provider = NonNullable<
 	InferRequestType<(typeof Api.client)["auth"]["login"][":provider"]["$post"]>
@@ -40,7 +41,7 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [loading, setLoading] = useState(true);
 	const router = useRouter();
-	const { getItem, setItem, deleteItem } = useStore();
+	const { deleteItem } = useStore();
 	const {
 		user,
 		setUser,
@@ -60,9 +61,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		const oauthUrl = new URL(
 			`${process.env.NEXT_PUBLIC_API_URL!}/auth/${provider}?redirect=${redirect}`
 		);
-		const sessionToken = await getItem("session_token");
-		if (sessionToken) {
-			oauthUrl.searchParams.append("sessionToken", sessionToken);
+
+		const token = _useAuth.use.token();
+		const signIn = _useAuth.use.signIn();
+		const signOut = _useAuth.use.signOut();
+
+		if (token) {
+			oauthUrl.searchParams.append("sessionToken", token.session);
 		}
 
 		console.log(oauthUrl.toString());
@@ -85,7 +90,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 				const oAuthAccounts = await getOAuthAccounts();
 				setUser(user);
 				setOAuthAccounts(oAuthAccounts);
-				await setItem("session_token", sessionToken);
+
+				const latestToken = {
+					session: sessionToken,
+					access: "",
+					refresh: "",
+				};
+
+				signIn(latestToken);
 				resolve(user);
 			};
 
@@ -121,7 +133,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		const oAuthAccounts = await getOAuthAccounts();
 		setUser(user);
 		setOAuthAccounts(oAuthAccounts);
-		await setItem("session_token", sessionToken);
+		// await setItem("session_token", sessionToken);
 		return user;
 	};
 
@@ -132,7 +144,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		}
 		setUser(null);
 		setOAuthAccounts(null);
-		await deleteItem("session_token");
+		signOut();
 	};
 
 	useEffect(() => {
@@ -144,7 +156,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 				Api.addSessionToken(sessionToken);
 				const user = await getUser();
 				setUser(user);
-				await setItem("session_token", sessionToken);
+
+				const latestToken = {
+					session: sessionToken,
+					access: "",
+					refresh: "",
+				};
+
+				// await setItem("session_token", sessionToken);
+				const signIn = _useAuth.use.signIn();
+				signIn(latestToken);
+
 				router.replace("/");
 			}
 			setLoading(false);

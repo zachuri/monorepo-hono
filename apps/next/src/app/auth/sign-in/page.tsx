@@ -1,3 +1,5 @@
+"use client";
+
 import { AppleSignIn } from "../../../lib/auth/apple";
 import { GithubSignIn } from "../../../lib/auth/github";
 import { GoogleSignIn } from "../../../lib/auth/google";

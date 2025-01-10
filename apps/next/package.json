@@ -17,6 +17,7 @@
 		"zustand": "^5.0.2"
 	},
 	"devDependencies": {
+		"@repo/app": "*",
 		"@repo/eslint-config": "*",
 		"@repo/typescript-config": "*",
 		"@types/node": "^20",
