@@ -12,6 +12,7 @@ import { sentry } from '@hono/sentry';
 import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
 import { env } from 'hono/adapter';
+import { auth, createAuth } from './lib/auth';
 
 const app = new Hono<AppContext>();
 
@@ -31,6 +32,22 @@ app
     initializeDB(c);
     return next();
   })
+  .on(
+    ['POST', 'GET'],
+    '/api/auth/**',
+    cors({
+      origin: 'http://localhost:3001', // replace with your origin
+      allowHeaders: ['Content-Type', 'Authorization'],
+      allowMethods: ['POST', 'GET', 'OPTIONS'],
+      exposeHeaders: ['Content-Length'],
+      maxAge: 600,
+      credentials: true,
+    }),
+    (c) => {
+      const auth = createAuth(c);
+      return auth.handler(c.req.raw);
+    },
+  )
   .use(AuthMiddleware);
 
 const routes = app
