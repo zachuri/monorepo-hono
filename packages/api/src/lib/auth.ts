@@ -6,13 +6,6 @@ import { config } from 'dotenv';
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 
-config({
-  path: '.dev.vars',
-});
-
-const client = neon(process.env.DATABASE_URL);
-const db = drizzle(client);
-
 const createBetterAuthConfig = (dbInstance: any) => ({
   database: drizzleAdapter(dbInstance, {
     provider: 'pg', // or "mysql", "sqlite"
@@ -28,9 +21,11 @@ const createBetterAuthConfig = (dbInstance: any) => ({
   },
 });
 
-export const auth = betterAuth(createBetterAuthConfig(db));
-
 export const createAuth = (c: Context<AppContext>) => {
   const db = c.get('db');
-  return betterAuth(createBetterAuthConfig(db));
+  const auth = betterAuth(createBetterAuthConfig(db));
+  c.set('auth', auth);
+  return auth;
 };
+
+export type Auth = ReturnType<typeof betterAuth>;
