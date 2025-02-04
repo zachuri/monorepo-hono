@@ -8,9 +8,8 @@ import { getCookie, setCookie } from "hono/cookie";
 import { HTTPException } from "hono/http-exception";
 import { endTime, startTime } from "hono/timing";
 import { z } from "zod";
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 
-const authRoutes = new OpenAPIHono()
+const authRoutes = new Hono()
 	.post(
 		"/sign-up",
 		zValidator(

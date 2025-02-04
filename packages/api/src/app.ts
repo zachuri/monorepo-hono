@@ -1,5 +1,5 @@
 import { sentry } from "@hono/sentry";
-import { OpenAPIHono } from "@hono/zod-openapi";
+import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { csrf } from "hono/csrf";
 import { logger } from "hono/logger";
@@ -11,16 +11,10 @@ import errorHandler from "./middlewares/error.middleware";
 import swaggerApp from "./middlewares/swagger.middleware";
 import authRoutes from "./routes/auth.routes";
 import iamRoutes from "./routes/iam.routes";
+import userRoutes from "./routes/user.routes";
 
-const app = new OpenAPIHono<AppContext>()
+const app = new Hono<AppContext>()
 	.basePath("/api")
-	.doc("/doc", {
-		info: {
-			title: "An API",
-			version: "v1",
-		},
-		openapi: "3.1.0",
-	})
 	// Middlewares
 	.use("*", logger())
 	.use("*", cors())
@@ -29,11 +23,11 @@ const app = new OpenAPIHono<AppContext>()
 	.use("*", secureHeaders())
 	.use("*", timing())
 	.use("*", sentry({ dsn: env.SENTRY_DSN, tracesSampleRate: 0.2 }))
-	// Routes
+	.onError(errorHandler)
 	.route("/ui", swaggerApp)
 	.route("/auth", authRoutes)
 	.route("/iam", iamRoutes)
-	.onError(errorHandler);
+	.route("/user", userRoutes);
 
 // Export the app TYPE
 export type AppType = typeof app;
