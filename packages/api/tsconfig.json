@@ -1,11 +1,30 @@
 {
-  "extends": "@repo/typescript-config/api.json",
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
   "compilerOptions": {
-    "baseUrl": ".",
+    /* Basic Options */
+    "strict": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "verbatimModuleSyntax": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    /* Strictness */
+    "noUncheckedIndexedAccess": true,
+    /* If NOT transpiling with TypeScript: */
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true,
+    /* If your code doesn't run in the DOM: */
+    "lib": ["es2022"],
     "paths": {
-      "@repo/api/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"]
+    },
+    "types": [
+      "vitest/importMeta", "vitest/globals"
+    ]
   }
 }

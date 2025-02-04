@@ -1,74 +1,48 @@
-# API Project Setup Guide
+# HonosJS + Supabase Auth
 
-## Index
+## Built With
+- Node.js
+- PNPM
+- TypeScript
+- Supabase
+- Drizzle
+- Zod
+- Vitest
+- Biome
+- Sentry
 
-1. [Running the Development Server](#running-the-development-server)
-2. [Environment Variables](#environment-variables)
-3. [Auth Configuration](#auth-configuration)
-4. [Adding New Environment Variables](#adding-new-environment-variables)
+## Getting Started
 
----
+## Installation
 
-## Running the Development Server
+Run:
+`pnpm install` 
 
-To start the development server, run:
+After install all packages, copy the `.env.example` file and rename it to `.env`. Fill in the necessary environment variables.
 
-```bash
-bun dev
-```
+## Supabase
+Create a project in Supabase and put your envs into `.env`: 
 
-Ensure your setup is correct by following the steps below.
+- DATABASE_URL
+- SUPABASE_URL
+- SUPABASE_SERVICE_ROLE
 
----
+## Sentry
+Create a project in Sentry and put your envs into `.env`: 
 
-## Environment Variables
+- SENTRY_DSN
 
-1. **Fill Out `.dev.vars`**:
 
-   - Ensure all required fields in the `.dev.vars` file are filled out completely.
+## Database Setup
+Run the migration script to set up the database. This can be done by running the migrate script in src/libs/database/migrate.ts.
 
-2. **Initialization**:
+### start
+The server will start and listen on the port specified in your .env file.
 
-   - If you need to use environment variables outside the Hono app, initialize the configuration using `dotenv` and specify the `.dev.vars` path:
-     ```typescript
-     import dotenv from 'dotenv';
-     dotenv.config({ path: '.dev.vars' });
-     ```
+## Testing
+To run the tests, use the test script in the package.json file:
 
-3. **Accessing Environment Variables Within Hono**:
-   - Set environment variables within the `c` (context) object using `c.set("NAME", value)` and pass `c` to your functions as needed.
 
----
+## Contributing
+Provide instructions on how to contribute to your project.
 
-## Auth Configuration
-
-1. **Setup Client ID and Secret**:
-
-   - Provide the **Client ID** and **Client Secret** for authentication in your `.dev.vars` file.
-
-2. **Supported Clients**:
-
-   - Currently tested with Google and GitHub clients.
-
-3. **Adding Additional Clients**:
-   - Update the `.dev.vars` file with the new client’s credentials.
-   - Modify your authentication logic to support the new client.
-
----
-
-## Adding New Environment Variables
-
-1. **Updating `.dev.vars`**:
-
-   - Add the new variable directly to the `.dev.vars` file.
-
-2. **Using Variables Outside Hono**:
-
-   - Ensure the configuration is initialized using `dotenv` as described above.
-
-3. **Using Variables Within Hono**:
-   - Set the variable within the `c` (context) object:
-     ```typescript
-     c.set('NEW_VAR_NAME', process.env.NEW_VAR_NAME);
-     ```
-   - Pass the context (`c`) to any functions requiring access to the variable.
