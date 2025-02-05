@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@repo/ui/components/ui/button";
 import { Card, CardContent } from "@repo/ui/components/ui/card";
 import Link from "next/link";
@@ -49,23 +48,35 @@ function App() {
 }
 
 function SignIn() {
+	const handleGithubSignIn = async () => {
+		const { error } = await supabase.auth.signInWithOAuth({
+			provider: "github",
+		});
+
+		const { data } = await supabase.auth.getSession();
+
+		const token = data.session?.token_type;
+		if (error) {
+			console.log(error);
+		}
+
+		const response = await client.api.auth["sign-in-with-provider"].$post({
+			provider: "github",
+			token,
+			accessToken: null,
+		});
+
+		if (!response.ok) {
+			throw new Error("Failed to sign in");
+		}
+
+		console.log("Signed in with GitHub client-side!");
+	};
+
 	return (
 		<>
 			<p>Sign in with your GitHub account to continue.</p>
-			<Button
-				onClick={async () => {
-					const { data, error } = await supabase.auth.signInWithOAuth({
-						provider: "github",
-					});
-					if (error)
-						return console.error(
-							"Error signing in with GitHub:",
-							error.message
-						);
-					console.log("Signed in with GitHub client-side!");
-				}}>
-				Sign in with GitHub
-			</Button>
+			<Button onClick={handleGithubSignIn}>Sign in with GitHub</Button>
 		</>
 	);
 }

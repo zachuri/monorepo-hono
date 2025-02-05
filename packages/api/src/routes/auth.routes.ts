@@ -94,7 +94,7 @@ const authRoutes = new Hono()
 		zValidator(
 			"json",
 			z.object({
-				provider: z.enum(["google", "apple"]),
+				provider: z.enum(["github", "google", "apple"]),
 				token: z.string().min(8),
 				accessToken: z.string().optional(),
 			})
