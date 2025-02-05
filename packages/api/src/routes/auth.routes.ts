@@ -1,5 +1,5 @@
 import { supabase } from "@/libs/supabase/client";
-import { zValidator } from "@/middlewares/zodValidator.middleware";
+import { zValidator } from "@hono/zod-validator";
 
 import { db } from "@/libs/database/db";
 import { users } from "@/libs/database/schema";

@@ -2,6 +2,7 @@
 import { Button } from "@repo/ui/components/ui/button";
 import { Card, CardContent } from "@repo/ui/components/ui/card";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { client } from "~/lib/app.client";
 import { supabase } from "~/lib/supabase/client";
@@ -48,35 +49,16 @@ function App() {
 }
 
 function SignIn() {
-	const handleGithubSignIn = async () => {
-		const { error } = await supabase.auth.signInWithOAuth({
-			provider: "github",
-		});
+	const router = useRouter();
 
-		const { data } = await supabase.auth.getSession();
-
-		const token = data.session?.token_type;
-		if (error) {
-			console.log(error);
-		}
-
-		const response = await client.api.auth["sign-in-with-provider"].$post({
-			provider: "github",
-			token,
-			accessToken: null,
-		});
-
-		if (!response.ok) {
-			throw new Error("Failed to sign in");
-		}
-
-		console.log("Signed in with GitHub client-side!");
+	const handleSignIn = () => {
+		router.push("/api/auth/signin");
 	};
 
 	return (
 		<>
 			<p>Sign in with your GitHub account to continue.</p>
-			<Button onClick={handleGithubSignIn}>Sign in with GitHub</Button>
+			<Button onClick={handleSignIn}>Sign in with GitHub</Button>
 		</>
 	);
 }
