@@ -5,7 +5,7 @@ import { Card, CardContent } from "@repo/ui/components/ui/card";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { client } from "~/lib/app.client";
-import { supabase } from "~/lib/supabase.client";
+import { supabase } from "~/lib/supabase/client";
 
 function App() {
 	const [user, setUser] = useState<null | { id: string }>(null);
