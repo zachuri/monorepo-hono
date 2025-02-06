@@ -1,23 +1,42 @@
 "use client";
 
 import { Button } from "@repo/ui/components/ui/button";
-import { InferResponseType } from "hono/client";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { client } from "~/lib/api.client";
 import { useAuth } from "../../lib/auth/AuthProvider";
 
 export default function App() {
-	const { user, signOut, getOAuthAccounts, signInWithOAuth } = useAuth();
+	const { signOut, signInWithOAuth } = useAuth();
 
-	const [accounts, setAccounts] = useState<
-		InferResponseType<
-			(typeof client)["user"]["oauth-accounts"]["$get"]
-		>["accounts"]
-	>([]);
+	const { data: user, isLoading: userLoading } = useQuery({
+		queryKey: ["user"],
+		queryFn: async () => {
+			const response = await client.user.$get();
+			if (!response.ok) {
+				return null;
+			}
 
-	useEffect(() => {
-		void getOAuthAccounts().then(response => setAccounts(response));
-	}, [getOAuthAccounts]);
+			const user = await response.json();
+			return user;
+		},
+	});
+
+	const { data: accounts, isLoading: accountsLoading } = useQuery({
+		queryKey: ["accounts"],
+		queryFn: async () => {
+			const response = await client.user["oauth-accounts"].$get();
+			if (!response.ok) {
+				return [];
+			}
+			return (await response.json()).accounts;
+		},
+	});
+
+	if (accountsLoading || userLoading) {
+		return <div>Loading....</div>;
+	}
+
+	console.log(user);
 
 	return (
 		<div className='flex items-center flex-1 m-3'>
