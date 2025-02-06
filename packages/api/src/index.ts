@@ -1,17 +1,17 @@
-import httpStatus from 'http-status';
 import { Hono } from 'hono';
+import httpStatus from 'http-status';
 
 import { ApiError } from '@repo/api/utils/ApiError';
 
+import { sentry } from '@hono/sentry';
 import { initializeDB } from '@repo/api/db';
 import { AuthMiddleware } from '@repo/api/middleware/auth.middleware';
 import { errorHandler } from '@repo/api/middleware/error';
 import { authRouter, helloRouter, userRouter } from '@repo/api/routers';
 import type { AppContext } from '@repo/api/utils/context.js';
-import { sentry } from '@hono/sentry';
-import { logger } from 'hono/logger';
-import { cors } from 'hono/cors';
 import { env } from 'hono/adapter';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
 
 const app = new Hono<AppContext>();
 

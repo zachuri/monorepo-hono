@@ -1,33 +1,21 @@
 import type { AppType } from "@repo/api/src/index";
+import { getItem } from '@repo/app/provider/auth/cookie-store';
 import { hc } from "hono/client";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
-class ApiClientSingleton {
-	public client = hc<AppType>(API_URL);
+// Function to create the API client with headers
+export const createApiClient = () => {
+	// Get the token from cookies, provide a default value if not found
+	const token = getItem("token") ?? "";
 
-	public addSessionToken = (sessionToken: string) => {
-		this.client = hc<AppType>(API_URL, {
-			headers: {
-				Authorization: `Bearer ${sessionToken}`,
-			},
-			fetch: async (
-				input: RequestInfo | URL,
-				requestInit?: RequestInit<CfProperties<unknown>> | undefined
-			) => {
-				const now = new Date();
-				console.log("[Request]", String(input).replace(API_URL, ""));
-				const response = await fetch(input, requestInit);
-				console.log(
-					"[Response]",
-					response.status,
-					response.statusText,
-					`${new Date().getTime() - now.getTime()}ms`
-				);
-				return response;
-			},
-		});
-	};
-}
+	// Create and return the client with the Authorization header
+	return hc<AppType>(API_URL, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+};
 
-export const Api = new ApiClientSingleton();
+// Usage
+export const client = createApiClient();

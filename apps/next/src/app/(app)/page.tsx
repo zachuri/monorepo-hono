@@ -1,10 +1,23 @@
 "use client";
 
 import { Button } from "@repo/ui/components/ui/button";
+import { InferResponseType } from "hono/client";
+import { useEffect, useState } from "react";
+import { client } from "~/lib/api.client";
 import { useAuth } from "../../lib/auth/AuthProvider";
 
 export default function App() {
-	const { user, signOut, oAuthAccounts, signInWithOAuth } = useAuth();
+	const { user, signOut, getOAuthAccounts, signInWithOAuth } = useAuth();
+
+	const [accounts, setAccounts] = useState<
+		InferResponseType<
+			(typeof client)["user"]["oauth-accounts"]["$get"]
+		>["accounts"]
+	>([]);
+
+	useEffect(() => {
+		void getOAuthAccounts().then(response => setAccounts(response));
+	}, [getOAuthAccounts]);
 
 	return (
 		<div className='flex items-center flex-1 m-3'>
@@ -42,7 +55,7 @@ export default function App() {
 						key={provider}
 						className='flex items-center justify-between bg-gray-100 rounded-lg p-3'>
 						<p>{provider}</p>
-						{oAuthAccounts?.some(
+						{accounts?.some(
 							account => account.provider === provider.toLowerCase()
 						) ? (
 							<p className='text-green-500'>Connected</p>

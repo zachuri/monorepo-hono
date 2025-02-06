@@ -1,22 +1,20 @@
 "use client";
 
+import type { InferRequestType, InferResponseType } from "hono/client";
 import type { ReactNode } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import type { InferRequestType } from "hono/client";
 
-import useStore from "../store/index";
-import useUserStore, { OAuthAccounts, User } from "../store/userStore";
+import { getItem, removeItem, setItem } from '@repo/app/provider/auth/cookie-store';
 import { useRouter } from "next/navigation";
-import { Api } from "../api.client";
-import { useAuth as _useAuth } from "@repo/app/provider/auth";
+import { client } from "../api.client";
+import { User } from "../store/userStore";
 
 type Provider = NonNullable<
-	InferRequestType<(typeof Api.client)["auth"]["login"][":provider"]["$post"]>
+	InferRequestType<(typeof client)["auth"]["login"][":provider"]["$post"]>
 >["param"]["provider"];
 
 type AuthContextType = {
 	user: User | null;
-	oAuthAccounts: OAuthAccounts | null;
 	signOut: () => Promise<void>;
 	signInWithIdToken: (args: {
 		idToken: string;
@@ -29,6 +27,11 @@ type AuthContextType = {
 		provider: Provider;
 		redirect?: string;
 	}) => Promise<User | null>;
+	getOAuthAccounts: () => Promise<
+		InferResponseType<
+			(typeof client)["user"]["oauth-accounts"]["$get"]
+		>["accounts"]
+	>;
 	loading: boolean;
 };
 
@@ -40,16 +43,9 @@ type AuthProviderProps = {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [loading, setLoading] = useState(true);
+	// const { setItem, getItem, deleteItem } = useStore();
+	const [user, setUser] = useState<User | null>(null);
 	const router = useRouter();
-	const { deleteItem } = useStore();
-	const {
-		user,
-		setUser,
-		getUser,
-		oAuthAccounts,
-		setOAuthAccounts,
-		getOAuthAccounts,
-	} = useUserStore();
 
 	const signInWithOAuth = async ({
 		provider,
@@ -62,15 +58,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			`${process.env.NEXT_PUBLIC_API_URL!}/auth/${provider}?redirect=${redirect}`
 		);
 
-		const token = _useAuth.use.token();
-		const signIn = _useAuth.use.signIn();
-		const signOut = _useAuth.use.signOut();
+		const token = getItem("token");
 
 		if (token) {
-			oauthUrl.searchParams.append("sessionToken", token.session);
+			oauthUrl.searchParams.append("sessionToken", token.toString());
 		}
 
-		console.log(oauthUrl.toString());
+		// const token = await getItem("token");
+		// if (token) {
+		// 	oauthUrl.searchParams.append("sessionToken", token);
+		// }
 
 		// Redirect the current window to the OAuth URL
 		window.location.href = oauthUrl.toString();
@@ -79,25 +76,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		return new Promise<User | null>(resolve => {
 			const handleAuthCallback = async () => {
 				const urlParams = new URLSearchParams(window.location.search);
-				const sessionToken = urlParams.get("token");
-				if (!sessionToken) {
+				const token = urlParams.get("token");
+				if (!token) {
 					resolve(null);
 					return;
 				}
 
-				Api.addSessionToken(sessionToken);
+				// Api.addSessionToken(sessionToken);
 				const user = await getUser();
-				const oAuthAccounts = await getOAuthAccounts();
 				setUser(user);
-				setOAuthAccounts(oAuthAccounts);
 
-				const latestToken = {
-					session: sessionToken,
-					access: "",
-					refresh: "",
-				};
+				// Set session token locally
+				// await setItem("token", sessionToken);
 
-				signIn(latestToken);
+				setItem("token", token);
 				resolve(user);
 			};
 
@@ -117,56 +109,63 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			username: string;
 		};
 	}): Promise<User | null> => {
-		const response = await Api.client.auth.login[":provider"].$post({
+		const response = await client.auth.login[":provider"].$post({
 			param: { provider },
 			json: { idToken, user: createUser },
 		});
 		if (!response.ok) {
 			return null;
 		}
-		const sessionToken = ((await response.json()) as { token: string }).token;
-		if (!sessionToken) {
+		const token = ((await response.json()) as { token: string }).token;
+		if (!token) {
 			return null;
 		}
-		Api.addSessionToken(sessionToken);
+
 		const user = await getUser();
-		const oAuthAccounts = await getOAuthAccounts();
 		setUser(user);
-		setOAuthAccounts(oAuthAccounts);
-		// await setItem("session_token", sessionToken);
+
+		// Add session token to cookies
+		setItem("token", token);
+		return user;
+	};
+
+	const getUser = async (): Promise<User | null> => {
+		const response = await client.user.$get();
+		if (!response.ok) {
+			return null;
+		}
+		const user = await response.json();
 		return user;
 	};
 
 	const signOut = async () => {
-		const response = await Api.client.auth.logout.$post();
+		const response = await client.auth.logout.$post();
 		if (!response.ok) {
 			return;
 		}
+
 		setUser(null);
-		setOAuthAccounts(null);
-		signOut();
+		removeItem("token");
+	};
+
+	const getOAuthAccounts = async () => {
+		const response = await client.user["oauth-accounts"].$get();
+		if (!response.ok) {
+			return [];
+		}
+		return (await response.json()).accounts;
 	};
 
 	useEffect(() => {
 		const handleAuthCallback = async () => {
 			setLoading(true);
 			const urlParams = new URLSearchParams(window.location.search);
-			const sessionToken = urlParams.get("token");
-			if (sessionToken) {
-				Api.addSessionToken(sessionToken);
+			const token = urlParams.get("token");
+			if (token) {
+				// TOOD: later if adding mobile for local storage add sessionToken
 				const user = await getUser();
 				setUser(user);
-
-				const latestToken = {
-					session: sessionToken,
-					access: "",
-					refresh: "",
-				};
-
-				// await setItem("session_token", sessionToken);
-				const signIn = _useAuth.use.signIn();
-				signIn(latestToken);
-
+				setItem("token", token);
 				router.replace("/");
 			}
 			setLoading(false);
@@ -179,11 +178,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		<AuthContext.Provider
 			value={{
 				user,
-				oAuthAccounts,
 				signOut,
 				loading,
 				signInWithIdToken,
 				signInWithOAuth,
+				getOAuthAccounts,
 			}}>
 			{children}
 		</AuthContext.Provider>

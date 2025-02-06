@@ -1,14 +1,14 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import { Api } from "../api.client";
 import type { InferResponseType } from "hono/client";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { client } from "../api.client";
 
 export type User = NonNullable<
-	InferResponseType<(typeof Api.client)["user"]["$get"]>
+	InferResponseType<(typeof client)["user"]["$get"]>
 >;
 export type OAuthAccounts = NonNullable<
 	InferResponseType<
-		(typeof Api.client)["user"]["oauth-accounts"]["$get"]
+		(typeof client)["user"]["oauth-accounts"]["$get"]
 	>["accounts"]
 >;
 
@@ -29,7 +29,7 @@ const useUserStore = create(
 				set({ oAuthAccounts: accounts }),
 			getUser: async () => {
 				try {
-					const response = await Api.client.user.$get();
+					const response = await client.user.$get();
 					if (!response.ok) {
 						console.error("Failed to fetch user:", response.statusText);
 						return null;
@@ -43,7 +43,7 @@ const useUserStore = create(
 				}
 			},
 			getOAuthAccounts: async () => {
-				const response = await Api.client.user["oauth-accounts"].$get();
+				const response = await client.user["oauth-accounts"].$get();
 				if (!response.ok) {
 					return [];
 				}
