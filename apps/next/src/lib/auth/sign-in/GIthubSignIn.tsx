@@ -1,15 +1,15 @@
 "use client";
 
 import { Button } from "@repo/ui/components/ui/button";
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "../AuthProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-export const GoogleSignIn = () => {
+export const GithubSignIn = () => {
 	const { signInWithOAuth } = useAuth();
 	const router = useRouter();
-	const handleGoogleSignIn = () => {
-		void signInWithOAuth({ provider: "google" }).then(user => {
+	const handleGithubSignIn = () => {
+		void signInWithOAuth({ provider: "github" }).then(user => {
 			if (user) {
 				void router.push("/");
 			}
@@ -17,14 +17,14 @@ export const GoogleSignIn = () => {
 	};
 
 	return (
-		<Button onClick={handleGoogleSignIn}>
+		<Button onClick={handleGithubSignIn}>
 			<Image
-				alt='Google Logo'
-				src={"https://www.cdnlogo.com/logos/g/35/google-icon.svg"}
+				alt='GitHub Logo'
+				src={"https://www.cdnlogo.com/logos/g/69/github-icon.svg"}
 				width={20}
 				height={20}
 			/>
-			Continue with Google
+			Continue with GitHub
 		</Button>
 	);
 };

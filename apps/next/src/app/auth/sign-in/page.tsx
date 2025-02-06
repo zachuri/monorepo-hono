@@ -1,8 +1,8 @@
 "use client";
 
-import { AppleSignIn } from "../../../lib/auth/apple";
-import { GithubSignIn } from "../../../lib/auth/github";
-import { GoogleSignIn } from "../../../lib/auth/google";
+import { AppleSignIn } from "~/lib/auth/sign-in/AppleSignIn";
+import { GithubSignIn } from "~/lib/auth/sign-in/GIthubSignIn";
+import { GoogleSignIn } from "~/lib/auth/sign-in/GoogleSignIn";
 
 export default function SignIn() {
 	return (
