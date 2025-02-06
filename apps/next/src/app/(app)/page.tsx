@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@repo/ui/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { client } from "~/lib/api.client";
 import { useAuth } from "../../lib/auth/AuthProvider";
@@ -39,8 +38,7 @@ export default function App() {
 	console.log(user);
 
 	return (
-		<div className='flex items-center flex-1 m-3'>
-			<Button>List</Button>
+		<div className='flex justify-center min-h-screen'>
 			<div className='flex flex-col gap-3 flex-1 w-full max-w-lg bg-white p-4 rounded-lg'>
 				{user && (
 					<div>
