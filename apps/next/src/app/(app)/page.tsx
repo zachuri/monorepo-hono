@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "~/lib/authClient";
 
 export default function App() {
-  const router = useRouter();
+	const router = useRouter();
 	const session = useSession();
 
 	const user = session.data?.user;
@@ -14,6 +14,7 @@ export default function App() {
 		return <p>Not logged in</p>;
 	}
 
+	// TODO: update use of useSession with useQueryClient
 	const handleSignOut = async () => {
 		try {
 			await signOut();
