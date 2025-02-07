@@ -2,8 +2,10 @@ import type { AppContext } from '@repo/api/utils/context.js';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { Context } from 'hono';
+import { env } from 'hono/adapter';
 
-const createBetterAuthConfig = (dbInstance: any) => ({
+// Load environment variables
+const createBetterAuthConfig = (dbInstance: any, c: Context<AppContext>) => ({
   baseURL: 'http://localhost:8787',
   trustedOrigins: ['http://localhost:8787', 'http://localhost:3000'], // Replace with your frontend domain and backend domain
   database: drizzleAdapter(dbInstance, {
@@ -13,10 +15,9 @@ const createBetterAuthConfig = (dbInstance: any) => ({
     enabled: true,
   },
   socialProviders: {
-    // TODO: delete and replace client id
     github: {
-      clientId: 'Ov23li7350aQJ11Ok7nK',
-      clientSecret: '13ad6e16a275c8abef450660bc4ed0affc81e065',
+      clientId: env(c).GITHUB_CLIENT_ID,
+      clientSecret: env(c).GITHUB_CLIENT_SECRET,
     },
   },
   advanced: {
@@ -32,7 +33,7 @@ const createBetterAuthConfig = (dbInstance: any) => ({
 
 export const createAuth = (c: Context<AppContext>) => {
   const db = c.get('db');
-  const betterAuthConfig = createBetterAuthConfig(db);
+  const betterAuthConfig = createBetterAuthConfig(db, c);
   const auth = betterAuth({
     ...betterAuthConfig,
     advanced: {
