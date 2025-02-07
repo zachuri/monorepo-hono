@@ -1,4 +1,5 @@
 import { initializeDrizzleNeonDB } from '@repo/api/db';
+import { helloRouter } from '@repo/api/routers';
 import type { AppContext } from '@repo/api/utils/context';
 import { Hono } from 'hono';
 import { showRoutes } from 'hono/dev';
@@ -29,8 +30,10 @@ const app = new Hono<AppContext>()
   })
   .use('/auth/**', (c, next) => betterAuthCorsMiddleware(c)(c, next)) // Use CORS middleware for auth routes
   .use('*', handleSessionMiddleware) // Use session middleware globally
+  // TODO: protect routes
   .route('/auth', authRouter)
-  .route('/user', userRouter);
+  .route('/user', userRouter)
+  .route('/hello', helloRouter);
 
 showRoutes(app);
 

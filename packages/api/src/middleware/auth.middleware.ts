@@ -1,7 +1,7 @@
 import { Context } from 'hono';
+import { env } from 'hono/adapter';
 import { cors } from 'hono/cors';
 import { AppContext } from '../utils/context';
-import { env } from 'hono/adapter';
 
 /**
  * Handle session from auth middleware.
@@ -61,11 +61,23 @@ export async function handleSessionMiddleware(
  * @param maxAge - The maximum age for the CORS preflight request cache
  * @param credentials - Whether credentials are supported in CORS requests
  */
-export const betterAuthCorsMiddleware = (c: Context<AppContext>) => cors({
-  origin: [env(c).WEB_DOMAIN || 'http://localhost:3000'], // Use env var for frontend domain
-  allowHeaders: ['Content-Type', 'Authorization'],
-  allowMethods: ['POST', 'GET', 'OPTIONS'],
-  exposeHeaders: ['Content-Length'],
-  maxAge: 600,
-  credentials: true, // Required for cookies to work cross-origin
-});
+export const betterAuthCorsMiddleware = (c: Context<AppContext>) =>
+  cors({
+    origin: [env(c).WEB_DOMAIN || 'http://localhost:3000'], // Use env var for frontend domain
+    allowHeaders: ['Content-Type', 'Authorization'],
+    allowMethods: ['POST', 'GET', 'OPTIONS'],
+    exposeHeaders: ['Content-Length'],
+    maxAge: 600,
+    credentials: true, // Required for cookies to work cross-origin
+  });
+
+export const requireAuth = async (
+  c: Context<AppContext>,
+  next: () => Promise<void>,
+) => {
+  const user = c.get('user');
+  if (!user) {
+    return c.json({ error: 'Unauthorized' }, 401);
+  }
+  await next();
+};
