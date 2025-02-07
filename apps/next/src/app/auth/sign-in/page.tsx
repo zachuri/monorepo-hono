@@ -7,7 +7,10 @@ export default function SignIn() {
 	return (
 		<div className='flex flex-col items-center flex-1 m-8'>
 			<div className='flex flex-col gap-12 flex-1 w-full max-w-md'>
-				<Button onClick={() => signIn.social({ provider: "github" })}>
+				<Button
+					onClick={() =>
+						signIn.social({ provider: "github", callbackURL: "/" })
+					}>
 					SignIn
 				</Button>
 			</div>

@@ -6,4 +6,4 @@ export const authClient = createAuthClient({
 	baseURL: "http://localhost:8787", // Ensure this matches your backend server URL
 });
 
-export const { signIn, signUp, useSession } = authClient; // Use the created authClient instance
+export const { signIn, signUp, useSession, signOut } = authClient; // Use the created authClient instance

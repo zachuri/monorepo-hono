@@ -1,8 +1,6 @@
 "use client";
 
 import "@repo/ui/globals.css";
-import { AuthProvider } from "~/lib/auth/AuthProvider";
-import { hydrateAuth } from "@repo/app/provider/auth";
 
 export default function RootLayout({
 	children,
@@ -11,9 +9,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<AuthProvider>
-				<body>{children}</body>
-			</AuthProvider>
+			<body>{children}</body>
 		</html>
 	);
 }

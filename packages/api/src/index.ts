@@ -19,7 +19,7 @@ app.use('*', (c, next) => {
 app.use(
   '/api/auth/**',
   cors({
-    origin: 'http://localhost:3000', // Replace with your frontend domain
+    origin: ['http://localhost:3000'], // Replace with your frontend domain
     allowHeaders: ['Content-Type', 'Authorization'],
     allowMethods: ['POST', 'GET', 'OPTIONS'],
     exposeHeaders: ['Content-Length'],

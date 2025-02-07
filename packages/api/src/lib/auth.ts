@@ -4,6 +4,8 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { Context } from 'hono';
 
 const createBetterAuthConfig = (dbInstance: any) => ({
+  baseURL: 'http://localhost:8787',
+  trustedOrigins: ['http://localhost:8787', 'http://localhost:3000'], // Replace with your frontend domain and backend domain
   database: drizzleAdapter(dbInstance, {
     provider: 'pg', // or "mysql", "sqlite"
   }),
@@ -11,6 +13,7 @@ const createBetterAuthConfig = (dbInstance: any) => ({
     enabled: true,
   },
   socialProviders: {
+    // TODO: delete and replace client id
     github: {
       clientId: 'Ov23li7350aQJ11Ok7nK',
       clientSecret: '13ad6e16a275c8abef450660bc4ed0affc81e065',
@@ -25,7 +28,6 @@ const createBetterAuthConfig = (dbInstance: any) => ({
       secure: true, // Ensures cookies are only sent over HTTPS
     },
   },
-  baseURL: 'http://localhost:8787',
 });
 
 export const createAuth = (c: Context<AppContext>) => {
