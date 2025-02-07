@@ -6,7 +6,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { getItem, removeItem, setItem } from '@repo/app/provider/auth/cookie-store';
 import { useRouter } from "next/navigation";
-import { client } from "../api.client";
+import { client, createApiClient } from "../api.client";
 import { User } from "../store/userStore";
 
 type Provider = NonNullable<
@@ -82,14 +82,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 					return;
 				}
 
+				setItem("token", token);
+				createApiClient();
 				// Api.addSessionToken(sessionToken);
 				const user = await getUser();
 				setUser(user);
 
 				// Set session token locally
 				// await setItem("token", sessionToken);
-
-				setItem("token", token);
 				resolve(user);
 			};
 
@@ -163,16 +163,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 			const token = urlParams.get("token");
 			if (token) {
 				// TOOD: later if adding mobile for local storage add sessionToken
+				setItem("token", token);
+				createApiClient();
 				const user = await getUser();
 				setUser(user);
-				setItem("token", token);
-				router.replace("/");
 			}
 			setLoading(false);
 		};
 
 		handleAuthCallback();
-	}, [router]);
+	}, []);
 
 	return (
 		<AuthContext.Provider
