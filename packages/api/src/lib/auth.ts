@@ -35,7 +35,7 @@ const createBetterAuthConfig = (dbInstance: any, c: Context<AppContext>) => ({
   },
 });
 
-export const createAuth = (c: Context<AppContext>) => {
+export const initializeBetterAuth = (c: Context<AppContext>) => {
   const db = c.get('db');
   const betterAuthConfig = createBetterAuthConfig(db, c);
   const auth = betterAuth({

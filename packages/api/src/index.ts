@@ -1,17 +1,15 @@
-import { initializeDB } from '@repo/api/db';
+import { initializeDrizzleNeonDB } from '@repo/api/db';
 import type { AppContext } from '@repo/api/utils/context';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { createAuth } from './lib/auth'; // Ensure this import is correct
+import { initializeBetterAuth } from './lib/auth'; // Ensure this import is correct
 
 const app = new Hono<AppContext>();
 
 // Middleware to initialize auth
 app.use('*', (c, next) => {
-  const db = initializeDB(c);
-  c.set('db', db); // Set db in context after initializedDB
-  const auth = createAuth(c); // Initialize auth
-  c.set('auth', auth); // Set auth in context
+  initializeDrizzleNeonDB(c);
+  initializeBetterAuth(c);
   return next();
 });
 

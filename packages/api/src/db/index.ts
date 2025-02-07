@@ -6,7 +6,7 @@ import type { Context } from 'hono';
 import { AppContext } from '../utils/context';
 import * as schema from './schemas';
 
-export const initializeDB = (c: Context<AppContext>) => {
+export const initializeDrizzleNeonDB = (c: Context<AppContext>) => {
   let db = c.get('db');
 
   if (!db) {
