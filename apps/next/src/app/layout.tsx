@@ -1,6 +1,5 @@
-"use client";
-
 import "@repo/ui/globals.css";
+import AppProviders from "~/provider/AppProviders";
 
 export default function RootLayout({
 	children,
@@ -9,7 +8,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body>{children}</body>
+			<body>
+				<AppProviders>{children}</AppProviders>
+			</body>
 		</html>
 	);
 }
