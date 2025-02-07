@@ -1,80 +1,37 @@
 import { initializeDrizzleNeonDB } from '@repo/api/db';
 import type { AppContext } from '@repo/api/utils/context';
 import { Hono } from 'hono';
-import { cors } from 'hono/cors';
+import { showRoutes } from 'hono/dev';
+import { logger } from 'hono/logger';
+import { prettyJSON } from 'hono/pretty-json';
+import { secureHeaders } from 'hono/secure-headers';
+import { timing } from 'hono/timing';
 import { initializeBetterAuth } from './lib/auth'; // Ensure this import is correct
+import {
+  betterAuthCorsMiddleware,
+  handleSessionMiddleware,
+} from './middleware/auth.middleware';
+import { authRouter, userRouter } from './routers';
 
-const app = new Hono<AppContext>();
+export type AppType = typeof app;
 
-// Middleware to initialize auth
-app.use('*', (c, next) => {
-  initializeDrizzleNeonDB(c);
-  initializeBetterAuth(c);
-  return next();
-});
-
-// CORS configuration
-app.use(
-  '/api/auth/**',
-  cors({
-    origin: ['http://localhost:3000'], // Replace with your frontend domain
-    allowHeaders: ['Content-Type', 'Authorization'],
-    allowMethods: ['POST', 'GET', 'OPTIONS'],
-    exposeHeaders: ['Content-Length'],
-    maxAge: 600,
-    credentials: true, // Required for cookies to work cross-origin
-  }),
-);
-
-// Middleware to attach user session data
-app.use('*', async (c, next) => {
-  const auth = c.get('auth'); // Retrieve auth from context
-  if (!auth) {
-    console.error('Auth is not initialized');
+const app = new Hono<AppContext>()
+  .basePath('/api')
+  .use('*', logger())
+  .use('*', prettyJSON())
+  .use('*', secureHeaders())
+  .use('*', timing())
+  // Middleware to initialize auth
+  .use('*', (c, next) => {
+    initializeDrizzleNeonDB(c);
+    initializeBetterAuth(c);
     return next();
-  }
+  })
+  .use('/auth/**', (c, next) => betterAuthCorsMiddleware(c)(c, next)) // Use CORS middleware for auth routes
+  .use('*', handleSessionMiddleware) // Use session middleware globally
+  .route('/auth', authRouter)
+  .route('/user', userRouter);
 
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
-
-  if (!session) {
-    c.set('user', null);
-    c.set('session', null);
-    return next();
-  }
-
-  const user = {
-    ...session.user,
-    image: session.user.image ?? null,
-  };
-
-  const sessionData = {
-    ...session.session,
-    ipAddress: session.session.ipAddress ?? null,
-    userAgent: session.session.userAgent ?? null,
-  };
-
-  c.set('user', user);
-  c.set('session', sessionData);
-  return next();
-});
-
-// Auth route
-app.on(['POST', 'GET'], '/api/auth/**', (c) => {
-  const auth = c.get('auth');
-  return auth.handler(c.req.raw);
-});
-
-// Test route to check session
-app.get('/session', async (c) => {
-  const session = c.get('session');
-  const user = c.get('user');
-
-  if (!user) return c.body(null, 401);
-
-  return c.json({
-    session,
-    user,
-  });
-});
+showRoutes(app);
 
 export default app;
