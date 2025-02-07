@@ -1,10 +1,7 @@
+import type { AppContext } from '@repo/api/utils/context.js';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import type { AppContext } from '@repo/api/utils/context.js';
 import { Context } from 'hono';
-import { config } from 'dotenv';
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
 
 const createBetterAuthConfig = (dbInstance: any) => ({
   database: drizzleAdapter(dbInstance, {
@@ -15,15 +12,35 @@ const createBetterAuthConfig = (dbInstance: any) => ({
   },
   socialProviders: {
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      clientId: 'Ov23li7350aQJ11Ok7nK',
+      clientSecret: '13ad6e16a275c8abef450660bc4ed0affc81e065',
     },
   },
+  advanced: {
+    crossSubDomainCookies: {
+      enabled: true, // Enables cross-domain cookies
+    },
+    defaultCookieAttributes: {
+      sameSite: 'none', // Required for cross-domain cookies
+      secure: true, // Ensures cookies are only sent over HTTPS
+    },
+  },
+  baseURL: 'http://localhost:8787',
 });
 
 export const createAuth = (c: Context<AppContext>) => {
   const db = c.get('db');
-  const auth = betterAuth(createBetterAuthConfig(db));
+  const betterAuthConfig = createBetterAuthConfig(db);
+  const auth = betterAuth({
+    ...betterAuthConfig,
+    advanced: {
+      ...betterAuthConfig.advanced,
+      defaultCookieAttributes: {
+        sameSite: 'None',
+        secure: true,
+      },
+    },
+  });
   c.set('auth', auth);
   return auth;
 };

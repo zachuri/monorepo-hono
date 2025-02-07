@@ -1,89 +1,82 @@
-import httpStatus from 'http-status';
-import { Hono } from 'hono';
-
-import { ApiError } from '@repo/api/utils/ApiError';
-
 import { initializeDB } from '@repo/api/db';
-import { errorHandler } from '@repo/api/middleware/error';
-import { helloRouter, userRouter } from '@repo/api/routers';
-import type { AppContext } from '@repo/api/utils/context.js';
-import { sentry } from '@hono/sentry';
-import { logger } from 'hono/logger';
+import type { AppContext } from '@repo/api/utils/context';
+import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { env } from 'hono/adapter';
-import { createAuth } from './lib/auth';
+import { createAuth } from './lib/auth'; // Ensure this import is correct
 
 const app = new Hono<AppContext>();
 
-app
-  .use(logger())
-  .use('*', sentry())
-  .use('*', cors())
-  .use((c, next) => {
-    const handler = cors({ origin: env(c).WEB_DOMAIN });
-    return handler(c, next);
-  })
-  .notFound(() => {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
-  })
-  .onError(errorHandler)
-  .use((c, next) => {
-    initializeDB(c);
+// Middleware to initialize auth
+app.use('*', (c, next) => {
+  const db = initializeDB(c);
+  c.set('db', db); // Set db in context after initializedDB
+  const auth = createAuth(c); // Initialize auth
+  c.set('auth', auth); // Set auth in context
+  return next();
+});
+
+// CORS configuration
+app.use(
+  '/api/auth/**',
+  cors({
+    origin: 'http://localhost:3000', // Replace with your frontend domain
+    allowHeaders: ['Content-Type', 'Authorization'],
+    allowMethods: ['POST', 'GET', 'OPTIONS'],
+    exposeHeaders: ['Content-Length'],
+    maxAge: 600,
+    credentials: true, // Required for cookies to work cross-origin
+  }),
+);
+
+// Middleware to attach user session data
+app.use('*', async (c, next) => {
+  const auth = c.get('auth'); // Retrieve auth from context
+  if (!auth) {
+    console.error('Auth is not initialized');
     return next();
-  })
-  .on(
-    ['POST', 'GET'],
-    '/api/auth/**',
-    cors({
-      origin: 'http://localhost:3000', // replace with your origin
-      allowHeaders: ['Content-Type', 'Authorization'],
-      allowMethods: ['POST', 'GET', 'OPTIONS'],
-      exposeHeaders: ['Content-Length'],
-      maxAge: 600,
-      credentials: true,
-    }),
-    (c) => {
-      const auth = createAuth(c);
-      return auth.handler(c.req.raw);
-    },
-  )
-  .use('*', async (c, next) => {
-    const session = await c
-      .get('auth')
-      .api.getSession({ headers: c.req.raw.headers });
+  }
 
-    if (!session) {
-      c.set('user', null);
-      c.set('session', null);
-      return next();
-    }
+  const session = await auth.api.getSession({ headers: c.req.raw.headers });
 
-    // TODO: fix to make it work with just accepting session.user and session.session
-    c.set('user', {
-      ...session.user,
-      image: session.user.image ?? null,
-    });
-    c.set('session', {
-      ...session.session,
-      ipAddress: session.session.ipAddress ?? null,
-      userAgent: session.session.userAgent ?? null,
-    });
-
+  if (!session) {
+    c.set('user', null);
+    c.set('session', null);
     return next();
-  })
-  .get('/session', async (c) => {
-    const session = c.get('session');
-    const user = c.get('user');
+  }
 
-    if (!user) return c.body(null, 401);
+  const user = {
+    ...session.user,
+    image: session.user.image ?? null,
+  };
 
-    return c.json({
-      session,
-      user,
-    });
+  const sessionData = {
+    ...session.session,
+    ipAddress: session.session.ipAddress ?? null,
+    userAgent: session.session.userAgent ?? null,
+  };
+
+  c.set('user', user);
+  c.set('session', sessionData);
+  return next();
+});
+
+// Auth route
+app.on(['POST', 'GET'], '/api/auth/**', (c) => {
+  const auth = c.get('auth');
+  return auth.handler(c.req.raw);
+});
+
+// Test route to check session
+app.get('/session', async (c) => {
+  const session = c.get('session');
+  const user = c.get('user');
+
+  if (!user) return c.body(null, 401);
+
+  return c.json({
+    session,
+    user,
   });
+});
 
-const routes = app.route('/hello', helloRouter).route('/user', userRouter);
-
-export type AppType = typeof routes;
 export default app;

@@ -25,6 +25,7 @@
 		"packages/*"
 	],
 	"dependencies": {
-		"better-auth": "^1.1.14"
+		"better-auth": "^1.1.14",
+		"wrangler": "3.107.3"
 	}
 }

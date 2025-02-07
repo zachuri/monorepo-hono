@@ -6,8 +6,8 @@ import {
 import { eq } from 'drizzle-orm';
 import type { Context } from 'hono';
 
-import type { Session, User } from '@repo/api//db/schema';
-import { sessionTable, userTable } from '@repo/api/db/schema';
+import type { Session, User } from '@repo/api/db/schemas';
+import { sessionTable, userTable } from '@repo/api/db/schemas';
 import type { AppContext } from '@repo/api/utils/context';
 
 export function generateSessionToken(): string {
@@ -28,6 +28,11 @@ export async function createSession(
     id: sessionId,
     userId,
     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+    token,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    ipAddress: null,
+    userAgent: null,
   };
   await db.insert(sessionTable).values(session);
   return session;

@@ -1,16 +1,15 @@
 "use client";
 
-import { AppleSignIn } from "../../../lib/auth/apple";
-import { GithubSignIn } from "../../../lib/auth/github";
-import { GoogleSignIn } from "../../../lib/auth/google";
+import { Button } from "@repo/ui/components/ui/button";
+import { signIn } from "~/lib/authClient";
 
 export default function SignIn() {
 	return (
-		<div className="flex flex-col items-center flex-1 m-8">
-			<div className="flex flex-col gap-12 flex-1 w-full max-w-md">
-				<GithubSignIn />
-				<GoogleSignIn />
-				<AppleSignIn />
+		<div className='flex flex-col items-center flex-1 m-8'>
+			<div className='flex flex-col gap-12 flex-1 w-full max-w-md'>
+				<Button onClick={() => signIn.social({ provider: "github" })}>
+					SignIn
+				</Button>
 			</div>
 		</div>
 	);

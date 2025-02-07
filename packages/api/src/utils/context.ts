@@ -1,7 +1,7 @@
 import type { Database } from '@repo/api/db';
 import type { Env } from '@repo/api/types/env';
 import { Auth } from '../lib/auth';
-import { User, Session } from '../db/table/auth';
+import { User, Session } from '../db/tables/auth';
 
 type Variables = {
   db: Database;
