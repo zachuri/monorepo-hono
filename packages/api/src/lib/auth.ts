@@ -6,8 +6,8 @@ import { env } from 'hono/adapter';
 
 // Load environment variables
 const createBetterAuthConfig = (dbInstance: any, c: Context<AppContext>) => ({
-  baseURL: 'http://localhost:8787',
-  trustedOrigins: ['http://localhost:8787', 'http://localhost:3000'], // Replace with your frontend domain and backend domain
+  baseURL: env(c).API_DOMAIN, // API URL
+  trustedOrigins: [env(c).API_DOMAIN, env(c).WEB_DOMAIN], // Needed for cross domain cookies
   database: drizzleAdapter(dbInstance, {
     provider: 'pg', // or "mysql", "sqlite"
   }),
@@ -18,6 +18,10 @@ const createBetterAuthConfig = (dbInstance: any, c: Context<AppContext>) => ({
     github: {
       clientId: env(c).GITHUB_CLIENT_ID,
       clientSecret: env(c).GITHUB_CLIENT_SECRET,
+    },
+    google: {
+      clientId: env(c).GOOGLE_CLIENT_ID,
+      clientSecret: env(c).GOOGLE_CLIENT_SECRET,
     },
   },
   advanced: {
