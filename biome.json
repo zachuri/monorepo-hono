@@ -52,10 +52,10 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single", 
-      "jsxQuoteStyle": "double",       
-      "trailingCommas": "es5", 
-      "semicolons": "asNeeded",       
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double",
+      "trailingCommas": "all",
+      "semicolons": "asNeeded",
       "arrowParens": "always"
     }
   },
