@@ -1,8 +1,8 @@
-import type { AppContext } from '@repo/api/utils/context.js';
-import { betterAuth } from 'better-auth';
-import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { Context } from 'hono';
-import { env } from 'hono/adapter';
+import type { AppContext } from '@repo/api/utils/context.js'
+import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import type { Context } from 'hono'
+import { env } from 'hono/adapter'
 
 // Load environment variables
 const createBetterAuthConfig = (dbInstance: any, c: Context<AppContext>) => ({
@@ -33,11 +33,11 @@ const createBetterAuthConfig = (dbInstance: any, c: Context<AppContext>) => ({
       secure: true, // Ensures cookies are only sent over HTTPS
     },
   },
-});
+})
 
 export const initializeBetterAuth = (c: Context<AppContext>) => {
-  const db = c.get('db');
-  const betterAuthConfig = createBetterAuthConfig(db, c);
+  const db = c.get('db')
+  const betterAuthConfig = createBetterAuthConfig(db, c)
   const auth = betterAuth({
     ...betterAuthConfig,
     advanced: {
@@ -47,9 +47,9 @@ export const initializeBetterAuth = (c: Context<AppContext>) => {
         secure: true,
       },
     },
-  });
-  c.set('auth', auth);
-  return auth;
-};
+  })
+  c.set('auth', auth)
+  return auth
+}
 
-export type Auth = ReturnType<typeof betterAuth>;
+export type Auth = ReturnType<typeof betterAuth>

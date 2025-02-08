@@ -5,6 +5,9 @@
 		"ui": "bun run --cwd packages/ui ui",
 		"web": "bun run --cwd ./apps/next dev",
 		"api": "bun run --cwd ./packages/api dev",
+		"format": "bun x @biomejs/biome format --write ./packages ./apps",
+		"lint": "bun x @biomejs/biome lint ./packages ./apps",
+		"fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
 		"turbo:dev": "turbo dev",
 		"turbo:lint": "turbo lint",
 		"turbo:format": "turbo format",
@@ -25,6 +28,7 @@
 		"packages/*"
 	],
 	"dependencies": {
+		"@biomejs/biome": "^1.9.4",
 		"better-auth": "^1.1.14",
 		"wrangler": "3.107.3"
 	}

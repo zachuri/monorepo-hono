@@ -1,7 +1,7 @@
-import { Context } from 'hono';
-import { env } from 'hono/adapter';
-import { cors } from 'hono/cors';
-import { AppContext } from '../utils/context';
+import type { Context } from 'hono'
+import { env } from 'hono/adapter'
+import { cors } from 'hono/cors'
+import type { AppContext } from '../utils/context'
 
 /**
  * Handle session from auth middleware.
@@ -13,38 +13,35 @@ import { AppContext } from '../utils/context';
  * @param c - The context object
  * @param next - The next function to run
  */
-export async function handleSessionMiddleware(
-  c: Context<AppContext>,
-  next: () => Promise<void>,
-) {
-  const auth = c.get('auth'); // Retrieve auth from context
+export async function handleSessionMiddleware(c: Context<AppContext>, next: () => Promise<void>) {
+  const auth = c.get('auth') // Retrieve auth from context
   if (!auth) {
-    console.error('Auth is not initialized');
-    return next();
+    console.error('Auth is not initialized')
+    return next()
   }
 
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
+  const session = await auth.api.getSession({ headers: c.req.raw.headers })
 
   if (!session) {
-    c.set('user', null);
-    c.set('session', null);
-    return next();
+    c.set('user', null)
+    c.set('session', null)
+    return next()
   }
 
   const user = {
     ...session.user,
     image: session.user.image ?? null,
-  };
+  }
 
   const sessionData = {
     ...session.session,
     ipAddress: session.session.ipAddress ?? null,
     userAgent: session.session.userAgent ?? null,
-  };
+  }
 
-  c.set('user', user);
-  c.set('session', sessionData);
-  return next();
+  c.set('user', user)
+  c.set('session', sessionData)
+  return next()
 }
 
 /**
@@ -69,15 +66,12 @@ export const betterAuthCorsMiddleware = (c: Context<AppContext>) =>
     exposeHeaders: ['Content-Length'],
     maxAge: 600,
     credentials: true, // Required for cookies to work cross-origin
-  });
+  })
 
-export const requireAuth = async (
-  c: Context<AppContext>,
-  next: () => Promise<void>,
-) => {
-  const user = c.get('user');
+export const requireAuth = async (c: Context<AppContext>, next: () => Promise<void>) => {
+  const user = c.get('user')
   if (!user) {
-    return c.json({ error: 'Unauthorized' }, 401);
+    return c.json({ error: 'Unauthorized' }, 401)
   }
-  await next();
-};
+  await next()
+}

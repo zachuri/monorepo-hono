@@ -1,5 +1,5 @@
-import { InferSelectModel } from 'drizzle-orm';
-import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core';
+import type { InferSelectModel } from 'drizzle-orm'
+import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -9,9 +9,9 @@ export const user = pgTable('user', {
   image: text('image'),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull(),
-});
+})
 
-export type User = InferSelectModel<typeof user>;
+export type User = InferSelectModel<typeof user>
 
 export const session = pgTable('session', {
   id: text('id').primaryKey(),
@@ -24,9 +24,9 @@ export const session = pgTable('session', {
   userId: text('user_id')
     .notNull()
     .references(() => user.id),
-});
+})
 
-export type Session = InferSelectModel<typeof session>;
+export type Session = InferSelectModel<typeof session>
 
 export const account = pgTable('account', {
   id: text('id').primaryKey(),
@@ -44,7 +44,7 @@ export const account = pgTable('account', {
   password: text('password'),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull(),
-});
+})
 
 export const verification = pgTable('verification', {
   id: text('id').primaryKey(),
@@ -53,4 +53,4 @@ export const verification = pgTable('verification', {
   expiresAt: timestamp('expires_at').notNull(),
   createdAt: timestamp('created_at'),
   updatedAt: timestamp('updated_at'),
-});
+})

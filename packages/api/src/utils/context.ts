@@ -1,16 +1,16 @@
-import type { Database } from '@repo/api/db';
-import type { Env } from '@repo/api/types/env';
-import { Auth } from '../lib/auth';
-import { User, Session } from '../db/tables/auth';
+import type { Database } from '@repo/api/db'
+import type { Env } from '@repo/app/env/api'
+import type { Session, User } from '../db/tables/auth'
+import type { Auth } from '../lib/auth'
 
 type Variables = {
-  db: Database;
-  user: User | null;
-  session: Session | null;
-  auth: Auth;
-};
+  db: Database
+  user: User | null
+  session: Session | null
+  auth: Auth
+}
 
 export interface AppContext {
-  Bindings: Env;
-  Variables: Variables;
+  Bindings: Env
+  Variables: Variables
 }
