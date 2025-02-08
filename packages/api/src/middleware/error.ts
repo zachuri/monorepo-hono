@@ -1,12 +1,11 @@
-import { getSentry } from '@hono/sentry'
 import { ApiError } from '@repo/api/utils/ApiError'
-import type { AppContext } from '@repo/api/utils/context'
 import { generateZodErrorMessage } from '@repo/api/utils/zod'
 import type { ErrorHandler } from 'hono'
-import type { ContentfulStatusCode } from 'hono/utils/http-status'
+import type { ContentfulStatusCode, StatusCode } from 'hono/utils/http-status'
 import httpStatus from 'http-status'
 import type { Toucan } from 'toucan-js'
 import { ZodError } from 'zod'
+import { INTERNAL_SERVER_ERROR, OK } from '../lib/http-status-codes'
 
 const genericJSONErrMsg = 'Unexpected end of JSON input'
 
@@ -39,25 +38,19 @@ export const errorConverter = (err: unknown, sentry: Toucan): ApiError => {
   return error as ApiError
 }
 
-export const errorHandler: ErrorHandler<AppContext> = async (err, c) => {
-  // Can't load config in case error is inside config so load env here and default
-  // to highest obscurity aka production if env is not set
-  const env = c.env.WORKER_ENV || 'production'
-  const sentry = getSentry(c)
-  const error = errorConverter(err, sentry)
+const onError: ErrorHandler = (err, c) => {
+  const currentStatus = 'status' in err ? err.status : c.newResponse(null).status
+  const statusCode = currentStatus !== OK ? (currentStatus as StatusCode) : INTERNAL_SERVER_ERROR
+  // eslint-disable-next-line node/prefer-global/process
+  const env = c.env?.NODE_ENV || process.env?.NODE_ENV
+  return c.json(
+    {
+      message: err.message,
 
-  if (env === 'production' && !error.isOperational) {
-    error.statusCode = httpStatus.INTERNAL_SERVER_ERROR
-    error.message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR].toString()
-  }
-
-  const response = {
-    code: error.statusCode,
-    message: error.message,
-    ...(env === 'development' && { stack: err.stack }),
-  }
-
-  c.error = undefined
-
-  return c.json(response, error.statusCode as unknown as ContentfulStatusCode)
+      stack: env === 'production' ? undefined : (err.stack as string | undefined),
+    },
+    statusCode as ContentfulStatusCode,
+  )
 }
+
+export default onError

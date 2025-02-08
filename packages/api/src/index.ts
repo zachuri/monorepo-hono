@@ -13,7 +13,8 @@ import {
   handleSessionMiddleware,
   requireAuth,
 } from './middleware/auth.middleware'
-import { errorHandler } from './middleware/error'
+import notFound from './middleware/not-found'
+import onError from './middleware/error'
 
 export type AppType = typeof app
 
@@ -37,7 +38,8 @@ const app = new Hono<AppContext>()
   .use('*', requireAuth) // routes are protected except /auth
   .route('/user', userRouter)
   .route('/hello', helloRouter)
-  .onError(errorHandler)
+  .notFound(notFound)
+  .onError(onError)
 
 showRoutes(app)
 
