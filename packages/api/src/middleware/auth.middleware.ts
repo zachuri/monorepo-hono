@@ -23,11 +23,11 @@ export async function handleSessionMiddleware(c: Context<AppContext>, next: () =
   const session = await auth.api.getSession({ headers: c.req.raw.headers })
 
   if (!session) {
-		c.set("user", null);
-		c.set("session", null);
+    c.set('user', null)
+    c.set('session', null)
 
-		return next()
-	}
+    return next()
+  }
 
   const user = {
     ...session.user,
