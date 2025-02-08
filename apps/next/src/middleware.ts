@@ -7,7 +7,7 @@ export default async function authMiddleware(request: NextRequest) {
   // Fetch the session data from the backend
   // Because of cross domain cookies, session is the same
   const { data: session } = await betterFetch<Session>(
-    `${env.NEXT_PUBLIC_API_URL}/api/auth/get-session`,
+    `${env.API_URL}/api/auth/get-session`,
     {
       baseURL: request.nextUrl.origin,
       headers: {
