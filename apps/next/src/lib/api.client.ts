@@ -1,4 +1,4 @@
-import type { AppType } from '@repo/api/src/app'
+import type { AppType } from '@repo/api/src'
 import { env } from '@repo/app/env/next'
 import { getItem } from '@repo/app/provider/auth/cookie-store'
 import { hc } from 'hono/client'

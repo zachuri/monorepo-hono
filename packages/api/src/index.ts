@@ -7,7 +7,6 @@ import { logger } from 'hono/logger'
 import { prettyJSON } from 'hono/pretty-json'
 import { secureHeaders } from 'hono/secure-headers'
 import { timing } from 'hono/timing'
-import { appendTrailingSlash } from 'hono/trailing-slash'
 import { initializeBetterAuth } from './lib/auth'; // Ensure this import is correct
 import {
   betterAuthCorsMiddleware,
