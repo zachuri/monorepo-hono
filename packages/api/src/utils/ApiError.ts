@@ -1,11 +1,11 @@
 export class ApiError extends Error {
-  statusCode: number;
+  statusCode: number
 
-  isOperational: boolean;
+  isOperational: boolean
 
   constructor(statusCode: number, message: string, isOperational = true) {
-    super(message);
-    this.statusCode = statusCode;
-    this.isOperational = isOperational;
+    super(message)
+    this.statusCode = statusCode
+    this.isOperational = isOperational
   }
 }
