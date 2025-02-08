@@ -43,7 +43,7 @@ export const initializeBetterAuth = (c: Context<AppContext>) => {
     advanced: {
       ...betterAuthConfig.advanced,
       defaultCookieAttributes: {
-        sameSite: 'None',
+        sameSite: 'none',
         secure: true,
       },
     },

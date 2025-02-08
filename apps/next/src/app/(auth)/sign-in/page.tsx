@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@repo/ui/components/ui/button";
-import { signIn } from "~/lib/authClient";
+import { signIn } from "~/lib/auth.client";
 
 export default function SignIn() {
   const homePageUrl = process.env.NEXT_PUBLIC_APP_URL;

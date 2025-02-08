@@ -1,6 +1,10 @@
 "use client";
 
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
+
+const queryClient = new QueryClient();
 
 export default function AppProviders({
 	children,
@@ -8,5 +12,9 @@ export default function AppProviders({
 	children: React.ReactNode;
 }) {
 	// NOTE: place all third party context providers here
-	return <div>{children}</div>;
+	return (
+		<QueryClientProvider client={queryClient}>
+			<div>{children}</div>
+		</QueryClientProvider>
+	);
 }
