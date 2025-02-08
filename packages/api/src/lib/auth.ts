@@ -23,6 +23,10 @@ const createBetterAuthConfig = (dbInstance: any, c: Context<AppContext>) => ({
       clientId: env(c).GOOGLE_CLIENT_ID,
       clientSecret: env(c).GOOGLE_CLIENT_SECRET,
     },
+    discord: { 
+      clientId: env(c).DISCORD_CLIENT_ID, 
+      clientSecret: env(c).DISCORD_CLIENT_SECRET, 
+    }, 
   },
   advanced: {
     crossSubDomainCookies: {
