@@ -1,3 +1,5 @@
+import * as HttpStatusCodes from '@repo/api/lib/http-status-codes'
+import * as HttpStatusPhrases from '@repo/api/lib/http-status-phrases'
 import type { AppContext } from '@repo/api/types/app-context'
 import type { Context } from 'hono'
 import { env } from 'hono/adapter'
@@ -30,8 +32,9 @@ export function betterAuthCorsMiddleware(c: Context<AppContext>) {
 
 export async function requireAuth(c: Context<AppContext>, next: () => Promise<void>) {
   const user = c.get('user')
+
   if (!user) {
-    return c.json({ error: 'Unauthorized' }, 401)
+    return c.json({ error: HttpStatusPhrases.UNAUTHORIZED }, HttpStatusCodes.UNAUTHORIZED)
   }
   await next()
 }

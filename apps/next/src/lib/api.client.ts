@@ -14,8 +14,6 @@ export const createApiClient = () => {
   return hc<AppType>(API_URL, {
     headers: {
       Authorization: `Bearer ${token}`,
-      // Ensure other necessary headers are included
-      'Content-Type': 'application/json',
     },
   })
 }

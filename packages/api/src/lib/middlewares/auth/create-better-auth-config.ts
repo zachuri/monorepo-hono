@@ -1,7 +1,7 @@
+import type { AppContext } from '@repo/api/types/app-context'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import type { Context } from 'hono'
 import { env } from 'hono/adapter'
-import type { AppContext } from '~/types/app-context'
 
 /**
  * Creates a configuration object for BetterAuth.
