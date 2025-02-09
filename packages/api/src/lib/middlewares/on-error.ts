@@ -1,5 +1,4 @@
-import { ApiError } from '@repo/api/utils/ApiError'
-import { generateZodErrorMessage } from '@repo/api/utils/zod'
+import { generateZodErrorMessage } from '@repo/api/lib/zod'
 import type { ErrorHandler } from 'hono'
 import type { ContentfulStatusCode, StatusCode } from 'hono/utils/http-status'
 import httpStatus from 'http-status'
@@ -8,6 +7,18 @@ import { ZodError } from 'zod'
 import { INTERNAL_SERVER_ERROR, OK } from '../http-status-codes'
 
 const genericJSONErrMsg = 'Unexpected end of JSON input'
+
+export class ApiError extends Error {
+  statusCode: number
+
+  isOperational: boolean
+
+  constructor(statusCode: number, message: string, isOperational = true) {
+    super(message)
+    this.statusCode = statusCode
+    this.isOperational = isOperational
+  }
+}
 
 export const errorConverter = (err: unknown, sentry: Toucan): ApiError => {
   let error = err
