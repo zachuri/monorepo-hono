@@ -1,7 +1,7 @@
+import type { AppContext } from '@repo/api/types/app-context'
 import type { Context } from 'hono'
 import { env } from 'hono/adapter'
 import { cors } from 'hono/cors'
-import type { AppContext } from '~/types/app-context'
 
 /**
  * CORS Middleware for better authentication.

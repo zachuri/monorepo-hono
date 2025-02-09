@@ -25,7 +25,6 @@ export function createRouter() {
 // Create app with all the middlwares
 export default function createApp() {
   const app = createRouter()
-
   app
     // TODO: https://www.notion.so/nextjs-expo-hono-19463b9e1e3b80c8a338ddfa535470e2?p=19563b9e1e3b80199834e976aefea0fe&pm=s
     // app.use(pinoLogger())
@@ -43,6 +42,7 @@ export default function createApp() {
     .use('*', (c, next) => betterAuthCorsMiddleware(c)(c, next))
     .use('*', handleSessionMiddleware)
     // Better Auth route config
+    // Note: /api is needed for better auth
     .on(['POST', 'GET'], '/api/auth/**', (c) => {
       const auth = c.get('auth')
       return auth.handler(c.req.raw)
