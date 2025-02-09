@@ -1,5 +1,5 @@
+import type { AppContext } from '@repo/api/types/app-context'
 import type { Context } from 'hono'
-import type { AppContext } from '~/types/app-context'
 
 /**
  * Handle session from auth middleware.
