@@ -1,8 +1,8 @@
 import { createRoute } from '@hono/zod-openapi'
 import { getSessionSchema, getUserSchema } from '@repo/api/db/schemas'
 import { notFoundSchema } from '@repo/api/lib/constants'
+import * as HttpStatusCodes from '@repo/api/lib/http-status-codes'
 import jsonContent from '@repo/api/lib/openapi/helpers/json-content'
-import * as HttpStatusCodes from '~/lib/http-status-codes'
 
 const tags = ['User']
 

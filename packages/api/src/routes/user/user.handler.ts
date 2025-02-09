@@ -1,6 +1,6 @@
-import * as HttpStatusCodes from '~/lib/http-status-codes'
-import * as HttpStatusPhrases from '~/lib/http-status-phrases'
-import type { AppRouteHandler } from '~/types/app-context'
+import * as HttpStatusCodes from '@repo/api/lib/http-status-codes'
+import * as HttpStatusPhrases from '@repo/api/lib/http-status-phrases'
+import type { AppRouteHandler } from '@repo/api/types/app-context'
 import type { GetUserRoute, GetUserSessionRoute } from './user.route'
 
 export const getUser: AppRouteHandler<GetUserRoute> = async (c) => {
