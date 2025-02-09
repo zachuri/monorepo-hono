@@ -10,7 +10,7 @@ export default function App() {
   const router = useRouter()
   const session = useSession()
 
-  const { data: hello, isLoading: userLoading } = useQuery({
+  const { data: hello, isLoading: userIsLoading } = useQuery({
     queryKey: ['hello'],
     queryFn: async () => {
       const response = await client.api.hello.$get()
@@ -24,7 +24,7 @@ export default function App() {
 
   const user = session.data?.user
 
-  if (!user) {
+  if (!user || userIsLoading) {
     return <p>Not logged in</p>
   }
 

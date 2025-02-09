@@ -31,9 +31,7 @@
     "rules": {
       "recommended": true,
       "style": {
-        "useTemplate": "warn",
-        "noUnusedVariables": "warn",
-        "consistentReturn": "warn"
+        "useTemplate": "warn"
       },
       "suspicious": {
         "noEmptyInterface": "off",
@@ -41,6 +39,9 @@
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "warn"
       }
     }
   },
@@ -56,12 +57,15 @@
       "jsxQuoteStyle": "double",
       "trailingCommas": "all",
       "semicolons": "asNeeded",
-      "arrowParens": "always"
+      "arrowParentheses": "always"
     }
   },
   "json": {
     "formatter": {
-      "quoteStyle": "double"
+      "enabled": true
+    },
+    "parser": {
+     "allowTrailingCommas": false 
     }
   }
 }

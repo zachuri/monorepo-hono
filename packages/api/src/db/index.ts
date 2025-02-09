@@ -3,7 +3,7 @@ import type { NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import { drizzle } from 'drizzle-orm/neon-http'
 import type { Context } from 'hono'
 
-import type { AppContext } from '../utils/context'
+import type { AppContext } from '../types/app-context'
 import * as schema from './schemas'
 
 export const initializeDrizzleNeonDB = (c: Context<AppContext>) => {
