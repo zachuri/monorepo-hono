@@ -1,7 +1,8 @@
+import type { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi'
 import type { Database } from '@repo/api/db'
 import type { Env } from '@repo/app/env/api'
 import type { Session, User } from '../db/tables/auth'
-import type { Auth } from '../lib/auth'
+import type { Auth } from '~/lib/middlewares/auth/initialize-better-auth'
 
 type Variables = {
   db: Database
@@ -14,3 +15,8 @@ export interface AppContext {
   Bindings: Env
   Variables: Variables
 }
+
+export type AppOpenAPI = OpenAPIHono<AppContext>
+
+export type AppRouteHandler<R extends RouteConfig> = RouteHandler<R, AppContext>
+

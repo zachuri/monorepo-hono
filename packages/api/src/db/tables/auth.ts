@@ -1,5 +1,6 @@
 import type { InferSelectModel } from 'drizzle-orm'
 import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { createSelectSchema } from 'drizzle-zod'
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -54,3 +55,9 @@ export const verification = pgTable('verification', {
   createdAt: timestamp('created_at'),
   updatedAt: timestamp('updated_at'),
 })
+
+// User
+export const getUserSchema = createSelectSchema(user)
+
+// Session
+export const getSessionSchema = createSelectSchema(session)
