@@ -28,23 +28,14 @@ export default function createApp() {
     .use('*', prettyJSON())
     .use('*', secureHeaders())
     .use('*', timing())
-
-  // Middleware to initialize auth
-  app
+    // Middleware to initialize auth
     .use('*', (c, next) => {
       initializeDrizzleNeonDB(c)
       initializeBetterAuth(c)
       return next()
     })
-    // Better Auth route configuration
-    .on(['POST', 'GET'], '/**', (c) => {
-      const auth = c.get('auth')
-      return auth.handler(c.req.raw)
-    })
-
-  // Use CORS middleware for auth routes
-  // /auth/**  auth routes or * for all routes to have cors*/
-  app
+    // Use CORS middleware for auth routes
+    // /auth/**  auth routes or * for all routes to have cors*/
     .use('*', (c, next) => betterAuthCorsMiddleware(c)(c, next))
     // Better Auth route config
     .on(['POST', 'GET'], '/auth/**', (c) => {
@@ -54,8 +45,8 @@ export default function createApp() {
     .notFound(notFound)
     .onError(onError)
 
-  // All routes will be protected now
-  app.use('*', requireAuth)
+    // All routes will be protected now
+    .use('*', requireAuth)
 
   return app
 }
