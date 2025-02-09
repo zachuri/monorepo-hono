@@ -1,4 +1,4 @@
-import { createRouter } from '~/lib/create-app'
+import { createRouter } from '@repo/api/lib/create-app'
 import * as handlers from './user.handler'
 import * as routes from './user.route'
 

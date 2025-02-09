@@ -1,4 +1,4 @@
-import app from '~/app'
+import app from '@repo/api/app'
 
 const port = 8787
 
