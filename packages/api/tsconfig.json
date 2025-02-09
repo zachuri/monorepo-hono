@@ -6,7 +6,6 @@
     "baseUrl": ".",
     "paths": {
       "@repo/api/*": ["./src/*"],
-      "~/*": ["./src/*"],
       "@repo/app/*": ["../app/*"]
     }
   }

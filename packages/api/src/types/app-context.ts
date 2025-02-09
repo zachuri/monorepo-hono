@@ -1,8 +1,8 @@
 import type { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi'
 import type { Database } from '@repo/api/db'
+import type { Auth } from '@repo/api/lib/middlewares/auth/initialize-better-auth'
 import type { Env } from '@repo/app/env/api'
 import type { Session, User } from '../db/tables/auth'
-import type { Auth } from '~/lib/middlewares/auth/initialize-better-auth'
 
 type Variables = {
   db: Database
