@@ -5,14 +5,8 @@ import { secureHeaders } from 'hono/secure-headers'
 import { timing } from 'hono/timing'
 import type { AppContext, AppOpenAPI } from '~/types/app-context'
 import { initializeDrizzleNeonDB } from '../db'
-import { authRoute } from '../routes/auth/auth.route'
 import { notFound, onError } from './middlewares'
-import {
-  betterAuthCorsMiddleware,
-  handleSessionMiddleware,
-  initializeBetterAuth,
-  requireAuth,
-} from './middlewares/auth'
+import { betterAuthCorsMiddleware, initializeBetterAuth, requireAuth } from './middlewares/auth'
 import { defaultHook } from './openapi'
 
 // Router for OPENAPI
@@ -52,8 +46,11 @@ export default function createApp() {
   // /auth/**  auth routes or * for all routes to have cors*/
   app
     .use('*', (c, next) => betterAuthCorsMiddleware(c)(c, next))
-    .use('*', handleSessionMiddleware) // Use session middleware globally
-    .route('/auth', authRoute)
+    // Better Auth route config
+    .on(['POST', 'GET'], '/auth/**', (c) => {
+      const auth = c.get('auth')
+      return auth.handler(c.req.raw)
+    })
     .notFound(notFound)
     .onError(onError)
 
