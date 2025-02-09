@@ -56,8 +56,7 @@ export const verification = pgTable('verification', {
   updatedAt: timestamp('updated_at'),
 })
 
-// User
+// Schemas
 export const getUserSchema = createSelectSchema(user)
-
-// Session
-export const getSessionSchema = createSelectSchema(session)
+export const getUserSessionSchema = createSelectSchema(session)
+export const getUserAccountsSchema = createSelectSchema(account)
