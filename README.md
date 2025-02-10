@@ -1,9 +1,5 @@
 # Monorepo Documentation
 
-## Overview
-
-This document provides a comprehensive guide to setting up, developing, and maintaining the monorepo. It is intended for both new developers onboarding and experienced team members needing reference materials.
-
 ## Tech Stack
 
 ### Frontend
