@@ -3,6 +3,8 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import type { Context } from 'hono'
 import { env } from 'hono/adapter'
 
+const enabledProviders = ['discord', 'google', 'github']
+
 /**
  * Creates a configuration object for BetterAuth.
  *
@@ -14,29 +16,28 @@ import { env } from 'hono/adapter'
  * @returns A configuration object for BetterAuth.
  */
 export function createBetterAuthConfig(dbInstance: any, c: Context<AppContext>) {
+  // Use the context to access environment variables
+  const configuredProviders = enabledProviders.reduce<
+    Record<string, { clientId: string; clientSecret: string }>
+  >((acc, provider) => {
+    const id = env(c)[`${provider.toUpperCase()}_CLIENT_ID`] as string
+    const secret = env(c)[`${provider.toUpperCase()}_CLIENT_SECRET`] as string
+    if (id && id.length > 0 && secret && secret.length > 0) {
+      acc[provider] = { clientId: id, clientSecret: secret }
+    }
+    return acc
+  }, {})
+
   return {
     baseURL: env(c).API_DOMAIN, // API URL
     trustedOrigins: [env(c).API_DOMAIN, env(c).WEB_DOMAIN], // Needed for cross domain cookies
     database: drizzleAdapter(dbInstance, {
-      provider: 'pg', // or "mysql", "sqlite"
+      provider: 'pg',
     }),
     emailAndPassword: {
       enabled: true,
     },
-    socialProviders: {
-      github: {
-        clientId: env(c).GITHUB_CLIENT_ID,
-        clientSecret: env(c).GITHUB_CLIENT_SECRET,
-      },
-      google: {
-        clientId: env(c).GOOGLE_CLIENT_ID,
-        clientSecret: env(c).GOOGLE_CLIENT_SECRET,
-      },
-      discord: {
-        clientId: env(c).DISCORD_CLIENT_ID,
-        clientSecret: env(c).DISCORD_CLIENT_SECRET,
-      },
-    },
+    socialProviders: configuredProviders,
     advanced: {
       crossSubDomainCookies: {
         enabled: true, // Enables cross-domain cookies

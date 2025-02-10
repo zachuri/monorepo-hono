@@ -19,10 +19,12 @@ export const initializeBetterAuth = (c: Context<AppContext>) => {
   const auth = betterAuth({
     ...betterAuthConfig,
     advanced: {
-      ...betterAuthConfig.advanced,
       defaultCookieAttributes: {
         sameSite: 'none',
         secure: true,
+      },
+      crossSubDomainCookies: {
+        enabled: true,
       },
     },
   })
