@@ -13,7 +13,7 @@ const router = createRouter().openapi(
       [HttpStatusCodes.OK]: jsonContent(createMessageObjectSchema('Hono APi'), 'Hono API Index'),
     },
   }),
-  (c) => {
+  c => {
     return c.json(
       {
         message: 'Hono API',
@@ -23,4 +23,4 @@ const router = createRouter().openapi(
   },
 )
 
-export default router 
+export default router

@@ -3,7 +3,7 @@ import * as HttpStatusPhrases from '@repo/api/lib/http-status-phrases'
 import type { AppRouteHandler } from '@repo/api/types/app-context'
 import type { GetUserAccountsRoute, GetUserRoute, GetUserSessionRoute } from './user.route'
 
-export const getUser: AppRouteHandler<GetUserRoute> = async (c) => {
+export const getUser: AppRouteHandler<GetUserRoute> = async c => {
   const user = c.get('user')
   if (!user) {
     return c.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND)
@@ -23,7 +23,7 @@ export const getUser: AppRouteHandler<GetUserRoute> = async (c) => {
   )
 }
 
-export const getUserSession: AppRouteHandler<GetUserSessionRoute> = async (c) => {
+export const getUserSession: AppRouteHandler<GetUserSessionRoute> = async c => {
   const session = c.get('session')
   const user = c.get('session')
 
@@ -34,7 +34,7 @@ export const getUserSession: AppRouteHandler<GetUserSessionRoute> = async (c) =>
   return c.json(session, HttpStatusCodes.OK)
 }
 
-export const getUserAccounts: AppRouteHandler<GetUserAccountsRoute> = async (c) => {
+export const getUserAccounts: AppRouteHandler<GetUserAccountsRoute> = async c => {
   const db = c.get('db')
   const user = c.get('user')
   const session = c.get('session')

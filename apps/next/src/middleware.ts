@@ -6,16 +6,13 @@ import { type NextRequest, NextResponse } from 'next/server'
 export default async function authMiddleware(request: NextRequest) {
   // Fetch the session data from the backend
   // Because of cross domain cookies, session is the same
-  const { data: session } = await betterFetch<Session>(
-    `${env.API_URL}/api/auth/get-session`,
-    {
-      baseURL: request.nextUrl.origin,
-      headers: {
-        // Get the cookie from the request
-        cookie: request.headers.get('cookie') || '',
-      },
-    }
-  )
+  const { data: session } = await betterFetch<Session>(`${env.API_URL}/api/auth/get-session`, {
+    baseURL: request.nextUrl.origin,
+    headers: {
+      // Get the cookie from the request
+      cookie: request.headers.get('cookie') || '',
+    },
+  })
 
   // If no session is found, redirect to the sign-in page
   if (!session) {

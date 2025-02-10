@@ -1,83 +1,159 @@
-# Turborepo starter
+# Monorepo Documentation
 
-This is an official starter Turborepo.
+## Tech Stack
 
-## Using this example
+### Frontend
 
-Run the following command:
+- **Next.js**
+- **Expo** (TODO)
+- **ShadCN UI**
+
+### Backend
+
+- **Hono.js** (deployed with Cloudflare Workers)
+- **Neon** (database)
+
+### Tooling
+
+- **Biome** (linter & formatter)
+- **Bun** (package manager & runtime)
+- **Turbo Repo** (monorepo management)
+
+## Prerequisites
+
+Before starting, ensure you have the following installed:
+
+- **Bun** (preferred package manager)
+- **Git**
+- **Docker** (if applicable)
+- **System dependencies** (varies per package; see specific package README files)
+
+### Install Required Tools
 
 ```sh
-npx create-turbo@latest
+# Install Bun
+curl -fsSL https://bun.sh/install | bash
+
+# Verify installation
+bun --version
 ```
 
-## What's inside?
+## Repository Setup
 
-This Turborepo includes the following packages/apps:
+1. **Clone the repository:**
+   ```sh
+   git clone git@github.com:your-org/monorepo.git
+   cd monorepo
+   ```
+2. **Install dependencies:**
+   ```sh
+   bun install
+   ```
+3. **Verify the setup:**
+   ```sh
+   bun run check-deps
+   ```
 
-### Apps and Packages
+### Running the Project
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+To start development, run the appropriate package:
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+```sh
+bun run <script>
 ```
 
-### Develop
+Example:
 
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
+```sh
+bun run web
 ```
 
-### Remote Caching
+### Useful Scripts
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
+```json
+"scripts": {
+    "ui": "bun run --cwd packages/ui ui",
+    "web": "bun run --cwd ./apps/next dev",
+    "api": "bun run --cwd ./packages/api dev",
+    "format": "bun x @biomejs/biome format --write ./packages ./apps",
+    "lint": "bun x @biomejs/biome lint ./packages ./apps",
+    "fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
+    "turbo:dev": "turbo dev",
+    "turbo:lint": "turbo lint",
+    "turbo:format": "turbo format",
+    "turbo:build": "turbo build",
+    "check-deps": "check-dependency-version-consistency ."
+}
 ```
 
-## Useful Links
+### Building Packages
 
-Learn more about the power of Turborepo:
+```sh
+bun run turbo:build
+```
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Code Conventions
+
+### Linting & Formatting
+
+We use Biome to enforce consistent code style.
+
+```sh
+bun run lint
+bun run format
+```
+
+## Environment Variables
+
+Each package requires specific environment variables. Ensure these are set up correctly.
+
+### Essential Environment Variables
+
+#### `packages/api/.dev.vars.example`
+
+```
+DATABASE_URL=
+ENV=
+JWT_SECRET=
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+DISCORD_CLIENT_ID=
+DISCORD_CLIENT_SECRET=
+APPLE_CLIENT_ID=
+APPLE_WEB_CLIENT_ID=
+APPLE_PRIVATE_KEY=
+APPLE_TEAM_ID=
+APPLE_KEY_ID=
+API_DOMAIN=
+WEB_DOMAIN=
+BETTER_AUTH_SECRET=
+API_VERSION=v1
+RATE_LIMITER=5
+```
+
+#### `apps/next/.env.example`
+
+```
+NEXT_PUBLIC_APP_URL=
+NEXT_PUBLIC_API_URL=
+
+API_URL=
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue:** Dependency installation fails.
+
+- **Solution:** Try running:
+  ```sh
+  rm -rf node_modules && bun install
+  ```
+
+---
+
+*Last updated: 2025-02-09*
+
