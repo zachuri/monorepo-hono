@@ -61,16 +61,16 @@ export default function MulticloudDashboard() {
     region: '',
   })
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormData(prev => ({ ...prev, [name]: value }))
   }
 
   const handleSelectChange = (name, value) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
     // Here you would typically make an API call to deploy the VM
     // For this example, we'll just add it to our local state
@@ -81,7 +81,7 @@ export default function MulticloudDashboard() {
       status: 'Deploying',
       ip: 'Pending',
     }
-    setVMs((prev) => [...prev, newVM])
+    setVMs(prev => [...prev, newVM])
     // Reset form
     setFormData({ name: '', provider: '', size: '', region: '' })
   }
@@ -123,7 +123,7 @@ export default function MulticloudDashboard() {
                     <Select
                       name='provider'
                       value={formData.provider}
-                      onValueChange={(value) => handleSelectChange('provider', value)}
+                      onValueChange={value => handleSelectChange('provider', value)}
                       required
                     >
                       <SelectTrigger>
@@ -141,7 +141,7 @@ export default function MulticloudDashboard() {
                     <Select
                       name='size'
                       value={formData.size}
-                      onValueChange={(value) => handleSelectChange('size', value)}
+                      onValueChange={value => handleSelectChange('size', value)}
                       required
                     >
                       <SelectTrigger>
@@ -159,7 +159,7 @@ export default function MulticloudDashboard() {
                     <Select
                       name='region'
                       value={formData.region}
-                      onValueChange={(value) => handleSelectChange('region', value)}
+                      onValueChange={value => handleSelectChange('region', value)}
                       required
                     >
                       <SelectTrigger>
@@ -190,7 +190,7 @@ export default function MulticloudDashboard() {
             </CardHeader>
             <CardContent>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                {vms.map((vm) => (
+                {vms.map(vm => (
                   <Card key={vm.id}>
                     <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
                       <CardTitle className='text-sm font-medium'>{vm.name}</CardTitle>

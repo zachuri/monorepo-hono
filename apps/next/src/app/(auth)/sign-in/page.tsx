@@ -10,10 +10,13 @@ export default function SignIn() {
   return (
     <div className='flex flex-col items-center flex-1 m-8'>
       <div className='flex flex-col gap-12 flex-1 w-full max-w-md'>
-        <Button className='flex gap-2' onClick={() => signIn.social({ provider: 'github', callbackURL: homePageUrl })}>
+        <Button
+          className='flex gap-2'
+          onClick={() => signIn.social({ provider: 'github', callbackURL: homePageUrl })}
+        >
           <Image
             alt='GitHub Logo'
-            src={"https://www.cdnlogo.com/logos/g/69/github-icon.svg"}
+            src={'https://www.cdnlogo.com/logos/g/69/github-icon.svg'}
             width={20}
             height={20}
           />
@@ -30,7 +33,7 @@ export default function SignIn() {
         >
           <Image
             alt='Google Logo'
-            src={"https://www.cdnlogo.com/logos/g/35/google-icon.svg"}
+            src={'https://www.cdnlogo.com/logos/g/35/google-icon.svg'}
             width={20}
             height={20}
           />
@@ -47,7 +50,7 @@ export default function SignIn() {
         >
           <Image
             alt='Discord'
-            src={"https://static.cdnlogo.com/logos/d/15/discord.svg"}
+            src={'https://static.cdnlogo.com/logos/d/15/discord.svg'}
             width={20}
             height={20}
           />

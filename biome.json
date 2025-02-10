@@ -54,10 +54,10 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
-      "jsxQuoteStyle": "double",
+      "jsxQuoteStyle": "single",
       "trailingCommas": "all",
       "semicolons": "asNeeded",
-      "arrowParentheses": "always"
+      "arrowParentheses": "asNeeded"
     }
   },
   "json": {
