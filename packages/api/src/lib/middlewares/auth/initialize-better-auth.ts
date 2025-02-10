@@ -1,6 +1,6 @@
+import type { AppContext } from '@repo/api/types/app-context'
 import { betterAuth } from 'better-auth'
 import type { Context } from 'hono'
-import type { AppContext } from '~/types/app-context'
 import createBetterAuthConfig from './create-better-auth-config'
 
 /**
@@ -19,10 +19,12 @@ export const initializeBetterAuth = (c: Context<AppContext>) => {
   const auth = betterAuth({
     ...betterAuthConfig,
     advanced: {
-      ...betterAuthConfig.advanced,
       defaultCookieAttributes: {
         sameSite: 'none',
         secure: true,
+      },
+      crossSubDomainCookies: {
+        enabled: true,
       },
     },
   })
