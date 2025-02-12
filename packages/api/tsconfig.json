@@ -1,6 +1,6 @@
 {
   "extends": "@repo/typescript-config/api.json",
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "eslint.config.ts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",

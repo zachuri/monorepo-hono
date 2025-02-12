@@ -1,5 +1,6 @@
 import { showRoutes } from 'hono/dev'
 import index from '@repo/api/routes/index.route'
+
 import user from '@repo/api/routes/user/user.index'
 import configureOpenAPI from './lib/configure-open-api'
 import createApp from './lib/create-app'

@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/typescript-config/nextjs.json",
+  "extends": "../../packages/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {
@@ -8,7 +8,9 @@
     ],
     "paths": {
       "~/*": ["./src/*"],
-      "@repo/api/*": ["../../packages/api/src/*"]
+      "@repo/api/*": ["../../packages/api/src/*"],
+      "@repo/eslint-config/*": ["../../packages/eslint-config/*"],
+      "@repo/typescript-config/*": ["../../packages/typescript-config/*"]
     }
   },
   "include": [

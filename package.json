@@ -5,9 +5,8 @@
 		"ui": "bun run --cwd packages/ui ui",
 		"web": "bun run --cwd ./apps/next dev",
 		"api": "bun run --cwd ./packages/api dev",
-		"format": "bun x @biomejs/biome format --write ./packages ./apps",
-		"lint": "bun x @biomejs/biome lint ./packages ./apps",
-		"fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
+		"format": "eslint --config ./packages/ui/eslint.config.ts --fix ./packages ./apps",
+		"lint": "eslint --config ./packages/ui/eslint.config.ts ./packages ./apps",
 		"turbo:dev": "turbo dev",
 		"turbo:lint": "turbo lint",
 		"turbo:format": "turbo format",
@@ -30,6 +29,7 @@
 		"@biomejs/biome": "^1.9.4",
 		"better-auth": "^1.1.14",
 		"hono-pino": "^0.7.2",
+		"jiti": "^2.4.2",
 		"pino": "^9.6.0",
 		"wrangler": "3.107.3"
 	}
