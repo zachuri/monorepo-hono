@@ -5,8 +5,9 @@
 		"ui": "bun run --cwd packages/ui ui",
 		"web": "bun run --cwd ./apps/next dev",
 		"api": "bun run --cwd ./packages/api dev",
-		"format": "eslint --config ./packages/ui/eslint.config.ts --fix ./packages ./apps",
-		"lint": "eslint --config ./packages/ui/eslint.config.ts ./packages ./apps",
+		"format": "prettier --write ./packages ./apps",
+		"lint": "eslint ./packages ./apps",
+		"lint:fix": "eslint --fix ./packages ./apps",
 		"turbo:dev": "turbo dev",
 		"turbo:lint": "turbo lint",
 		"turbo:format": "turbo format",
@@ -14,8 +15,13 @@
 		"check-deps": "check-dependency-version-consistency ."
 	},
 	"devDependencies": {
+		"@eslint/js": "^9.20.0",
+		"eslint": "^9.20.1",
+		"eslint-plugin-react": "^7.37.4",
+		"globals": "^15.14.0",
 		"turbo": "^2.3.3",
-		"typescript": "5.5.4"
+		"typescript": "5.5.4",
+		"typescript-eslint": "^8.24.0"
 	},
 	"engines": {
 		"node": ">=18"
@@ -26,7 +32,6 @@
 		"packages/*"
 	],
 	"dependencies": {
-		"@biomejs/biome": "^1.9.4",
 		"better-auth": "^1.1.14",
 		"hono-pino": "^0.7.2",
 		"jiti": "^2.4.2",

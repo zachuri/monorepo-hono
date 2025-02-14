@@ -1,9 +1,9 @@
-import * as HttpStatusCodes from '@repo/api/lib/http-status-codes'
-import * as HttpStatusPhrases from '@repo/api/lib/http-status-phrases'
-import type { AppContext } from '@repo/api/types/app-context'
-import type { Context } from 'hono'
-import { env } from 'hono/adapter'
-import { cors } from 'hono/cors'
+import * as HttpStatusCodes from "@repo/api/lib/http-status-codes";
+import * as HttpStatusPhrases from "@repo/api/lib/http-status-phrases";
+import type { AppContext } from "@repo/api/types/app-context";
+import type { Context } from "hono";
+import { env } from "hono/adapter";
+import { cors } from "hono/cors";
 
 /**
  * CORS Middleware for better authentication.
@@ -21,20 +21,26 @@ import { cors } from 'hono/cors'
  */
 export function betterAuthCorsMiddleware(c: Context<AppContext>) {
   return cors({
-    origin: [env(c).WEB_DOMAIN || 'http://localhost:3000'], // Use env var for frontend domain
-    allowHeaders: ['Content-Type', 'Authorization'],
-    allowMethods: ['POST', 'GET', 'OPTIONS'],
-    exposeHeaders: ['Content-Length'],
+    origin: [env(c).WEB_DOMAIN || "http://localhost:3000"], // Use env var for frontend domain
+    allowHeaders: ["Content-Type", "Authorization"],
+    allowMethods: ["POST", "GET", "OPTIONS"],
+    exposeHeaders: ["Content-Length"],
     maxAge: 600,
     credentials: true, // Required for cookies to work cross-origin
-  })
+  });
 }
 
-export async function requireAuth(c: Context<AppContext>, next: () => Promise<void>) {
-  const user = c.get('user')
+export async function requireAuth(
+  c: Context<AppContext>,
+  next: () => Promise<void>,
+) {
+  const user = c.get("user");
 
   if (!user) {
-    return c.json({ error: HttpStatusPhrases.UNAUTHORIZED }, HttpStatusCodes.UNAUTHORIZED)
+    return c.json(
+      { error: HttpStatusPhrases.UNAUTHORIZED },
+      HttpStatusCodes.UNAUTHORIZED,
+    );
   }
-  await next()
+  await next();
 }

@@ -1,6 +1,6 @@
-import type { Hook } from '@hono/zod-openapi'
+import type { Hook } from "@hono/zod-openapi";
 
-import { UNPROCESSABLE_ENTITY } from '../http-status-codes.js'
+import { UNPROCESSABLE_ENTITY } from "../http-status-codes.js";
 
 const defaultHook: Hook<any, any, any, any> = (result, c) => {
   if (!result.success) {
@@ -10,8 +10,8 @@ const defaultHook: Hook<any, any, any, any> = (result, c) => {
         error: result.error,
       },
       UNPROCESSABLE_ENTITY,
-    )
+    );
   }
-}
+};
 
-export default defaultHook
+export default defaultHook;

@@ -1,23 +1,23 @@
-import { showRoutes } from 'hono/dev'
-import index from '@repo/api/routes/index.route'
+import { showRoutes } from "hono/dev";
+import index from "@repo/api/routes/index.route";
 
-import user from '@repo/api/routes/user/user.index'
-import configureOpenAPI from './lib/configure-open-api'
-import createApp from './lib/create-app'
+import user from "@repo/api/routes/user/user.index";
+import configureOpenAPI from "./lib/configure-open-api";
+import createApp from "./lib/create-app";
 
-const app = createApp()
+const app = createApp();
 
-configureOpenAPI(app)
+configureOpenAPI(app);
 
 // const routes = [index, user] as const
-const routes = [index, user] as const
+const routes = [index, user] as const;
 
 for (const route of routes) {
-  app.route('/', route)
+  app.route("/", route);
 }
 
-showRoutes(app)
+showRoutes(app);
 
-export type AppType = (typeof routes)[number]
+export type AppType = (typeof routes)[number];
 
-export default app
+export default app;

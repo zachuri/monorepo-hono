@@ -1,4 +1,4 @@
-import { apiConfig } from '@repo/eslint-config/api';
+import { apiConfig } from "../eslint-config/api.js";
 
 /** @type {import("eslint").Linter.Config} */
 export default apiConfig;

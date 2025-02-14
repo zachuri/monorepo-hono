@@ -1,7 +1,7 @@
-import type { AppContext } from '@repo/api/types/app-context'
-import { betterAuth } from 'better-auth'
-import type { Context } from 'hono'
-import createBetterAuthConfig from './create-better-auth-config'
+import type { AppContext } from "@repo/api/types/app-context";
+import { betterAuth } from "better-auth";
+import type { Context } from "hono";
+import createBetterAuthConfig from "./create-better-auth-config";
 
 /**
  * Initializes BetterAuth and stores it in the context.
@@ -14,25 +14,25 @@ import createBetterAuthConfig from './create-better-auth-config'
  * @returns The initialized BetterAuth instance.
  */
 export const initializeBetterAuth = (c: Context<AppContext>) => {
-  const db = c.get('db')
-  const betterAuthConfig = createBetterAuthConfig(db, c)
+  const db = c.get("db");
+  const betterAuthConfig = createBetterAuthConfig(db, c);
   const auth = betterAuth({
     ...betterAuthConfig,
     advanced: {
       defaultCookieAttributes: {
-        sameSite: 'none',
+        sameSite: "none",
         secure: true,
       },
       crossSubDomainCookies: {
         enabled: true,
       },
     },
-  })
-  c.set('auth', auth)
-  return auth
-}
+  });
+  c.set("auth", auth);
+  return auth;
+};
 
 /**
  * Type definition for the Auth object returned by BetterAuth.
  */
-export type Auth = ReturnType<typeof betterAuth>
+export type Auth = ReturnType<typeof betterAuth>;

@@ -31,8 +31,8 @@ Ensure your setup is correct by following the steps below.
 
    - If you need to use environment variables outside the Hono app, initialize the configuration using `dotenv` and specify the `.dev.vars` path:
      ```typescript
-     import dotenv from 'dotenv';
-     dotenv.config({ path: '.dev.vars' });
+     import dotenv from "dotenv";
+     dotenv.config({ path: ".dev.vars" });
      ```
 
 3. **Accessing Environment Variables Within Hono**:
@@ -69,6 +69,6 @@ Ensure your setup is correct by following the steps below.
 3. **Using Variables Within Hono**:
    - Set the variable within the `c` (context) object:
      ```typescript
-     c.set('NEW_VAR_NAME', process.env.NEW_VAR_NAME);
+     c.set("NEW_VAR_NAME", process.env.NEW_VAR_NAME);
      ```
    - Pass the context (`c`) to any functions requiring access to the variable.
