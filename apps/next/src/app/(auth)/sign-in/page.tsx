@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/button'
 import Image from 'next/image'
 import { signIn } from '~/lib/auth.client'
 

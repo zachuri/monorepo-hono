@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@repo/ui/components/ui/button'
+import { Button } from '@repo/ui/button'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { api } from '~/lib/api.client'
