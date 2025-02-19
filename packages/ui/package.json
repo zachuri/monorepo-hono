@@ -13,7 +13,7 @@
   },
   "scripts": {
     "ui": "bunx shadcn@latest",
-    "lint": "biome .",
+    "lint": "bun x @biomejs/biome lint ./src",
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {

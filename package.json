@@ -10,8 +10,8 @@
     "lint": "bun x @biomejs/biome lint ./packages ./apps",
     "fix:check": "bun x @biomejs/biome check --formatter-enabled=false --linter-enabled=false --organize-imports-enabled=true ./packages ./apps",
     "turbo:dev": "turbo dev",
-    "turbo:lint": "turbo lint",
-    "turbo:format": "turbo format",
+    "turbo:lint": "turbo run lint",
+    "turbo:format": "turbo run format",
     "turbo:build": "turbo build",
     "check-deps": "check-dependency-version-consistency ."
   },
