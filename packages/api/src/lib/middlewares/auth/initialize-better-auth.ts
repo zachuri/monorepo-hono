@@ -1,6 +1,8 @@
 import type { AppContext } from '@repo/api/types/app-context'
 import { betterAuth } from 'better-auth'
 import type { Context } from 'hono'
+import { env } from 'hono/adapter'
+import { extractDomain } from '../../extractDomain'
 import createBetterAuthConfig from './create-better-auth-config'
 
 /**
@@ -14,17 +16,20 @@ import createBetterAuthConfig from './create-better-auth-config'
  * @returns The initialized BetterAuth instance.
  */
 export const initializeBetterAuth = (c: Context<AppContext>) => {
+  const isProduction = env(c).env === 'production'
+
   const db = c.get('db')
   const betterAuthConfig = createBetterAuthConfig(db, c)
   const auth = betterAuth({
     ...betterAuthConfig,
     advanced: {
-      defaultCookieAttributes: {
-        sameSite: 'none',
-        secure: true,
-      },
       crossSubDomainCookies: {
-        enabled: true,
+        enabled: true, // Enables cross-domain cookies
+      },
+      defaultCookieAttributes: {
+        sameSite: isProduction ? 'lax' : 'none',
+        secure: true,
+        domain: isProduction ? extractDomain(env(c).WEB_DOMAIN) : undefined // Use env var for frontend domain
       },
     },
   })

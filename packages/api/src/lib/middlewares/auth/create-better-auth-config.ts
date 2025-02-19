@@ -2,6 +2,7 @@ import type { AppContext } from '@repo/api/types/app-context'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import type { Context } from 'hono'
 import { env } from 'hono/adapter'
+import { extractDomain } from '../../extractDomain'
 
 const enabledProviders = ['discord', 'google', 'github']
 
@@ -28,6 +29,8 @@ export function createBetterAuthConfig(dbInstance: any, c: Context<AppContext>) 
     return acc
   }, {})
 
+  const isProduction = env(c).env === 'production'
+
   return {
     baseURL: env(c).API_DOMAIN, // API URL
     trustedOrigins: [env(c).API_DOMAIN, env(c).WEB_DOMAIN], // Needed for cross domain cookies
@@ -43,8 +46,9 @@ export function createBetterAuthConfig(dbInstance: any, c: Context<AppContext>) 
         enabled: true, // Enables cross-domain cookies
       },
       defaultCookieAttributes: {
-        sameSite: 'none', // Required for cross-domain cookies
-        secure: true, // Ensures cookies are only sent over HTTPS
+        sameSite: isProduction ? 'lax' : 'none',
+        secure: true,
+        domain: isProduction ? extractDomain(env(c).WEB_DOMAIN) : undefined // Use env var for frontend domain
       },
     },
     rateLimit: {

@@ -21,7 +21,10 @@ import { cors } from 'hono/cors'
  */
 export function betterAuthCorsMiddleware(c: Context<AppContext>) {
   return cors({
-    origin: [env(c).WEB_DOMAIN || 'http://localhost:3000'], // Use env var for frontend domain
+    origin: [
+      env(c).WEB_DOMAIN || 'http://localhost:3000', // Use env var for frontend domain
+      env(c).API_DOMAIN || 'http://localhost:8787'  // and backend 
+    ],
     allowHeaders: ['Content-Type', 'Authorization'],
     allowMethods: ['POST', 'GET', 'OPTIONS'],
     exposeHeaders: ['Content-Length'],
