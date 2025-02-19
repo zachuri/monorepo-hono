@@ -1,36 +1,34 @@
 {
-	"name": "test-mono",
-	"private": true,
-	"scripts": {
-		"ui": "bun run --cwd packages/ui ui",
-		"web": "bun run --cwd ./apps/next dev",
-		"api": "bun run --cwd ./packages/api dev",
-		"format": "bun x @biomejs/biome format --write ./packages ./apps",
-		"lint": "bun x @biomejs/biome lint ./packages ./apps",
-		"fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
-		"turbo:dev": "turbo dev",
-		"turbo:lint": "turbo lint",
-		"turbo:format": "turbo format",
-		"turbo:build": "turbo build",
-		"check-deps": "check-dependency-version-consistency ."
-	},
-	"devDependencies": {
-		"turbo": "^2.3.3",
-		"typescript": "5.5.4"
-	},
-	"engines": {
-		"node": ">=18"
-	},
-	"packageManager": "bun@1.1.20",
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
-	"dependencies": {
-		"@biomejs/biome": "^1.9.4",
-		"better-auth": "^1.1.14",
-		"hono-pino": "^0.7.2",
-		"pino": "^9.6.0",
-		"wrangler": "3.107.3"
-	}
+  "name": "test-mono",
+  "private": true,
+  "scripts": {
+    "ui": "bun run --cwd packages/ui ui",
+    "web": "bun run --cwd ./apps/next dev",
+    "api": "bun run --cwd ./packages/api dev",
+    "check": "npm run format:check && npm run lint && npm run fix:check",
+    "format:check": "bun x @biomejs/biome format ./packages ./apps",
+    "lint": "bun x @biomejs/biome lint ./packages ./apps",
+    "fix:check": "bun x @biomejs/biome check --formatter-enabled=false --linter-enabled=false --organize-imports-enabled=true ./packages ./apps",
+    "turbo:dev": "turbo dev",
+    "turbo:lint": "turbo run lint",
+    "turbo:format": "turbo run format",
+    "turbo:build": "turbo build",
+    "check-deps": "check-dependency-version-consistency ."
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "typescript": "5.5.4"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "bun@1.1.20",
+  "workspaces": ["apps/*", "packages/*"],
+  "dependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "better-auth": "^1.1.14",
+    "hono-pino": "^0.7.2",
+    "pino": "^9.6.0",
+    "wrangler": "3.107.3"
+  }
 }
