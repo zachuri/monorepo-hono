@@ -11,7 +11,9 @@
     "db:migrate": "npx drizzle-kit migrate",
     "db:push": "npx drizzle-kit push",
     "db:seed": "bun run ./src/db/seed.ts",
-    "db:studio": "bunx drizzle-kit studio"
+    "db:studio": "bunx drizzle-kit studio",
+    "postinstall": "bun db:generate",
+    "clean": "rm -rf .wrangler node_modules"
   },
   "dependencies": {
     "@hono/sentry": "^1.2.0",
@@ -32,6 +34,7 @@
     "http-status": "^2.0.0",
     "lucia": "^3.2.2",
     "postgres": "^3.4.5",
+    "tldts": "^6.1.78",
     "zod": "^3.24.1",
     "zod-error": "^1.5.0"
   },

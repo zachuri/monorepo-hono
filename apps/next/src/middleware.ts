@@ -6,31 +6,36 @@ import { type NextRequest, NextResponse } from 'next/server'
 const authRoutes = ["/sign-in", "/sign-up"]
 const passwordRoutes = ["/reset-password-success", "/forgot-password"]
 
+
 export default async function authMiddleware(request: NextRequest) {
   const pathName = request.nextUrl.pathname;
   const isAuthRoute = authRoutes.includes(pathName);
   const isPaswordRoute = passwordRoutes.includes(pathName);
 
   // Fetch the session data from the backend
-  // Because of cross domain cookies, session is the same
   const { data: session } = await betterFetch<Session>(`${env.API_URL}/api/auth/get-session`, {
     baseURL: request.nextUrl.origin,
     headers: {
-      // Get the cookie from the request
       cookie: request.headers.get('cookie') || '',
     },
-  })
+  });
 
-  // If no session is found, redirect to the sign-in page
   if (!session) {
     if (isAuthRoute || isPaswordRoute) {
       return NextResponse.next();
     }
 
-    return NextResponse.redirect(new URL('/sign-in', request.url))
+    // Determine the cookie name based on the environment
+    const cookieName = process.env.NODE_ENV === 'production' 
+      ? '__Secure-better-auth.session_token' 
+      : 'better-auth';
+
+    // Clear the appropriate cookie
+    const response = NextResponse.redirect(new URL('/sign-in', request.url));
+    response.headers.set('Set-Cookie', `${cookieName}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure; SameSite=None`);
+    return response;
   }
 
-  // If session exists, continue to the next middleware or route
   return NextResponse.next();
 }
 

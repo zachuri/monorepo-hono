@@ -16,7 +16,7 @@ import createBetterAuthConfig from './create-better-auth-config'
  * @returns The initialized BetterAuth instance.
  */
 export const initializeBetterAuth = (c: Context<AppContext>) => {
-  const isProduction = env(c).env === 'production'
+  const isProduction = env(c).ENV === 'production'
 
   const db = c.get('db')
   const betterAuthConfig = createBetterAuthConfig(db, c)
