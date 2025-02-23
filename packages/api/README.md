@@ -75,6 +75,7 @@ Ensure your setup is correct by following the steps below.
 
 ## Deployment
 
+### Env variables
 To deploy your API to Cloudflare Workers, run:
 
 ```bash
@@ -84,3 +85,7 @@ bun run deploy
 Ensure you have a Cloudflare account and are signed in through the CLI. Within the settings of the Cloudflare Worker, copy your `.dev.vars` to the environment settings. Make sure `ENV` is set to `production`.
 
 It is recommended to host your API and frontend on the same domain in production, e.g., `api.example.com` and `frontend-app.example.com`.
+
+### Neon Database Integration
+
+To connect your Neon database, navigate to the integrations section within your Workers & Pages settings and ensure the database is properly linked.
