@@ -5,6 +5,7 @@ import { z } from 'zod'
 export const env = createEnv({
   server: {
     API_URL: z.string().url(),
+    ENV: z.enum(['production', 'development', 'staging']),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
