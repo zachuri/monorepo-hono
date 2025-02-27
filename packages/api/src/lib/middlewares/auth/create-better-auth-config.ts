@@ -1,8 +1,10 @@
 import type { AppContext } from '@repo/api/types/app-context'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { jwt } from 'better-auth/plugins'
 import type { Context } from 'hono'
 import { env } from 'hono/adapter'
 import { extractDomain } from '../../extractDomain'
+
 
 const enabledProviders = ['discord', 'google', 'github']
 
@@ -55,6 +57,9 @@ export function createBetterAuthConfig(dbInstance: any, c: Context<AppContext>) 
       window: 10, // time window in seconds
       max: 100, // max requests in the window
     },
+    plugins: [
+      jwt(),
+    ]
   }
 }
 
