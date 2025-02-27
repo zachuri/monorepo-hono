@@ -10,7 +10,7 @@ export default function App() {
   const router = useRouter()
   const session = useSession()
 
-  const { data: test } = useQuery({
+  const { data: test, isLoading, isError } = useQuery({
     queryKey: ['hello'],
     queryFn: async () => {
       const response = await api.user.accounts.$get()
@@ -24,10 +24,6 @@ export default function App() {
 
   const user = session.data?.user
 
-  if (!user) {
-    return <p>Not logged in</p>
-  }
-
   // TODO: update use of useSession with useQueryClient
   const handleSignOut = async () => {
     try {
@@ -39,10 +35,16 @@ export default function App() {
   }
 
   return (
-    <div>
-      <p>Logged in as: {user.email}</p>
-      <Button onClick={handleSignOut}>Sign Out</Button>
-      {test && <p>Providers: {test.map(provider => provider.providerId).join(', ')}</p>}
+    <div className='flex flex-col items-center justify-center h-screen'>
+      {isLoading && <p>Loading</p>}
+      {isError && <p>User not found</p>}
+      {!isLoading && user && (
+        <div className='flex flex-col items-center justify-center gap-5'>
+          <h2 className='text-2xl'>Logged in as: {user.email}</h2>
+          {test && <p className='text-lg'>Providers: {test.map(provider => provider.providerId).join(', ')}</p>}
+          <Button onClick={handleSignOut}>Sign Out</Button>
+        </div>
+      )}
     </div>
   )
 }
