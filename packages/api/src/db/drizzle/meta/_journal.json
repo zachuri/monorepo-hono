@@ -15,6 +15,20 @@
       "when": 1738919675962,
       "tag": "0001_small_rachel_grey",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1740618932461,
+      "tag": "0002_famous_kronos",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1740619394214,
+      "tag": "0003_magenta_nico_minoru",
+      "breakpoints": true
     }
   ]
 }
