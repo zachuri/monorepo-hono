@@ -10,7 +10,7 @@ export default function App() {
   const router = useRouter()
   const session = useSession()
 
-  const { data: test, isLoading } = useQuery({
+  const { data: test, isLoading, isError } = useQuery({
     queryKey: ['hello'],
     queryFn: async () => {
       const response = await api.user.accounts.$get()
@@ -37,7 +37,7 @@ export default function App() {
   return (
     <div className='flex flex-col items-center justify-center h-screen'>
       {isLoading && <p>Loading</p>}
-      {!isLoading && !user && <p>User not found</p>}
+      {isError && <p>User not found</p>}
       {!isLoading && user && (
         <div className='flex flex-col items-center justify-center gap-5'>
           <h2 className='text-2xl'>Logged in as: {user.email}</h2>
