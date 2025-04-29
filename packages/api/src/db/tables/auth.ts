@@ -29,6 +29,13 @@ export const session = pgTable('session', {
 
 export type Session = InferSelectModel<typeof session>
 
+export const jwk = pgTable('jwk', {
+  id: text('id').primaryKey(),
+  publicKey: text('public_key').notNull(), 
+  privateKey: text('private_key').notNull(), 
+  createdAt: timestamp('created_at').notNull(),
+})
+
 export const account = pgTable('account', {
   id: text('id').primaryKey(),
   accountId: text('account_id').notNull(),
