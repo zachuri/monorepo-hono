@@ -5,7 +5,7 @@
     "ui": "bun run --cwd packages/ui ui",
     "web": "bun run --cwd ./apps/next dev",
     "api": "bun run --cwd ./packages/api dev",
-    "check": "npm run format:check && npm run lint && npm run fix:check",
+    "check": "bun run format:check && bun run lint && bun run fix:check",
     "format:check": "bun x @biomejs/biome format ./packages ./apps",
     "lint": "bun x @biomejs/biome lint ./packages ./apps",
     "fix:check": "bun x @biomejs/biome check --formatter-enabled=false --linter-enabled=false --organize-imports-enabled=true ./packages ./apps",

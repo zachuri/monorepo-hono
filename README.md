@@ -23,7 +23,7 @@
 
 Before starting, ensure you have the following installed:
 
-- **Bun** (preferred package manager)
+- **Bun** (the only package manager for this project)
 - **Git**
 - **Docker** (if applicable)
 - **System dependencies** (varies per package; see specific package README files)
@@ -75,9 +75,7 @@ bun run web
     "ui": "bun run --cwd packages/ui ui",
     "web": "bun run --cwd ./apps/next dev",
     "api": "bun run --cwd ./packages/api dev",
-    "format": "bun x @biomejs/biome format --write ./packages ./apps",
-    "lint": "bun x @biomejs/biome lint ./packages ./apps",
-    "fix": "bun x @biomejs/biome check --write --unsafe ./packages ./apps",
+    "check": "bun run format:check && bun run lint && bun run fix:check",
     "turbo:dev": "turbo dev",
     "turbo:lint": "turbo lint",
     "turbo:format": "turbo format",
