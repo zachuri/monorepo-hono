@@ -1,12 +1,15 @@
 {
-  "extends": "@repo/typescript-config/react-library.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@repo/ui/*": ["./src/*"],
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+	"extends": "../tsconfig/react-library.json",
+	"compilerOptions": {
+		"verbatimModuleSyntax": false,
+		"incremental": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"@ui/*": ["src/*"],
+			"@utils": ["./src/lib/utils"]
+		}
+	},
+	"include": ["src"],
+	"exclude": ["node_modules"]
 }

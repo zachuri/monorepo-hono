@@ -1,12 +1,13 @@
 {
-  "extends": "@repo/typescript-config/api.json",
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@repo/api/*": ["./src/*"],
-      "@repo/app/*": ["../app/*"]
-    }
-  }
+	"extends": "@tsconfig/api.json",
+	"include": ["**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@api/*": ["./src/*"],
+			"@app/*": ["../app/*"],
+			"@tsconfig": ["../tsconfig/*"]
+		}
+	}
 }

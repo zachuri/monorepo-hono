@@ -1,10 +1,10 @@
-import type { AppContext } from '@repo/api/types/app-context'
-import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import type { Context } from 'hono'
-import { env } from 'hono/adapter'
-import { extractDomain } from '../../extractDomain'
+import type { AppContext } from '@api/types/app-context';
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import type { Context } from 'hono';
+import { env } from 'hono/adapter';
+import { extractDomain } from '../../extractDomain';
 
-const enabledProviders = ['discord', 'google', 'github']
+const enabledProviders = ['discord', 'google', 'github'];
 
 /**
  * Creates a configuration object for BetterAuth.
@@ -16,20 +16,23 @@ const enabledProviders = ['discord', 'google', 'github']
  * @param c - The context object containing environment variables.
  * @returns A configuration object for BetterAuth.
  */
-export function createBetterAuthConfig(dbInstance: any, c: Context<AppContext>) {
+export function createBetterAuthConfig(
+  dbInstance: any,
+  c: Context<AppContext>,
+) {
   // Use the context to access environment variables
   const configuredProviders = enabledProviders.reduce<
     Record<string, { clientId: string; clientSecret: string }>
   >((acc, provider) => {
-    const id = env(c)[`${provider.toUpperCase()}_CLIENT_ID`] as string
-    const secret = env(c)[`${provider.toUpperCase()}_CLIENT_SECRET`] as string
+    const id = env(c)[`${provider.toUpperCase()}_CLIENT_ID`] as string;
+    const secret = env(c)[`${provider.toUpperCase()}_CLIENT_SECRET`] as string;
     if (id && id.length > 0 && secret && secret.length > 0) {
-      acc[provider] = { clientId: id, clientSecret: secret }
+      acc[provider] = { clientId: id, clientSecret: secret };
     }
-    return acc
-  }, {})
+    return acc;
+  }, {});
 
-  const isProduction = env(c).env === 'production'
+  const isProduction = env(c).env === 'production';
 
   return {
     baseURL: env(c).API_DOMAIN, // API URL
@@ -48,14 +51,14 @@ export function createBetterAuthConfig(dbInstance: any, c: Context<AppContext>) 
       defaultCookieAttributes: {
         sameSite: isProduction ? 'lax' : 'none',
         secure: true,
-        domain: isProduction ? extractDomain(env(c).WEB_DOMAIN) : undefined // Use env var for frontend domain
+        domain: isProduction ? extractDomain(env(c).WEB_DOMAIN) : undefined, // Use env var for frontend domain
       },
     },
     rateLimit: {
       window: 10, // time window in seconds
       max: 100, // max requests in the window
     },
-  }
+  };
 }
 
-export default createBetterAuthConfig
+export default createBetterAuthConfig;

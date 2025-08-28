@@ -1,38 +1,59 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Dependencies
+# dependencies
 node_modules
 .pnp
 .pnp.js
+.yarn/install-state.gz
 
-# Local env files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# testing
+**/tests/unit/coverage
+**/tests/e2e/coverage
+.last-run.json
 
-# Testing
-coverage
+# storybook
+storybook-static/
 
-# Turbo
-.turbo
-
-# Vercel
-.vercel
-
-# Build Outputs
+# next.js
 .next/
 out/
+next-env.d.ts
+
+# production
 build
 dist
+dist-ssr
 
+# misc
+.DS_Store
+*.pem
 
-# Debug
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# Misc
-.DS_Store
-*.pem
+# local env files
+# do not commit any .env files to git, except for the .env.example file. https://create.t3.gg/en/usage/env-variables#using-environment-variables
+.env
+.env*.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Sentry Config File
+.sentryclirc
+
+# Logs
+*.log
+
+.turbo
+.cache
+todos.md
+task.md
+temp

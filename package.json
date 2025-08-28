@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zachuri/monorepo-hono/"
+    "url": "https://github.com/gmickel/turborepo-shadcn-nextjs"
   },
   "keywords": [
     "starter",
@@ -24,33 +24,37 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "release": "turbo build && changeset publish",
-    "ui:add:component": "turbo ui:add --filter=@repo/ui --",
+    "ui:add:component": "turbo ui:add --filter=@ui --",
     "prepare": "lefthook install",
-    "ui": "bun run --cwd packages/ui ui",
-    "web": "bun run --cwd ./apps/next dev",
-    "api": "bun run --cwd ./packages/api dev",
-    "check": "bun run format:check && bun run lint && bun run fix:check",
-    "format:check": "bun x @biomejs/biome format ./packages ./apps",
-    "fix:check": "bun x @biomejs/biome check --formatter-enabled=false --linter-enabled=false --organize-imports-enabled=true ./packages ./apps",
-    "generate": "cd packages/api && bun db:generate",
+
+    "storybook": "turbo dev --filter=@storybook",
+    "build:storybook": "turbo build --filter=@storybook",
+    "test": "turbo test",
+    "test:build": "turbo test:with-build",
+    "test:e2e": "turbo test:e2e",
+    "test:e2e:watch": "turbo test:e2e -- --headed",
+    "test:e2e:debug": "turbo test:e2e -- --debug",
+    "test:e2e:build": "turbo test:e2e:with-build",
+    "test:ui": "turbo test -- --ui",
+    "test:cov": "turbo test:cov",
+    "test:cov:ui": "turbo test:cov:ui",
     "deps:fix": "manypkg fix",
     "deps:update": "bun x npm-check-updates -ui -ws"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
-    "@manypkg/cli": "^0.25.0",
-    "better-auth": "^1.3.7",
-    "hono-pino": "^0.7.2",
-    "lefthook": "1.12.3",
-    "pino": "^9.9.0",
-    "turbo": "^2.5.6",
-    "typescript": "5.9.2",
-    "wrangler": "4"
+    "@biomejs/biome": "^2.1.2",
+    "@changesets/cli": "2.27.12",
+    "@playwright/test": "1.49.1",
+    "@vitest/coverage-v8": "2.1.9",
+    "@vitest/ui": "2.1.9",
+    "lefthook": "1.9.3",
+    "turbo": "2.3.7",
+    "vitest": "2.1.9"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "bun@1.2.21",
+  "packageManager": "bun@1.1.17",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -59,5 +63,10 @@
     "@biomejs/biome",
     "esbuild",
     "lefthook"
-  ]
+  ],
+  "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.52.0",
+    "better-auth": "^1.3.7"
+  }
 }
