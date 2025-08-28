@@ -72,7 +72,10 @@
 	"editor.formatOnSave": true,
 	"editor.formatOnType": true,
   "editor.codeActionsOnSave": {
-    "quickfix.biome": "explicit"
+      "source.organizeImports": "explicit",
+      "source.organizeImports.biome": "explicit",
+      "source.fixAll.biome": "explicit",
+      "quickfix.biome": "explicit"
   },
   "prettier.enable": false
 }
