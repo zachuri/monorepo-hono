@@ -26,16 +26,10 @@ export const errorConverter = (err: unknown, sentry: Toucan): ApiError => {
   if (error instanceof ZodError) {
     const errorMessage = generateZodErrorMessage(error);
     error = new ApiError(httpStatus.BAD_REQUEST, errorMessage);
-  } else if (
-    error instanceof SyntaxError &&
-    error.message.includes(genericJSONErrMsg)
-  ) {
+  } else if (error instanceof SyntaxError && error.message.includes(genericJSONErrMsg)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid JSON payload');
   } else if (!(error instanceof ApiError)) {
-    const castedErr = (typeof error === 'object' ? error : {}) as Record<
-      string,
-      unknown
-    >;
+    const castedErr = (typeof error === 'object' ? error : {}) as Record<string, unknown>;
     const statusCode: number =
       typeof castedErr.statusCode === 'number'
         ? castedErr.statusCode
@@ -56,19 +50,14 @@ export const errorConverter = (err: unknown, sentry: Toucan): ApiError => {
 };
 
 const onError: ErrorHandler = (err, c) => {
-  const currentStatus =
-    'status' in err ? err.status : c.newResponse(null).status;
-  const statusCode =
-    currentStatus !== OK
-      ? (currentStatus as StatusCode)
-      : INTERNAL_SERVER_ERROR;
+  const currentStatus = 'status' in err ? err.status : c.newResponse(null).status;
+  const statusCode = currentStatus !== OK ? (currentStatus as StatusCode) : INTERNAL_SERVER_ERROR;
   const env = c.env?.NODE_ENV || process.env?.NODE_ENV;
   return c.json(
     {
       message: err.message,
 
-      stack:
-        env === 'production' ? undefined : (err.stack as string | undefined),
+      stack: env === 'production' ? undefined : (err.stack as string | undefined),
     },
     statusCode as ContentfulStatusCode,
   );

@@ -33,17 +33,11 @@ export function betterAuthCorsMiddleware(c: Context<AppContext>) {
   });
 }
 
-export async function requireAuth(
-  c: Context<AppContext>,
-  next: () => Promise<void>,
-) {
+export async function requireAuth(c: Context<AppContext>, next: () => Promise<void>) {
   const user = c.get('user');
 
   if (!user) {
-    return c.json(
-      { error: HttpStatusPhrases.UNAUTHORIZED },
-      HttpStatusCodes.UNAUTHORIZED,
-    );
+    return c.json({ error: HttpStatusPhrases.UNAUTHORIZED }, HttpStatusCodes.UNAUTHORIZED);
   }
   await next();
 }

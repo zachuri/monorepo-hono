@@ -82,10 +82,10 @@ export const WithValue: Story = {
 
 export const DifferentSizes: Story = {
   render: () => (
-    <div className="flex flex-col gap-4 w-full max-w-sm">
-      <Input placeholder="Default size" />
-      <Input className="h-12 text-lg" placeholder="Large size" />
-      <Input className="h-8 text-sm" placeholder="Small size" />
+    <div className='flex flex-col gap-4 w-full max-w-sm'>
+      <Input placeholder='Default size' />
+      <Input className='h-12 text-lg' placeholder='Large size' />
+      <Input className='h-8 text-sm' placeholder='Small size' />
     </div>
   ),
 };

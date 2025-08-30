@@ -1,9 +1,9 @@
-import { config } from 'dotenv'
-import { defineConfig } from 'drizzle-kit'
+import { config } from 'dotenv';
+import { defineConfig } from 'drizzle-kit';
 
 config({
   path: '.dev.vars',
-})
+});
 
 export default defineConfig({
   out: './src/db/drizzle',
@@ -12,4 +12,4 @@ export default defineConfig({
   dbCredentials: {
     url: process.env.DATABASE_URL || '',
   },
-})
+});

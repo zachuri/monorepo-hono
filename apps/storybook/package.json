@@ -4,9 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "storybook build",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write ."
+    "build": "storybook build"
   },
   "dependencies": {
     "react": "19.0.0",

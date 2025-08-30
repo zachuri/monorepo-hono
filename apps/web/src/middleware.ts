@@ -12,15 +12,12 @@ export default async function authMiddleware(request: NextRequest) {
   const isPaswordRoute = passwordRoutes.includes(pathName);
 
   // Fetch the session data from the backend
-  const { data: session } = await betterFetch<Session>(
-    `${env.API_URL}/api/auth/get-session`,
-    {
-      baseURL: request.nextUrl.origin,
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-      },
+  const { data: session } = await betterFetch<Session>(`${env.API_URL}/api/auth/get-session`, {
+    baseURL: request.nextUrl.origin,
+    headers: {
+      cookie: request.headers.get('cookie') || '',
     },
-  );
+  });
 
   if (!session) {
     if (isAuthRoute || isPaswordRoute) {
@@ -29,9 +26,7 @@ export default async function authMiddleware(request: NextRequest) {
 
     // Determine the cookie name based on the environment
     const cookieName =
-      process.env.NODE_ENV === 'production'
-        ? '__Secure-better-auth.session_token'
-        : 'better-auth';
+      process.env.NODE_ENV === 'production' ? '__Secure-better-auth.session_token' : 'better-auth';
 
     // Clear the appropriate cookie
     const response = NextResponse.redirect(new URL('/sign-in', request.url));

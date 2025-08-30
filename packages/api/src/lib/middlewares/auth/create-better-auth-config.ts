@@ -16,10 +16,7 @@ const enabledProviders = ['discord', 'google', 'github'];
  * @param c - The context object containing environment variables.
  * @returns A configuration object for BetterAuth.
  */
-export function createBetterAuthConfig(
-  dbInstance: any,
-  c: Context<AppContext>,
-) {
+export function createBetterAuthConfig(dbInstance: any, c: Context<AppContext>) {
   // Use the context to access environment variables
   const configuredProviders = enabledProviders.reduce<
     Record<string, { clientId: string; clientSecret: string }>

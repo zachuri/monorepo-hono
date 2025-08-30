@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "wrangler dev",
     "validate": "biome .",
-    "fix": "biome --fix . && prettier '**/*.{json,yaml}' --write --ignore-path .gitignore",
     "deploy": "wrangler deploy --minify",
     "db:generate": "bunx drizzle-kit generate",
     "db:migrate": "bunx drizzle-kit migrate",
@@ -13,7 +12,9 @@
     "db:seed": "bun run ./src/db/seed.ts",
     "db:studio": "bunx drizzle-kit studio",
     "postinstall": "bun db:generate",
-    "clean": "rm -rf .wrangler node_modules"
+    "clean": "rm -rf .wrangler node_modules",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write ."
   },
   "dependencies": {
     "@hono/sentry": "^1.2.2",

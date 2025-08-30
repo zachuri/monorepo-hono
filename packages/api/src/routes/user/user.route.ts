@@ -1,8 +1,4 @@
-import {
-  getUserAccountsSchema,
-  getUserSchema,
-  getUserSessionSchema,
-} from '@acme/api/db/schemas';
+import { getUserAccountsSchema, getUserSchema, getUserSessionSchema } from '@acme/api/db/schemas';
 import { notFoundSchema } from '@acme/api/lib/constants';
 import * as HttpStatusCodes from '@acme/api/lib/http-status-codes';
 import jsonContent from '@acme/api/lib/openapi/helpers/json-content';
@@ -25,14 +21,8 @@ export const getUserSession = createRoute({
   method: 'get',
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      getUserSessionSchema,
-      'The requested session',
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      notFoundSchema,
-      'Session not found',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(getUserSessionSchema, 'The requested session'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Session not found'),
   },
 });
 
@@ -45,10 +35,7 @@ export const getUserAccounts = createRoute({
       z.array(getUserAccountsSchema.pick({ providerId: true })),
       'The requested accounts',
     ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      notFoundSchema,
-      'Session not found',
-    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Session not found'),
   },
 });
 

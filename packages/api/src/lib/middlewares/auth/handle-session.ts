@@ -11,10 +11,7 @@ import type { Context } from 'hono';
  * @param c - The context object
  * @param next - The next function to run
  */
-export async function handleSessionMiddleware(
-  c: Context<AppContext>,
-  next: () => Promise<void>,
-) {
+export async function handleSessionMiddleware(c: Context<AppContext>, next: () => Promise<void>) {
   const auth = c.get('auth'); // Retrieve auth from context
   if (!auth) {
     console.error('Auth is not initialized');

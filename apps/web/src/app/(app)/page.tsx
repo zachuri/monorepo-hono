@@ -39,16 +39,15 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className='flex flex-col items-center justify-center h-screen'>
       {isLoading && <p>Loading</p>}
       {isError && <p>User not found</p>}
       {!isLoading && user && (
-        <div className="flex flex-col items-center justify-center gap-5">
-          <h2 className="text-2xl">Logged in as: {user.email}</h2>
+        <div className='flex flex-col items-center justify-center gap-5'>
+          <h2 className='text-2xl'>Logged in as: {user.email}</h2>
           {test && (
-            <p className="text-lg">
-              Providers:{' '}
-              {test.map((provider) => provider.providerId).join(', ')}
+            <p className='text-lg'>
+              Providers: {test.map(provider => provider.providerId).join(', ')}
             </p>
           )}
           <Button onClick={handleSignOut}>Sign Out</Button>

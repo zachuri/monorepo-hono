@@ -18,7 +18,4 @@ export interface AppContext {
 
 export type AppOpenAPI = OpenAPIHono<AppContext>;
 
-export type AppRouteHandler<R extends RouteConfig> = RouteHandler<
-  R,
-  AppContext
->;
+export type AppRouteHandler<R extends RouteConfig> = RouteHandler<R, AppContext>;

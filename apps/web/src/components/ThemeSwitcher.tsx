@@ -8,12 +8,8 @@ export default function ThemeSwitcher() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <Button size="icon" variant="outline" onClick={toggleTheme}>
-      {theme === 'light' ? (
-        <Sun className="h-6 w-6" />
-      ) : (
-        <Moon className="h-6 w-6" />
-      )}
+    <Button size='icon' variant='outline' onClick={toggleTheme}>
+      {theme === 'light' ? <Sun className='h-6 w-6' /> : <Moon className='h-6 w-6' />}
     </Button>
   );
 }

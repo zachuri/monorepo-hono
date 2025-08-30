@@ -8,14 +8,7 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: [
-        'default',
-        'destructive',
-        'outline',
-        'secondary',
-        'ghost',
-        'link',
-      ],
+      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
     },
     size: {
       control: 'select',
@@ -99,13 +92,13 @@ export const Icon: Story = {
 // Render all variants
 export const AllVariants: Story = {
   render: () => (
-    <div className="flex flex-col space-y-4">
-      <Button variant="default">Default</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="destructive">Destructive</Button>
-      <Button variant="outline">Outline</Button>
-      <Button variant="ghost">Ghost</Button>
-      <Button variant="link">Link</Button>
+    <div className='flex flex-col space-y-4'>
+      <Button variant='default'>Default</Button>
+      <Button variant='secondary'>Secondary</Button>
+      <Button variant='destructive'>Destructive</Button>
+      <Button variant='outline'>Outline</Button>
+      <Button variant='ghost'>Ghost</Button>
+      <Button variant='link'>Link</Button>
     </div>
   ),
 };
@@ -113,11 +106,11 @@ export const AllVariants: Story = {
 // Render all sizes
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-col space-y-4">
-      <Button size="default">Default Size</Button>
-      <Button size="sm">Small Size</Button>
-      <Button size="lg">Large Size</Button>
-      <Button size="icon">🔔</Button>
+    <div className='flex flex-col space-y-4'>
+      <Button size='default'>Default Size</Button>
+      <Button size='sm'>Small Size</Button>
+      <Button size='lg'>Large Size</Button>
+      <Button size='icon'>🔔</Button>
     </div>
   ),
 };

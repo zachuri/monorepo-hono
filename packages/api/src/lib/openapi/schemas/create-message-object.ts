@@ -1,4 +1,4 @@
-import { z } from '@hono/zod-openapi'
+import { z } from '@hono/zod-openapi';
 
 const createMessageObjectSchema = (exampleMessage = 'Hello World') => {
   return z
@@ -9,7 +9,7 @@ const createMessageObjectSchema = (exampleMessage = 'Hello World') => {
       example: {
         message: exampleMessage,
       },
-    })
-}
+    });
+};
 
-export default createMessageObjectSchema
+export default createMessageObjectSchema;
