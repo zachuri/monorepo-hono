@@ -1,6 +1,14 @@
 # TODO
 
-- [ ] project wil be name acme
+- [x] project wil be name acme
+- [ ] storybook for ui framework
+
+- [x] lefthook
+- [ ] CI/CD pipeline with github actions
+- [ ] expo
+- [ ] dev, staging, prod, env
+- [ ] sockets setup for testing later
+- [ ] update to token based auth instead of session
 
 - [x] set t3 env
 - [x] supabase setup

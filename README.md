@@ -182,8 +182,7 @@ It comes preconfigured with the following workflow that runs on every push or pu
 The web app requires Supabase env vars at build time. Configure them in GitHub Actions:
 
 - Required repository secrets:
-  - NEXT_PUBLIC_SUPABASE_URL
-  - NEXT_PUBLIC_SUPABASE_ANON_KEY
+  - NEXT_PUBLIC_API
 - Optional repository variable:
   - NEXT_PUBLIC_URL (defaults to `http://localhost:3000` in CI if not set)
 
@@ -200,8 +199,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_URL: ${{ vars.NEXT_PUBLIC_URL || 'http://localhost:3000' }}
-      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NEXT_PUBLIC_API: ${{ vars.NEXT_PUBLIC_API || 'http://localhost:8787' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
