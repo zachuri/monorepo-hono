@@ -28,7 +28,7 @@
   "devDependencies": {
     "@acme/tsconfig": "workspace:*",
     "@better-fetch/fetch": "^1.1.18",
-    "@biomejs/biome": "^2.0.0",
+    "@biomejs/biome": "^2.2.2",
     "@next/bundle-analyzer": "15.1.8",
     "@tailwindcss/postcss": "^4.1.12",
     "@testing-library/jest-dom": "6.6.4",
