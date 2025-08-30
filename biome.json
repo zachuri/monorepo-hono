@@ -4,7 +4,7 @@
 		"includes": ["**/*.{js,jsx,ts,tsx,json}"],
 		"ignoreUnknown": true,
 		"experimentalScannerIgnores": [
-			".next/**",
+			"**/.next/**",
 			"**/node_modules/**",
 			"**/dist/**",
 			"**/build/**",
