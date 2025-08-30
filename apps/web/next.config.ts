@@ -21,8 +21,13 @@ const nextConfig = {
 	},
 };
 
+// Set a default ENV if not provided
+if (!process.env.NODE_ENV) {
+	process.env.ENV = 'production';
+}
+
 // Only run setupDevPlatform in development and when ENV is explicitly set
-if (process.env.ENV === 'development' && process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
 	(async () => {
 		try {
 			await setupDevPlatform();
