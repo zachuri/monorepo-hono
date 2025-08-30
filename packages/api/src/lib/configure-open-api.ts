@@ -1,7 +1,6 @@
-import { apiReference } from '@scalar/hono-api-reference'
-
-import type { AppOpenAPI } from '@repo/api/types/app-context'
-import packageJSON from '../../package.json' assert { type: 'json' }
+import type { AppOpenAPI } from '@acme/api/types/app-context';
+import { apiReference } from '@scalar/hono-api-reference';
+import packageJSON from '../../package.json';
 
 export default function configureOpenAPI(app: AppOpenAPI) {
   app.doc('/doc', {
@@ -10,7 +9,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
       version: packageJSON.version,
       title: 'Tasks API',
     },
-  })
+  });
 
   app.get(
     '/reference',
@@ -21,9 +20,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
         targetKey: 'js',
         clientKey: 'fetch',
       },
-      spec: {
-        url: '/doc',
-      },
+      url: '/doc',
     }),
-  )
+  );
 }

@@ -1,10 +1,10 @@
-import { z } from '@hono/zod-openapi'
+import { z } from '@hono/zod-openapi';
 
-type Validator = 'uuid' | 'nanoid' | 'cuid' | 'cuid2' | 'ulid'
+type Validator = 'uuid' | 'nanoid' | 'cuid' | 'cuid2' | 'ulid';
 
 export interface ParamsSchema {
-  name?: string
-  validator?: Validator | undefined
+  name?: string;
+  validator?: Validator | undefined;
 }
 
 const examples: Record<Validator, string> = {
@@ -13,7 +13,7 @@ const examples: Record<Validator, string> = {
   cuid: 'cjld2cjxh0000qzrmn831i7rn',
   cuid2: 'tz4a98xxat96iws9zmbrgj3a',
   ulid: '01ARZ3NDEKTSV4RRFFQ69G5FAV',
-}
+};
 
 const getParamsSchema = ({ name = 'id', validator = 'uuid' }: ParamsSchema) => {
   return z.object({
@@ -29,7 +29,7 @@ const getParamsSchema = ({ name = 'id', validator = 'uuid' }: ParamsSchema) => {
         required: [name],
         example: examples[validator],
       }),
-  })
-}
+  });
+};
 
-export default getParamsSchema
+export default getParamsSchema;

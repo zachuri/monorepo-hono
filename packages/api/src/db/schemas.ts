@@ -1,1 +1,1 @@
-export * from '@repo/api/db/tables/auth'
+export * from '@acme/api/db/tables/auth';

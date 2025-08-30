@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Next.js",
+  "extends": "@acme/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "types": ["vitest/globals"],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@acme/ui/*": ["../../packages/ui/src/*"],
+      "@acme/utils/*": ["../../packages/utils/src/*"],
+      "@acme/app/*": ["../../packages/app/*"],
+      "@acme/api/*": ["../../packages/api/src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "next.config.js",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "postcss.config.mjs"
+  ],
+  "exclude": ["node_modules"]
+}

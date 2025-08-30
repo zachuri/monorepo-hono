@@ -1,12 +1,13 @@
 {
-  "extends": "@repo/typescript-config/api.json",
+  "extends": "@acme/tsconfig/api.json",
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@repo/api/*": ["./src/*"],
-      "@repo/app/*": ["../app/*"]
+      "@acme/api/*": ["./src/*"],
+      "@acme/app/*": ["../app/*"],
+      "@acme/tsconfig": ["../tsconfig/*"]
     }
   }
 }

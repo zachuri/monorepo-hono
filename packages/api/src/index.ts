@@ -1,9 +1,9 @@
-import app from '@repo/api/app'
+import app from '@acme/api/app';
 
-const port = 8787
+const port = 8787;
 
 // Cloudflare Workers entry point
 export default {
   fetch: app.fetch,
   port,
-}
+};

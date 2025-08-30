@@ -1,24 +1,75 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "globalEnv": ["ENV", "API_URL"],
+  "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"],
-      "env": ["API_URL", "ENV"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "storybook-static/**"],
+      "dependsOn": ["^build"]
+    },
+    "test:e2e": {
+      "outputs": ["tests/coverage/e2e/**"]
+    },
+    "test:e2e:with-build": {
+      "outputs": ["tests/coverage/e2e/**"],
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "persistent": true
+    },
+    "test:ui": {
+      "persistent": true
+    },
+    "test:cov": {
+      "persistent": true,
+      "outputs": ["tests/coverage/unit/**"]
+    },
+    "test:cov:ui": {
+      "outputs": ["tests/coverage/unit/**"],
+      "persistent": true
+    },
+    "test:with-build": {
+      "dependsOn": ["^build"]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "cache": false
     },
-    "format": {
-      "dependsOn": ["^format"]
+    "lint:fix": {
+      "cache": false
     },
-    "check-types": {
-      "dependsOn": ["^check-types"]
+    "ui:add": {
+      "persistent": true
     },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "clean": {
+      "cache": false
+    },
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
+    "stop": {
+      "cache": false
+    },
+    "status": {
+      "cache": false
+    },
+    "reset": {
+      "cache": false
+    },
+    "restart": {
+      "cache": false
+    },
+    "logs": {
+      "cache": false,
+      "persistent": true
+    },
+    "gen:types": {
+      "cache": false
     }
   }
 }

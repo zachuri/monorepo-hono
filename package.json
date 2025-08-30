@@ -1,36 +1,79 @@
 {
-  "name": "test-mono",
-  "private": true,
-  "scripts": {
-    "ui": "bun run --cwd packages/ui ui",
-    "web": "bun run --cwd ./apps/next dev",
-    "api": "bun run --cwd ./packages/api dev",
-    "check": "bun run format:check && bun run lint && bun run fix:check",
-    "format:check": "bun x @biomejs/biome format ./packages ./apps",
-    "lint": "bun x @biomejs/biome lint ./packages ./apps",
-    "fix:check": "bun x @biomejs/biome check --formatter-enabled=false --linter-enabled=false --organize-imports-enabled=true ./packages ./apps",
-    "generate": "cd packages/api && bun db:generate",
-    "turbo:dev": "turbo dev",
-    "turbo:lint": "turbo run lint",
-    "turbo:format": "turbo run format",
-    "turbo:build": "turbo build",
-    "check-deps": "check-dependency-version-consistency .",
-    "clean": "git clean -xdf node_modules && rm -f bun.lockb && rm -rf ./apps/next/.next && rm -rf && rm -rf ./apps/next/node_modules && rm -rf ./packages/ui/dist && rm -rf ./packages/api/node_modules"
-  },
-  "devDependencies": {
-    "turbo": "^2.3.3",
-    "typescript": "5.5.4"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "bun@1.1.20",
-  "workspaces": ["apps/*", "packages/*"],
-  "dependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "better-auth": "^1.1.18",
-    "hono-pino": "^0.7.2",
-    "pino": "^9.6.0",
-    "wrangler": "^3.109.2"
-  }
+	"name": "@acme",
+	"version": "0.1.0",
+	"private": true,
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/gmickel/turborepo-shadcn-nextjs"
+	},
+	"keywords": [
+		"starter",
+		"template",
+		"turborepo",
+		"biome",
+		"shadcn/cn",
+		"nextjs"
+	],
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"lint": "turbo lint",
+		"lint:fix": "turbo lint:fix",
+		"clean": "turbo clean && rm -rf node_modules",
+		"changeset": "changeset",
+		"version-packages": "changeset version",
+		"release": "turbo build && changeset publish",
+		"ui:add:component": "turbo ui:add --filter=@acme/ui --",
+		"prepare": "lefthook install",
+		"storybook": "storybook dev -p 6006",
+		"build:storybook": "turbo build --filter=@storybook",
+		"test": "turbo test",
+		"test:build": "turbo test:with-build",
+		"test:e2e": "turbo test:e2e",
+		"test:e2e:watch": "turbo test:e2e -- --headed",
+		"test:e2e:debug": "turbo test:e2e -- --debug",
+		"test:e2e:build": "turbo test:e2e:with-build",
+		"test:ui": "turbo test -- --ui",
+		"test:cov": "turbo test:cov",
+		"test:cov:ui": "turbo test:cov:ui",
+		"deps:fix": "manypkg fix",
+		"deps:update": "bun x npm-check-updates -ui -ws",
+		"build-storybook": "storybook build"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.2",
+		"@changesets/cli": "2.27.12",
+		"@chromatic-com/storybook": "^4.1.1",
+		"@storybook/addon-a11y": "^9.1.3",
+		"@storybook/addon-docs": "^9.1.3",
+		"@storybook/addon-vitest": "^9.1.3",
+		"@storybook/nextjs-vite": "^9.1.3",
+		"@vitest/browser": "^3.2.4",
+		"@vitest/coverage-v8": "^3.2.4",
+		"@vitest/ui": "2.1.9",
+		"eslint-plugin-storybook": "^9.1.3",
+		"lefthook": "1.9.3",
+		"playwright": "^1.55.0",
+		"storybook": "^9.1.3",
+		"turbo": "2.3.7",
+		"vitest": "^3.2.4"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"packageManager": "bun@1.1.17",
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"trustedDependencies": [
+		"@biomejs/biome",
+		"esbuild",
+		"lefthook"
+	],
+	"dependencies": {
+		"react": "^19.1.1",
+		"react-dom": "^19.1.1"
+	}
 }

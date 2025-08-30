@@ -1,5 +1,5 @@
-import { oneOf } from './index.js'
-import type { ZodSchema } from './types.ts'
+import { oneOf } from './index.js';
+import type { ZodSchema } from './types.js';
 
 const jsonContentOneOf = <T extends ZodSchema>(schemas: T[], description: string) => {
   return {
@@ -11,7 +11,7 @@ const jsonContentOneOf = <T extends ZodSchema>(schemas: T[], description: string
       },
     },
     description,
-  }
-}
+  };
+};
 
-export default jsonContentOneOf
+export default jsonContentOneOf;

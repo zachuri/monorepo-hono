@@ -1,4 +1,4 @@
-import { z } from '@hono/zod-openapi'
+import { z } from '@hono/zod-openapi';
 
 const IdParamsSchema = z.object({
   id: z.coerce.number().openapi({
@@ -10,6 +10,6 @@ const IdParamsSchema = z.object({
     required: ['id'],
     example: 42,
   }),
-})
+});
 
-export default IdParamsSchema
+export default IdParamsSchema;
