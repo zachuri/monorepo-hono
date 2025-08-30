@@ -8,16 +8,12 @@ const config: StorybookConfig = {
     '../../../apps/web/src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
     '../../../packages/ui/src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
-  addons: [
-    '@storybook/addon-docs',
-    '@storybook/addon-links',
-    '@storybook/addon-themes',
-  ],
+  addons: ['@storybook/addon-docs', '@storybook/addon-links', '@storybook/addon-themes'],
   framework: {
     name: '@storybook/nextjs',
     options: {},
   },
-  webpackFinal: async (config) => {
+  webpackFinal: async config => {
     if (config.resolve) {
       config.resolve.alias = {
         ...config.resolve.alias,

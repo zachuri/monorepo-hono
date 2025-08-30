@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 const EnvSchema = z.object({
   DATABASE_URL: z.string(),
@@ -18,6 +18,6 @@ const EnvSchema = z.object({
   BETTER_AUTH_SECRET: z.string(),
   WEB_DOMAIN: z.string(),
   RATE_LIMITER: z.any(), // Assuming DurableObjectNamespace is not a Zod type, use z.any() or a custom validation
-})
+});
 
-export type Env = z.infer<typeof EnvSchema>
+export type Env = z.infer<typeof EnvSchema>;
