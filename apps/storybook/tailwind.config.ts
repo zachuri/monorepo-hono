@@ -6,7 +6,7 @@ const config: Config = {
   ...uiConfig,
   content: [
     ...uiConfig.content,
-    path.join(__dirname, '**/*.{js,ts,jsx,tsx,mdx}'),
+    path.join(__dirname, 'src/**/*.{js,ts,jsx,tsx,mdx}'),
     path.join(__dirname, '.storybook/**/*.{js,ts,jsx,tsx,mdx}'),
   ],
 };

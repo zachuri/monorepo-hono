@@ -1,7 +1,8 @@
 # TODO
 
 - [x] project wil be name acme
-- [ ] storybook for ui framework
+- [x] storybook for ui framework
+- [ ] storybook setup docs for ui components
 
 - [x] lefthook
 - [ ] CI/CD pipeline with github actions

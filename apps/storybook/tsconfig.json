@@ -10,7 +10,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@ui/*": ["../../packages/ui/src/*"]
+      "@acme/ui/*": ["../../packages/ui/src/*"],
+      "@acme/tsconfig/*": ["../../packages/ui/tsconfig.json"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

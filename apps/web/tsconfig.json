@@ -11,7 +11,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@acme/ui/*": ["../../packages/ui/*", "../../packages/ui/src/*"],
+      "@acme/ui/*": ["../../packages/ui/src/*"],
       "@acme/utils/*": ["../../packages/utils/src/*"],
       "@acme/app/*": ["../../packages/app/*"],
       "@acme/api/*": ["../../packages/api/src/*"]
