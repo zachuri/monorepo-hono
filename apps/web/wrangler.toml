@@ -4,20 +4,20 @@ compatibility_flags = ["nodejs_compat", "bun_compat"]
 pages_build_output_dir = "apps/web/.vercel/output/static"
 command = "bun run pages:build"
 
-[env.production]
+[env.production.vars]
 ENV = "production"
 NEXT_PUBLIC_APP_URL = "https://next-hono-app.zachuri.com"
 NEXT_PUBLIC_API_URL = "https://next-hono-api.zachuri.com"
 API_URL = "https://next-hono-api.zachuri.com"
 
-[env.staging]
+[env.staging.vars]
 ENV = "staging"
 NEXT_PUBLIC_APP_URL = "https://next-hono-app.zachuri.com"
 NEXT_PUBLIC_API_URL = "https://next-hono-api.zachuri.com"
 API_URL = "https://next-hono-api.zachuri.com"
 ENV = "staging" 
 
-[env.development]
+[env.development.vars]
 ENV = "development"
 NEXT_PUBLIC_APP_URL = "http://localhost:3000"
 NEXT_PUBLIC_API_URL = "http://localhost:8787"
