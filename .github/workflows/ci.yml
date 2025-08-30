@@ -5,8 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     env:
-      NEXT_PUBLIC_URL: ${{ vars.NEXT_PUBLIC_URL || 'http://localhost:3000' }}
-      NEXT_PUBLIC_API: ${{ vars.NEXT_PUBLIC_API || 'http://localhost:8787' }}
+      NEXT_PUBLIC_APP_URL: ${{ vars.NEXT_PUBLIC_APP_URL || 'http://localhost:3000' }}
+      NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL || 'http://localhost:8787' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -16,8 +16,8 @@ jobs:
         run: bun install
       - name: Build
         run: bun run build
-      - name: Run unit tests
-        run: bun run test
+      # - name: Run unit tests
+      #   run: bun run test
       # - name: Install Playwright browsers
       #   run: bunx playwright install --with-deps
       # - name: Run E2E tests

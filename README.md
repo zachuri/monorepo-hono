@@ -198,8 +198,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_URL: ${{ vars.NEXT_PUBLIC_URL || 'http://localhost:3000' }}
-      NEXT_PUBLIC_API: ${{ vars.NEXT_PUBLIC_API || 'http://localhost:8787' }}
+      NEXT_PUBLIC_URL: ${{ vars.NEXT_PUBLIC_APP_URL || 'http://localhost:3000' }}
+      NEXT_PUBLIC_API: ${{ vars.NEXT_PUBLIC_API_URL || 'http://localhost:8787' }}
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
