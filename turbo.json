@@ -70,6 +70,9 @@
 		},
 		"gen:types": {
 			"cache": false
+		},
+		"pages:build": {
+			"dependsOn": ["^build"]
 		}
 	}
 }
