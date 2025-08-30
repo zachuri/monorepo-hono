@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "wrangler dev",
     "validate": "biome .",
+    "lint": "bunx --bun biome lint --write .",
+    "lint:fix": "bunx --bun biome lint --write --unsafe .",
     "deploy": "wrangler deploy --minify",
     "db:generate": "bunx drizzle-kit generate",
     "db:migrate": "bunx drizzle-kit migrate",
@@ -12,9 +14,7 @@
     "db:seed": "bun run ./src/db/seed.ts",
     "db:studio": "bunx drizzle-kit studio",
     "postinstall": "bun db:generate",
-    "clean": "rm -rf .wrangler node_modules",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write ."
+    "clean": "rm -rf .wrangler node_modules"
   },
   "dependencies": {
     "@hono/sentry": "^1.2.2",
