@@ -1,4 +1,26 @@
 name = "next-hono-app"
 compatibility_date = "2024-09-23"
-compatibility_flags = ["nodejs_compat"]
+compatibility_flags = ["nodejs_compat", "bun_compat"]
 pages_build_output_dir = "apps/web/.vercel/output/static"
+command = "bun install && bun run build"
+
+[env.production]
+ENV = "production"
+NEXT_PUBLIC_APP_URL = "https://next-hono-app.zachuri.com"
+NEXT_PUBLIC_API_URL = "https://next-hono-api.zachuri.com"
+API_URL = "https://next-hono-api.zachuri.com"
+ENV = "staging" 
+
+[env.staging]
+ENV = "staging"
+NEXT_PUBLIC_APP_URL = "https://next-hono-app.zachuri.com"
+NEXT_PUBLIC_API_URL = "https://next-hono-api.zachuri.com"
+API_URL = "https://next-hono-api.zachuri.com"
+ENV = "staging" 
+
+[env.development]
+ENV = "development"
+NEXT_PUBLIC_APP_URL = "http://localhost:3000"
+NEXT_PUBLIC_API_URL = "http://localhost:8787"
+API_URL = "http://localhost:8787"
+ENV = "development" 

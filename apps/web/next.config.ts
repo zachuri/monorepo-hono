@@ -21,11 +21,14 @@ const nextConfig = {
 	},
 };
 
-// Move the await into an async function or use top-level await properly
-if (process.env.ENV === 'development') {
-	// Use an IIFE for top-level await
+// Only run setupDevPlatform in development and when ENV is explicitly set
+if (process.env.ENV === 'development' && process.env.NODE_ENV !== 'production') {
 	(async () => {
-		await setupDevPlatform();
+		try {
+			await setupDevPlatform();
+		} catch (error) {
+			console.warn('Failed to setup dev platform:', error);
+		}
 	})();
 }
 
