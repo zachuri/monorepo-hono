@@ -1,4 +1,4 @@
-import { setupDevPlatform } from '@cloudflare/next-on-pages/next-dev';
+// import { setupDevPlatform } from '@opennextjs/cloudflare/next-dev';
 import bundleAnalyzer from '@next/bundle-analyzer';
 
 const withBundleAnalyzer = bundleAnalyzer({
@@ -9,7 +9,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig = {
 	transpilePackages: ['@acme/ui'],
 	reactStrictMode: true,
-	outputDirectory: 'apps/web/.next',
 	experimental: {
 		turbo: {
 			rules: {
@@ -22,20 +21,20 @@ const nextConfig = {
 	},
 };
 
-// Set a default ENV if not provided
-if (!process.env.NODE_ENV) {
-	process.env.ENV = 'production';
-}
+// // Set a default ENV if not provided
+// if (!process.env.NODE_ENV) {
+// 	process.env.ENV = 'production';
+// }
 
-// Only run setupDevPlatform in development and when ENV is explicitly set
-if (process.env.NODE_ENV === 'development') {
-	(async () => {
-		try {
-			await setupDevPlatform();
-		} catch (error) {
-			console.warn('Failed to setup dev platform:', error);
-		}
-	})();
-}
+// // Only run setupDevPlatform in development and when ENV is explicitly set
+// if (process.env.NODE_ENV === 'development') {
+// 	(async () => {
+// 		try {
+// 			await setupDevPlatform();
+// 		} catch (error) {
+// 			console.warn('Failed to setup dev platform:', error);
+// 		}
+// 	})();
+// }
 
 export default withBundleAnalyzer(nextConfig);
