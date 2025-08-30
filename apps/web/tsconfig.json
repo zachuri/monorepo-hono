@@ -1,8 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Next.js",
-  "extends": "../../packages/tsconfig/nextjs.json",
+  "extends": "@acme/tsconfig/nextjs.json",
   "compilerOptions": {
+    "types": ["vitest/globals"],
     "plugins": [
       {
         "name": "next"
