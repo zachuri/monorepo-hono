@@ -1,6 +1,6 @@
-import type { Session } from '@api/db/schemas';
+import type { Session } from '@acme/api/db/schemas';
+import { env } from '@acme/app/env/next';
 import { betterFetch } from '@better-fetch/fetch';
-import { env } from '@app/env/next';
 import { type NextRequest, NextResponse } from 'next/server';
 
 const authRoutes = ['/sign-in', '/sign-up'];

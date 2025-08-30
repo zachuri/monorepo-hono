@@ -2,10 +2,10 @@ import {
   getUserAccountsSchema,
   getUserSchema,
   getUserSessionSchema,
-} from '@api/db/schemas';
-import { notFoundSchema } from '@api/lib/constants';
-import * as HttpStatusCodes from '@api/lib/http-status-codes';
-import jsonContent from '@api/lib/openapi/helpers/json-content';
+} from '@acme/api/db/schemas';
+import { notFoundSchema } from '@acme/api/lib/constants';
+import * as HttpStatusCodes from '@acme/api/lib/http-status-codes';
+import jsonContent from '@acme/api/lib/openapi/helpers/json-content';
 import { createRoute, z } from '@hono/zod-openapi';
 
 const tags = ['User'];

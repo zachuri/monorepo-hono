@@ -1,7 +1,7 @@
 'use client';
 
+import { Button } from '@acme/ui/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
-import { Button } from '@ui/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api.client';
 import { signOut, useSession } from '@/lib/auth.client';

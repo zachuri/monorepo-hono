@@ -1,4 +1,4 @@
-import { generateZodErrorMessage } from '@api/lib/zod';
+import { generateZodErrorMessage } from '@acme/api/lib/zod';
 import type { ErrorHandler } from 'hono';
 import type { ContentfulStatusCode, StatusCode } from 'hono/utils/http-status';
 import httpStatus from 'http-status';

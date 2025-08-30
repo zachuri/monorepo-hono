@@ -1,4 +1,4 @@
-import { Button } from '@ui/components/ui/button';
+import { Button } from '@acme/ui/components/ui/button';
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@ui/components/ui/card';
+} from '@acme/ui/components/ui/card';
 
 interface WelcomeCardProps {
   title?: string;

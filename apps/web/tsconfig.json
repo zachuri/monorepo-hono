@@ -10,10 +10,10 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@ui/*": ["../../packages/ui/*", "../../packages/ui/src/*"],
-      "@utils/*": ["../../packages/utils/src/*"],
-      "@app/*": ["../../packages/app/*"],
-      "@api/*": ["../../packages/api/src/*"]
+      "@acme/ui/*": ["../../packages/ui/*", "../../packages/ui/src/*"],
+      "@acme/utils/*": ["../../packages/utils/src/*"],
+      "@acme/app/*": ["../../packages/app/*"],
+      "@acme/api/*": ["../../packages/api/src/*"]
     }
   },
   "include": [

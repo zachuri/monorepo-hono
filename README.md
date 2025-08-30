@@ -66,17 +66,17 @@ graph TD
     A --> C[Packages]
     B --> E[@web]
     B --> F[@storybook]
-    C --> G[@ui]
+    C --> G[@acme/ui]
     C --> H[@utils]
-    C --> I[@tsconfig]
+    C --> I[@acme/tsconfig]
 ```
 
 | App/Package      | Description                                                                              |
 | ---------------- | ---------------------------------------------------------------------------------------- |
-| `@web`      | Main Next.js web application 🌐                                                          |
-| `@ui`       | Core React components and design system shared by applications (powered by shadcn/ui) 🎨 |
-| `@utils`    | Shared React utilities 🛠️                                                                |
-| `@tsconfig` | Shared `tsconfig.json` configurations 🛡️                                                 |
+| `@web`           | Main Next.js web application 🌐                                                          |
+| `@acme/ui`       | Core React components and design system shared by applications (powered by shadcn/ui) 🎨 |
+| `@utils`         | Shared React utilities 🛠️                                                                |
+| `@acme/tsconfig` | Shared `tsconfig.json` configurations 🛡️                                                 |
 
 Each package and app is 100% [TypeScript](https://www.typescriptlang.org/). 💪
 
@@ -93,7 +93,7 @@ This Turborepo has some additional tools already set up for you:
 
 ### Storybook 📚
 
-This Turborepo includes Storybook for component development and documentation. Storybook is set up for both the `@web` and `@ui` packages, allowing the development and showcasing of components from both your main application and your shared UI library.
+This Turborepo includes Storybook for component development and documentation. Storybook is set up for both the `@web` and `@acme/ui` packages, allowing the development and showcasing of components from both your main application and your shared UI library.
 
 To run Storybook:
 
@@ -138,7 +138,7 @@ This setup includes several useful Storybook addons:
 - `bun lint:fix` - Lint, format, and fix all packages
 - `bun changeset` - Generate a changeset 🧑‍🔧 - WIP
 - `bun clean` - Clean up all `node_modules` and `dist` folders (runs each package's clean script)
-- `bun ui:add:component` - Add a shadcn/ui component to the `@ui` package
+- `bun ui:add:component` - Add a shadcn/ui component to the `@acme/ui` package
 - `bun storybook` - Run Storybook for component development and documentation
 
 ### Add a new app or package 📦

@@ -1,6 +1,6 @@
-import * as HttpStatusCodes from '@api/lib/http-status-codes';
-import * as HttpStatusPhrases from '@api/lib/http-status-phrases';
-import type { AppRouteHandler } from '@api/types/app-context';
+import * as HttpStatusCodes from '@acme/api/lib/http-status-codes';
+import * as HttpStatusPhrases from '@acme/api/lib/http-status-phrases';
+import type { AppRouteHandler } from '@acme/api/types/app-context';
 import type {
   GetUserAccountsRoute,
   GetUserRoute,

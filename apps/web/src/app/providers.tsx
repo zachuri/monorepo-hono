@@ -1,4 +1,4 @@
-// import { Toaster } from '@ui/components/ui/sonner';
+// import { Toaster } from '@acme/ui/components/ui/sonner';
 // import { ThemeScript } from 'next-app-theme/theme-script';
 // import type React from 'react';
 

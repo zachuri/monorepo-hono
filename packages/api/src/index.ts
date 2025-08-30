@@ -1,4 +1,4 @@
-import app from '@api/app';
+import app from '@acme/api/app';
 
 const port = 8787;
 

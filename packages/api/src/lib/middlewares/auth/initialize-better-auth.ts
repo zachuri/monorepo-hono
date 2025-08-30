@@ -1,4 +1,4 @@
-import type { AppContext } from '@api/types/app-context';
+import type { AppContext } from '@acme/api/types/app-context';
 import { betterAuth } from 'better-auth';
 import type { Context } from 'hono';
 import { env } from 'hono/adapter';

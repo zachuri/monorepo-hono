@@ -1,13 +1,13 @@
 {
-	"extends": "@tsconfig/api.json",
-	"include": ["**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules"],
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@api/*": ["./src/*"],
-			"@app/*": ["../app/*"],
-			"@tsconfig": ["../tsconfig/*"]
-		}
-	}
+  "extends": "@acme/tsconfig/api.json",
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@acme/api/*": ["./src/*"],
+      "@acme/app/*": ["../app/*"],
+      "@acme/tsconfig": ["../tsconfig/*"]
+    }
+  }
 }

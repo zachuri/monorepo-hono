@@ -1,7 +1,7 @@
 'use client';
 
-import type { AppType } from '@api/src/app';
-import { env } from '@app/env/next';
+import type { AppType } from '@acme/api/src/app';
+import { env } from '@acme/app/env/next';
 import { hc as honoRPC } from 'hono/client';
 
 const API_URL = env.NEXT_PUBLIC_API_URL || 'http://localhost:8787';

@@ -1,4 +1,4 @@
-import type { AppContext, AppOpenAPI } from '@api/types/app-context';
+import type { AppContext, AppOpenAPI } from '@acme/api/types/app-context';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { prettyJSON } from 'hono/pretty-json';
 import { secureHeaders } from 'hono/secure-headers';

@@ -1,12 +1,12 @@
 {
-  "extends": "@tsconfig/react-library.json",
+  "extends": "@acme/tsconfig/react-library.json",
   "compilerOptions": {
     "verbatimModuleSyntax": false,
     "incremental": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@ui/*": ["src/*"]
+      "@acme/ui/*": ["../ui/src/*"]
     }
   },
   "include": ["src/**/*"],

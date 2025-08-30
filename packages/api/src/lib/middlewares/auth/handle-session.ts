@@ -1,4 +1,4 @@
-import type { AppContext } from '@api/types/app-context';
+import type { AppContext } from '@acme/api/types/app-context';
 import type { Context } from 'hono';
 
 /**

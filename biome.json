@@ -1,9 +1,20 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
   "formatter": {
     "indentStyle": "space",
     "indentWidth": 2,
     "formatWithErrors": true
+  },
+  "files": {
+    "includes": [
+      "**/*.js",
+      "**/*.jsx",
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.json",
+      "**/*.mjs",
+      "**/*.cjs"
+    ]
   },
   "javascript": {
     "formatter": {

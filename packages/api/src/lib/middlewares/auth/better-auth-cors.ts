@@ -1,6 +1,6 @@
-import * as HttpStatusCodes from '@api/lib/http-status-codes';
-import * as HttpStatusPhrases from '@api/lib/http-status-phrases';
-import type { AppContext } from '@api/types/app-context';
+import * as HttpStatusCodes from '@acme/api/lib/http-status-codes';
+import * as HttpStatusPhrases from '@acme/api/lib/http-status-phrases';
+import type { AppContext } from '@acme/api/types/app-context';
 import type { Context } from 'hono';
 import { env } from 'hono/adapter';
 import { cors } from 'hono/cors';

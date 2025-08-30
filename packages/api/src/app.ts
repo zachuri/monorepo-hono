@@ -1,5 +1,5 @@
-import index from '@api/routes/index.route';
-import user from '@api/routes/user/user.index';
+import index from '@acme/api/routes/index.route';
+import user from '@acme/api/routes/user/user.index';
 import { showRoutes } from 'hono/dev';
 import configureOpenAPI from './lib/configure-open-api';
 import createApp from './lib/create-app';

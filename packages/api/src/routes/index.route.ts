@@ -1,7 +1,7 @@
-import { createRouter } from '@api/lib/create-app';
-import * as HttpStatusCodes from '@api/lib/http-status-codes';
-import jsonContent from '@api/lib/openapi/helpers/json-content';
-import { createMessageObjectSchema } from '@api/lib/openapi/schemas';
+import { createRouter } from '@acme/api/lib/create-app';
+import * as HttpStatusCodes from '@acme/api/lib/http-status-codes';
+import jsonContent from '@acme/api/lib/openapi/helpers/json-content';
+import { createMessageObjectSchema } from '@acme/api/lib/openapi/schemas';
 import { createRoute } from '@hono/zod-openapi';
 
 const router = createRouter().openapi(
