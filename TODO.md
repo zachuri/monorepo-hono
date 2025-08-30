@@ -14,6 +14,8 @@
 - [x] set t3 env
 - [x] supabase setup
   - [x] setup locally 
+ - dev, staging, prod, env
+ - https://developers.cloudflare.com/workers/configuration/environment-variables/
 
 - [ ] [auth setup](https://supabase.com/docs/guides/auth/server-side/nextjs)
   - [ ] [supabase-auth-jwt](https://www.youtube.com/watch?v=rwnOal_xRtM)
