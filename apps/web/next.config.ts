@@ -9,6 +9,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig = {
 	transpilePackages: ['@acme/ui'],
 	reactStrictMode: true,
+	outputDirectory: 'apps/web/.next',
 	experimental: {
 		turbo: {
 			rules: {
