@@ -5,6 +5,7 @@
 - [ ] storybook setup docs for ui components
 
 - [x] lefthook
+- [x] biome linter setup
 - [ ] CI/CD pipeline with github actions
 - [ ] expo
 - [ ] dev, staging, prod, env
@@ -13,23 +14,23 @@
 
 - [x] set t3 env
 - [x] supabase setup
-  - [x] setup locally 
- - dev, staging, prod, env
- - https://developers.cloudflare.com/workers/configuration/environment-variables/
+  - [x] setup locally
+- dev, staging, prod, env
+- https://developers.cloudflare.com/workers/configuration/environment-variables/
 
 - [ ] [auth setup](https://supabase.com/docs/guides/auth/server-side/nextjs)
   - [ ] [supabase-auth-jwt](https://www.youtube.com/watch?v=rwnOal_xRtM)
-  - [x] google
-    - [Get Google OAuth with NextJS and Supabase working locally
-](https://medium.com/@olliedoesdev/nextjs-supabase-google-oauth-on-localhost-0fe8b6341785)
+  - [x] google - [Get Google OAuth with NextJS and Supabase working locally
+        ](https://medium.com/@olliedoesdev/nextjs-supabase-google-oauth-on-localhost-0fe8b6341785)
   - [ ] apple auth
   - [x] email
   - [ ] make notes and take pictures of setup
     - [ ] enable config
-    - [ ] test 
+    - [ ] test
   - avatar image get user
 - [x] oauth
 - [x] password
+
   ```
   Be careful when protecting pages. The server gets the user session from the cookies, which can be spoofed by anyone.
 
@@ -39,6 +40,7 @@
 
   It's safe to trust getUser() because it sends a request to the Supabase Auth server every time to revalidate the Auth token.
   ```
+
 - [ ] setup supabase .env secrets vault setup
 
 - [ ] test if testing works
