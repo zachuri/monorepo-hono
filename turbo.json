@@ -6,7 +6,7 @@
 	"tasks": {
 		"build": {
 			"dependsOn": ["^build"],
-			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+			"outputs": ["dist/**", ".next/**", "!.next/cache/**", "storybook-static/**"]
 		},
 		"test:e2e": {
 			"outputs": ["tests/coverage/e2e/**"]
